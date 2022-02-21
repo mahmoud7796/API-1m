@@ -39,7 +39,7 @@
 					</div>
 					<div class="col-md-8 p-5 text-left">
 					  <h2 style="font: normal normal bold 32px/60px Cairo; color: #073D79;">Create a New Account</h2>
-						<h4 style="font: normal normal normal 20px/32px Cairo; color: #1F2933;">Already have an Account ? <a style="font: normal normal bold 16px/32px Cairo; color: #0A52A2;" href="">Login here</a></h4>
+						<h4 style="font: normal normal normal 20px/32px Cairo; color: #1F2933;">Already have an Account ? <a style="font: normal normal bold 16px/32px Cairo; color: #0A52A2;" href="{{route('site.login')}}">Login here</a></h4>
 					</div>
 					</div>
                 @include('site.includes.alerts.errors')
@@ -112,13 +112,13 @@
 								<!-- register with facbook button -->
 				<div class="row justify-content-center">
 						 <div class=" col-md-8 pt-3">
-							    <a href="" style="font: 20px Cairo; color: #FFFFFF" type="" class="btn btn-block text-left pl-5" id="facbookBtn"> <img class="pr-2"src="img/Path 1169.svg" alt=""/> Continue With Facebook</a>
+							    <a href="{{route('facebook.redirect','facebook')}}" style="font: 20px Cairo; color: #FFFFFF" type="" class="btn btn-block text-left pl-5" id="facbookBtn"> <img class="pr-2"src="img/Path 1169.svg" alt=""/> Continue With Facebook</a>
 							</div>
 							</div>
 							<!-- register with gmail button -->
 					<div class="row justify-content-center">
 						 <div class=" col-md-8 pt-3">
-						      <a style="font: 20px Cairo; color: #FFFFFF" type="" class="btn btn-block text-left pl-5" id="gmailBtn"> <img class="pr-2" src="img/Gmail.svg" alt=""/> Continue With Gmail</a>
+						      <a href="{{route('google.redirect','google')}}" style="font: 20px Cairo; color: #FFFFFF" type="" class="btn btn-block text-left pl-5" id="gmailBtn"> <img class="pr-2" src="img/Gmail.svg" alt=""/> Continue With Gmail</a>
 							</div>
 					</div>
 				    <div class="text-center pt-5">

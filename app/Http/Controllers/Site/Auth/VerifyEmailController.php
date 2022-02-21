@@ -19,16 +19,17 @@ class VerifyEmailController extends Controller
     {
          $verifyUser = UserVerifyEmail::whereToken($token)->first();
         if($verifyUser){
-              $user = $verifyUser->users;
-            if(!$user->email_verified_at) {
+               $userEmailVerify = $verifyUser->users;
+            if($userEmailVerify===null) {
                 $verifyUser->users->email_verified_at = now();
                  $verifyUser->users->save();
-                return redirect()->route('site.login')->with('success', 'Your email verified successfully you can login now!');
+                 return 'Home';
+                return redirect()->route('site.login')->with('success', 'You are email verified successfully you can login now!');
             } else {
-                return redirect()->route('site.login')->with('success', 'Your already email verified your email');
+                return redirect()->route('site.login')->with('success', 'You are already email verified your email');
             }
         }
-        return redirect()->route('landingPage')->with('error', 'Invalid URL');
+        return redirect()->route('site.login')->with('error', 'Invalid URL');
     }
     public function resend($email){
         $user = User::whereEmail($email)->first();

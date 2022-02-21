@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use Auth;
+use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Hash;
 
@@ -30,16 +31,15 @@ class LoginController extends Controller
     public function postLogin(LoginRequest $request)
     {
         try{
-            $userEmail= User::whereEmail($request->email)->first();
-            if($userEmail===null)
-            {
-                return redirect()->back()->with(['error' => 'This email doesn\'t match our record']);
-            }
-
             if (auth()->guard('web')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')])){
+                $userIsVerified = Auth::user()->email_verified_at;
+                if($userIsVerified===null){
+                    return redirect()->back()-> with(['error' =>'Please verify your email']);
+                }
+                return "Home";
                 return redirect()->route('home');
             }else
-                return redirect()->back()-> with(['error' =>'Your Password is wrong']);
+                return redirect()->back()-> with(['error' =>'Your Email Or Password is wrong']);
         }catch (\Exception $ex){
             return redirect()->back()->with(['error' => 'Something error please try again later']);
 

@@ -32,7 +32,7 @@
 		</div>
         <h1>Hello, {{$user->firstName}} </h1>
 
-        <h2>Verification Code <a href="{{url('api/verify-email/').'/'.$verifyEmailToken->token}}">Click Here To Verify Your Mail</a></h2>
+        <h2>Verification Code <a href="{{url('verify-email/').'/'.$verifyEmailToken->token}}">Click Here To Verify Your Mail</a></h2>
 		<div class="row mt-5 mb-5 pb-5 pr-5">
 		<p class="font-style-normall font-size-18 line-spacing-33 font-family-cairo text-muted" id="text1">1Me will Keep your Contacts Secured in our Data base</p>
 		</div>

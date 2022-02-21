@@ -21,8 +21,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
-
 ############### Register ####################
 Route::group(['middleware'=>'guest:web'], function(){
     Route::get('/register', [RegisterController::class,'register'])->name('site.register');
@@ -91,3 +89,32 @@ Route::group(['middleware'=>'auth:web'], function(){
 });
 
 ############### End Contacts ####################
+Route::get('/test', function (){
+    $data = [
+    'name' =>'Mahmoud',
+    "home"=>"26, %Street%",
+    "street"=> "Ahmed Tyseer,  %City%",
+    "city"=>"Cairo, %Country%",
+    "country"=> "Egypt"
+    ];
+    $sentence = "I'm %Name% From %Home%";
+    $name= $data['name'];
+    $stre= $data['street'];
+    $street= explode(",", $stre);
+    $street = $street[0];
+
+    $city= $data['city'].$data['country'];
+    $_city= explode(",", $city);
+    $city = $_city[0].' '.$data['country'];
+
+    $home =  $data['home'];
+    $homeR= explode(",", $home);
+    $home = $homeR[0].','.' '.$street.' '.$city;
+   echo "Im ".$name." From".$home;
+/*for($i=0;$i<count($data);$i++){
+    $_data = $data[$i];
+    $dataAfterExplode= explode(",", $_data);
+    echo $dataAfterExplode;
+}*/
+//Output = "I'm Mahmoud From 26, Ahmed Tyseer, Cairo, Egypt";
+});

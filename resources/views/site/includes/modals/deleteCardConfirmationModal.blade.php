@@ -1,0 +1,21 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <div class="row  d-flex justify-content-center " style="font: normal normal bold 24px/45px Cairo; color: #0D67CB">
+            <p class="text-center">Are you sure to delete this card? </p>
+        </div>
+        <div style="text-align: center">
+            <input type="hidden" id="deleteCardId">
+            <button id="confirmCardDelete" aria-hidden="true" type="button" class="btn btn-danger">Yes</button>
+            <button type="button" class="modal-delete-cancel btn btn-warning" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">No</span>
+            </button>
+        </div>
+    </div>
+</div>
+

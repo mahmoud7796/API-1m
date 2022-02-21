@@ -1,0 +1,144 @@
+
+@import url('https://fonts.googleapis.com/css?family=Cairo'); 
+body {
+
+   background-image:url("../img/Group 192.png")
+
+}
+
+.card{
+	
+/*
+width: 984px;
+height: 780px;
+*/
+margin: auto;
+float: none;
+box-shadow: 20px 40px 20px #00000029;
+border-radius: 15px;
+}
+
+.form-control  {
+	
+/*
+
+width: 338px;
+height: 50px;
+*/
+
+background: var(--unnamed-color-e4e7eb) 0% 0% no-repeat padding-box;
+background: #E4E7EB 0% 0% no-repeat padding-box;
+border-radius: 15px;
+opacity: 1;
+}
+
+
+#createBtn {
+	
+/*width: 199px;*/
+height: 53px;
+background: var(--unnamed-color-0d67cb) 0% 0% no-repeat padding-box;
+background: #0D67CB 0% 0% no-repeat padding-box;
+box-shadow: 2px 2px 4px #00000029;
+border-radius: 15px;
+opacity: 1;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+
+}
+#loginBtn {
+	
+/*width: 199px;*/
+height: 53px;
+background: var(--unnamed-color-0d67cb) 0% 0% no-repeat padding-box;
+background: #0D67CB 0% 0% no-repeat padding-box;
+box-shadow: 2px 2px 4px #00000029;
+border-radius: 15px;
+opacity: 1;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+
+}
+
+#facbookBtn {
+
+
+/*width: 304px ;*/
+height: 53px;
+background: var(--unnamed-color-0d67cb) 0% 0% no-repeat padding-box;
+background: #0D67CB 0% 0% no-repeat padding-box;
+box-shadow: 2px 2px 4px #00000029;
+border-radius: 15px;
+opacity: 1;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+	
+}
+#gmailBtn {
+
+/*
+
+width: 304px ;
+*/
+height: 53px;
+background: var(--unnamed-color-0d67cb) 0% 0% no-repeat padding-box;
+background: #C52528 0% 0% no-repeat padding-box;
+box-shadow: 2px 2px 4px #00000029;
+border-radius: 15px;
+opacity: 1;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+
+/*
+white-space:normal !important;
+word-wrap:break-word;	
+*/
+	
+}
+
+#center {
+	position: absolute;
+	top: 25%;
+    left: 0%;
+	right: 0%;
+	
+}
+
+.custom-popover ul {
+	
+	 list-style-type:circle;
+	
+}
+
+
+  .custom-popover li {
+  border: none!important;
+  background-color: #E4E7EB;
+  color: #A51E1E;
+ 
+
+ 
+}
+
+.popover {
+	
+	background-color: #E4E7EB;
+	border-radius: 15px;
+	box-shadow: 0px 5px 9px #00000029;
+    width: 285px;
+	
+}
+
+
+
+
+
+
+
+
+
+

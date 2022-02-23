@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+.navbar {
+    background-color: #EBF1F8;/*height: 120px;*/
+}
+.active {
+    border-bottom: 3px solid #073D79;
+}
+#proBtn {
+    width: 162px;
+    height: 53px;
+    background: #E7A82D 0% 0% no-repeat padding-box;
+    box-shadow: 2px 2px 4px #00000029;
+    border-radius: 15px;
+    color: #000000;
+    font-weight: 900;
+}
+#createCardBtn {
+    height: 53px;
+    background: var(--unnamed-color-0d67cb) 0% 0% no-repeat padding-box;
+    background: #0D67CB 0% 0% no-repeat padding-box;
+    box-shadow: 2px 2px 4px #00000029;
+    border-radius: 15px;
+    opacity: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#createCardBtn1 {
+    height: 53px;
+    background: var(--unnamed-color-0d67cb) 0% 0% no-repeat padding-box;
+    background: #0D67CB 0% 0% no-repeat padding-box;
+    box-shadow: 2px 2px 4px #00000029;
+    border-radius: 15px;
+    opacity: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#newCardBtn {
+    height: 53px;
+    width: 130px;
+    background: var(--unnamed-color-0d67cb) 0% 0% no-repeat padding-box;
+    background: #0D67CB 0% 0% no-repeat padding-box;
+    box-shadow: 2px 2px 4px #00000029;
+    border-radius: 15px;
+    opacity: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.card-modal {
+    height: 150px;
+    overflow-y: scroll;
+    border: none;
+    height: 500px;
+}
+.modal-content {
+    border-top: 10px solid #9EC2EA;
+}
+#deleteModal {
+    border-top: 10px solid #C52528;
+}
+#deletemodalBtn {
+    
+    box-shadow: 2px 2px 4px #00000029;
+    border-radius: 15px;
+}
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    background-color: #6B6B6B;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+input:checked + .slider {
+    background-color: #F5DCAB;
+}
+input:focus + .slider {
+    box-shadow: 0 0 1px #E7A82D;
+}
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    background-color: #E7A82D;
+}
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+.form-control {
+    background: var(--unnamed-color-e4e7eb) 0% 0% no-repeat padding-box;
+    background: #E4E7EB 0% 0% no-repeat padding-box;
+    border-radius: 15px;
+    opacity: 1;
+}
+#saveChangesBtn {
+    background: #D8D8D8 0% 0% no-repeat padding-box;
+    box-shadow: 2px 2px 4px #00000029;
+    border-radius: 15px;
+    width: 167px;
+    height: 46px;
+}
+#deleteCardBtn {
+    box-shadow: 2px 2px 4px #00000029;
+    border-radius: 15px;
+    width: 167px;
+    height: 46px;
+}
+.scroll {
+    height: 150px;
+    overflow-y: scroll;
+    border: none;
+    height: 475px;
+}
+
+

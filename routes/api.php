@@ -34,14 +34,14 @@ Route::middleware('auth:sanctum')->group( function () {
 
 ############### Contacts ####################
 
-Route::group(['middleware'=>'auth:sanctum','prefix'=>'contact'], function(){
-    Route::get('/index',[ContactController::class,'index']);
-    Route::post('/store', [ContactController::class,'sotreInSession'])->name('site.contacts.sotreInSession');
-    Route::get('/remove', [ContactController::class,'removeFromSession'])->name('site.contacts.removeFromSession');
-    Route::post('/create', [ContactController::class,'create'])->name('site.contacts.create');
-    Route::get('/show/{id}', [ContactController::class,'show'])->name('site.contacts.getContact');
-    Route::post('/update/{id}', [ContactController::class,'update'])->name('site.contacts.update');
-    Route::get('/delete/{id}', [ContactController::class,'delete'])->name('site.contacts.delete');
+Route::group(['middleware'=>'auth:sanctum'], function(){
+    Route::apiResource('contacts',ContactController::class);
 });
 
+//EndPoint Card
+//index    ->   GET Request /cards
+//show     ->   GET Request /cards/{id}
+//create   ->   POST Request /cards
+//update   ->   PUT Request /cards/{id}
+//delete   ->   DELETE Request /cards/{id}
 ############### End Contacts ####################

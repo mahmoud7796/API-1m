@@ -8,7 +8,6 @@ use App\Jobs\VerifyEmailJob;
 use App\Models\User;
 use App\Models\UserVerifyEmail;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use DB;
 use Illuminate\Support\Facades\Session;

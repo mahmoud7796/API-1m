@@ -48,21 +48,16 @@ trait ContactControllerTrait
         ]);
     }
 
-    function updateContact(ContactRequest $request, $id)
+    function updateContact($id)
     {
-        $userId = Auth::id();
         $contact = Contact::find($id);
         if (!$contact) {
             throw new NotFoundException();
         }
-        if (!Gate::allows('view', $contact)) {
+        if (!Gate::allows('update', $contact)) {
             throw new NotAuthrizedException();
         }
-        $contact->update([
-            'contact_string' => $request->contact,
-            'provider_id' => $request->provider_id,
-            'user_id' => $userId,
-        ]);
+        return $contact;
     }
 
     function deleteContact($id)

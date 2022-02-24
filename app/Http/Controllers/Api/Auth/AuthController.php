@@ -36,7 +36,7 @@ class AuthController extends Controller
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 $authUser = Auth::user();
                 $verifiyMail = $authUser->email_verified_at;
-                if($verifiyMail === null)
+                if($verifiyMail=== null)
                 {
                     return $this->jsonResponseError( true, 'Please verify your E-mail', 401);
                 }

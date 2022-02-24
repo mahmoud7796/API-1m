@@ -52,7 +52,7 @@
 
 							<!-- registration form -->
 						<div class="row justify-content-center">
-							<form action="{{route('site.register.create')}}" method="post" class=" col-md-8  pt-3">
+							<form action="{{route('site.register.create')}}" method="post" class=" col-md-9  pt-3">
                                 @csrf
                                 <div class="form-group">
                                  <input value="{{old('fullName')}}" name="fullName" type="text" class="form-control" id=""  placeholder="Full Name">
@@ -67,20 +67,27 @@
                                     @enderror
                                </div>
 								<div class="form-group">
-                                 <input  name="password" type="password" class="form-control" id="password"  placeholder="Password" data-placement="left" data-toggle="popover" title="">
+                                 <input  name="password" type="password" class="form-control" id="password"  placeholder="Password" title="">
                                     @error('password')
                                     <span class="text-danger">{{$message}}</span>
                                     @enderror
                                </div>
-								    <div id="popover-content" style="display: none;">
-                                           <ul class="list-group custom-popover">
-											 <li class="list-group-item" style="color: #1F2933; font: 16px/32px Cairo;">Your password <span style="font: bold 16px/32px Cairo;">MUST</span> have</li>
-                                             <li id="Length" class="list-group-item invalid">At least 8 Characters</li>
-                                             <li id="Numbers" class="list-group-item invalid">A number</li>
-                                             <li id="LowerCase" class="list-group-item invalid" >A lower case letter</li>
-											 <li id="UpperCase" class="list-group-item invalid">An UPPER CASE LETTER</li>
-											 <li id="Symbols" class="list-group-item invalid">A symbol</li>
-                                           </ul>
+                               <div class="row">
+                                        <h2 style="font: normal normal normal 16px/32px Cairo;" class="pl-4">Your password <span style="font: bold 16px/32px Cairo;">MUST</span> have</h2>
+                                        <div class="col-md-7">
+                                            <ul>
+                                                <li  id="Length" style="font: normal normal normal 16px/32px Cairo; color: #076B03;">At least 8 Characters</li>
+                                                <li  id="LowerCase" style="font: normal normal normal 16px/32px Cairo; color: #6D1416;">1 lower case letter</li>
+                                                <li  id="UpperCase"  style="font: normal normal normal 16px/32px Cairo; color: #6D1416;">1 UPPER CASE LETTER</li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <ul>
+                                                <li  id="Numbers" style="font: normal normal normal 16px/32px Cairo; color: #6D1416;">A number</li>
+                                                <li  id="Symbols" style="font: normal normal normal 16px/32px Cairo; color: #6D1416;">A symbol</li>
+                                            </ul>
+                                        </div>
                                     </div>
                                <div class="form-group">
                                  <input name="password_confirmation" type="password" class="form-control" id="" placeholder="Confirm Password">

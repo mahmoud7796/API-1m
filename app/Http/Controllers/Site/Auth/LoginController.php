@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use Auth;
-use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Hash;
 
@@ -57,11 +56,9 @@ class LoginController extends Controller
             $fullName= $user->getName();
             $facebookId = $user->getId();
             $finduser = User::whereLoginCriteria('facebook')->whereLoginId($facebookId)->first();
-
           if($finduser){
                 Auth::login($finduser);
                 return redirect()->route('home');
-
             }else{
                 $newUser = User::create([
                     'fullName' => $fullName,

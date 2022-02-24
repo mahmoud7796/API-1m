@@ -2,89 +2,68 @@
 
 namespace App\Http\Controllers\Api\Site\Pages;
 
+use App\Exceptions\NotAuthrizedException;
 use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactRequest;
 use App\Http\Resources\ContactResource;
-use App\Models\Contact;
+use App\Traits\ContactControllerTrait;
 use App\Traits\ResponseJson;
 use Auth;
-use Illuminate\Support\Facades\Gate;
 
 class ContactController extends Controller
 {
-    use ResponseJson;
+    use ResponseJson, ContactControllerTrait;
 
-    public function index($id)
+    public function index()
     {
-        $contact = Contact::find($id);
-        if (!$contact) {
-            throw new NotFoundException;
+        try {
+            $contact = $this->indexContact();
+            return $this->jsonResponse(ContactResource::collection($contact), false, '', 200);
+        } catch (NotFoundException | NotAuthrizedException $e) {
+            return $e->render();
         }
-        if (!Gate::allows('view', $contact)) {
-            return $this->jsonResponseError(true, 'Not authorized', 401);
-        }
-        return $this->jsonResponse(new ContactResource($contact), false, '', 200);
     }
 
     public function create(ContactRequest $request)
     {
-        $userId = Auth::id();
-        Contact::create([
-            'contact_string' => $request->contact,
-            'provider_id' => $request->provider_id,
-            'user_id' => $userId,
-        ]);
-        return $this->jsonResponse('', false, 'Your contact created successfully', 200);
+        try {
+            $this->createContact($request);
+            return $this->jsonResponse('', false, 'Your contact created successfully', 200);
+        } catch (\Exception $e) {
+            return $e;
+        }
     }
 
-    public function edit($id)
+    public function show($id)
     {
-        $contact = Contact::find($id);
-        if (!$contact) {
-            throw new NotFoundException;
+        try {
+            $contact = $this->showContact($id);
+            return response()->json($contact);
+        } catch (NotFoundException | NotAuthrizedException $e) {
+            return $e->render();
         }
-        if (!Gate::allows('edit', $contact)) {
-            return $this->jsonResponseError(true, 'Not authorized', 401);
-        }
-        return response()->json($contact);
     }
-
 
     public function update(ContactRequest $request, $id)
     {
-        $userId = Auth::id();
-        $contact = Contact::find($id);
-
-        if (!$contact) {
-            throw new NotFoundException;
+        try {
+            $this->updateContact($request, $id);
+            return $this->jsonResponse('', false, 'Your contact updated successfully', 200);
+        } catch (NotFoundException | NotAuthrizedException $e) {
+            return $e->render();
         }
-        if (!Gate::allows('edit', $contact)) {
-            return $this->jsonResponseError(true, 'Not authorized', 401);
-        }
-
-        $contact->update([
-            'contact_string' => $request->contact,
-            'provider_id' => $request->provider_id,
-            'user_id' => $userId,
-        ]);
-
-        return $this->jsonResponse('', false, 'Your contact updated successfully', 200);
-
     }
 
     public function delete($id)
     {
-        $contact = Contact::find($id);
-        if (!$contact) {
-            throw new NotFoundException;
+        try {
+            $contact = $this->deleteContact($id);
+            $contact->delete();
+            return $this->jsonResponse('', false, 'Your contact deleted successfully', 200);
+        } catch (NotFoundException | NotAuthrizedException $e) {
+            return $e->render();
         }
-        if (!Gate::allows('delete', $contact)) {
-            return $this->jsonResponseError(true, 'Not authorized', 401);
-        }
-        $contact->delete();
-        return $this->jsonResponse('', false, 'Your contact deleted successfully', 200);
 
     }
-
 }

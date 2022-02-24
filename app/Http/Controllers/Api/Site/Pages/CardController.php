@@ -1,24 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Site\Pages;
+namespace App\Http\Controllers\Api\Site\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CardRequest;
 use App\Models\Card;
 use App\Models\CardContact;
-use App\Models\Contact;
+use App\Traits\ResponseJson;
 use Auth;
-use http\Env\Response;
-use SebastianBergmann\Diff\Exception;
 use DB;
 
 class CardController extends Controller
 {
+    use ResponseJson;
 
     public function store(CardRequest $request)
     {
        $userId= Auth::id();
-
         $card = Card::create([
             'name' => $request->card,
             'user_id' => $userId,
@@ -32,16 +30,8 @@ class CardController extends Controller
                     'card_id' => $card->id
                 ]);
             }
-        }else{
-            return response()->json([
-                'status' => true,
-                'msg' => 'Card added successfully',
-            ]);
         }
-        return response()->json([
-            'status' => true,
-            'msg' => 'Card added successfully',
-        ]);
+        return $this->jsonResponse('',false,'Card added successfully',200);
     }
 
 

@@ -79,42 +79,24 @@ Route::group(['middleware'=>'auth:web'], function(){
 
 ############### Contacts ####################
 
-Route::group(['middleware'=>'auth:web'], function(){
-    Route::post('/contact-store', [ContactController::class,'sotreInSession'])->name('site.contacts.sotreInSession');
-    Route::get('/contact-remove', [ContactController::class,'removeFromSession'])->name('site.contacts.removeFromSession');
-    Route::post('/contact-create', [ContactController::class,'create'])->name('site.contacts.create');
-    Route::get('/contact-edit/{id}', [ContactController::class,'edit'])->name('site.contacts.getContact');
-    Route::post('/contact-update/{id}', [ContactController::class,'update'])->name('site.contacts.update');
-    Route::get('/contact-delete/{id}', [ContactController::class,'delete'])->name('site.contacts.delete');
+Route::group(['middleware'=>'auth:web','prefix'=>'contact'], function(){
+    Route::post('/index', [ContactController::class,'index'])->name('site.contacts.index');
+    Route::post('/create', [ContactController::class,'create'])->name('site.contacts.create');
+    Route::get('/show/{id}', [ContactController::class,'show'])->name('site.contacts.getContact');
+    Route::post('/update/{id}', [ContactController::class,'update'])->name('site.contacts.update');
+    Route::get('/delete/{id}', [ContactController::class,'delete'])->name('site.contacts.delete');
 });
 
 ############### End Contacts ####################
-Route::get('/test', function (){
-    $data = [
-    'name' =>'Mahmoud',
-    "home"=>"26, %Street%",
-    "street"=> "Ahmed Tyseer,  %City%",
-    "city"=>"Cairo, %Country%",
-    "country"=> "Egypt"
-    ];
-    $sentence = "I'm %Name% From %Home%";
-    $name= $data['name'];
-    $stre= $data['street'];
-    $street= explode(",", $stre);
-    $street = $street[0];
 
-    $city= $data['city'].$data['country'];
-    $_city= explode(",", $city);
-    $city = $_city[0].' '.$data['country'];
+############### Contacts ####################
 
-    $home =  $data['home'];
-    $homeR= explode(",", $home);
-    $home = $homeR[0].','.' '.$street.' '.$city;
-   echo "Im ".$name." From".$home;
-/*for($i=0;$i<count($data);$i++){
-    $_data = $data[$i];
-    $dataAfterExplode= explode(",", $_data);
-    echo $dataAfterExplode;
-}*/
-//Output = "I'm Mahmoud From 26, Ahmed Tyseer, Cairo, Egypt";
+Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
+    Route::post('/index', [ContactController::class,'index'])->name('site.contacts.index');
+    Route::post('/create', [ContactController::class,'create'])->name('site.contacts.create');
+    Route::get('/show/{id}', [ContactController::class,'show'])->name('site.contacts.getContact');
+    Route::post('/update/{id}', [ContactController::class,'update'])->name('site.contacts.update');
+    Route::get('/delete/{id}', [ContactController::class,'delete'])->name('site.contacts.delete');
 });
+
+############### End Contacts ####################

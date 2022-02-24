@@ -2,70 +2,60 @@
 
 namespace App\Http\Controllers\Site\Pages;
 
+use App\Exceptions\NotAuthrizedException;
+use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactRequest;
 use App\Models\Contact;
+use App\Traits\ContactControllerTrait;
 use Auth;
-use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    public function sotreInSession(Request $request)
-    {
-        session()->push('card.contactId',$request->contactId);
-        return response()->json([
-            'status' => true,
-            'msg' => 'Contact added successfully',
-        ]);
-    }
+    use ContactControllerTrait;
 
     public function create(ContactRequest $request)
     {
-        $userId= Auth::id();
-        Contact::create([
-            'contact_string' => $request->contact,
-            'provider_id' => $request->provider_id,
-            'user_id' => $userId,
-        ]);
+        try{
+            $this->createContact($request);
+            return response()->json([
+                'status' => true,
+                'msg' => 'added successfully',
+            ]);
+        }catch(\Exception $e){
+            return  $e;
+        }
 
-        return response()->json([
-            'status' => true,
-            'msg' => 'added successfully',
-        ]);
+
     }
-
-    public function edit($id)
-    {
-        $userId= Auth::id();
-        $contact= Contact::find($id);
-        if($userId!==$contact->user_id) {
+    public function show($id){
+        try{
+            $contact = $this->showContact($id);
+            return response()->json($contact);
+        }catch(NotFoundException $e){
+                return response()->json([
+                    'status' => false,
+                    'msg' => 'Not Found',
+                ]);
+        }catch (NotAuthrizedException $e){
             return redirect()->back();
         }
-            return response()->json($contact);
     }
-
 
     public function update(ContactRequest $request, $id){
-        $userId= Auth::id();
-        $contact = Contact::find($id);
-        if($userId!==$contact->user_id) {
-            return redirect()->back();
-        }
-        if (!$contact)
+        try {
+            $this->updateContact($request,$id);
+            return response()->json([
+                'status' => true,
+            ]);
+        }catch(NotFoundException $e){
             return response()->json([
                 'status' => false,
-                'msg' => 'SomeThing Error Try Again',
+                'msg' => 'Not Found',
             ]);
-        else
-            $contact->update([
-                'contact_string' => $request->contact,
-                'provider_id' => $request->provider_id,
-                'user_id' => $userId,
-            ]);
-
-        return response()->json([
-            'status' => true,
-        ]);
+        }catch (NotAuthrizedException $e){
+            return redirect()->back();
+        }
     }
 
     public function delete($id)

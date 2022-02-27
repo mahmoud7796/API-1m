@@ -68,7 +68,11 @@ Route::group(['middleware'=>'auth:web'], function(){
 ############### Pages ####################
 
 Route::group(['middleware'=>'guest:web'], function(){
-    Route::get('/', [HomeController::class,'landingPage'])->name('landingPage');
+    Route::get('/homeTest', function(){
+        return view('homeTest');
+    });
+
+   // Route::get('/', [HomeController::class,'landingPage'])->name('landingPage');
 });
 
 Route::group(['middleware'=>'auth:web'], function(){

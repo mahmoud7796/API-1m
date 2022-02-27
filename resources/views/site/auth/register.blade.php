@@ -76,16 +76,16 @@
                                         <h2 style="font: normal normal normal 16px/32px Cairo;" class="pl-4">Your password <span style="font: bold 16px/32px Cairo;">MUST</span> have</h2>
                                         <div class="col-md-7">
                                             <ul>
-                                                <li  id="Length" style="font: normal normal normal 16px/32px Cairo; color: #076B03;">At least 8 Characters</li>
-                                                <li  id="LowerCase" style="font: normal normal normal 16px/32px Cairo; color: #6D1416;">1 lower case letter</li>
-                                                <li  id="UpperCase"  style="font: normal normal normal 16px/32px Cairo; color: #6D1416;">1 UPPER CASE LETTER</li>
+                                                <li class="invalid"  id="Length" style="font: normal normal normal 16px/32px Cairo;">At least 8 Characters</li>
+                                                <li class="invalid"  id="LowerCase" style="font: normal normal normal 16px/32px Cairo; ">1 lower case letter</li>
+                                                <li class="invalid"  id="UpperCase"  style="font: normal normal normal 16px/32px Cairo; ">1 UPPER CASE LETTER</li>
 
                                             </ul>
                                         </div>
                                         <div class="col-md-5">
                                             <ul>
-                                                <li  id="Numbers" style="font: normal normal normal 16px/32px Cairo; color: #6D1416;">A number</li>
-                                                <li  id="Symbols" style="font: normal normal normal 16px/32px Cairo; color: #6D1416;">A symbol</li>
+                                                <li class="invalid"  id="Numbers" style="font: normal normal normal 16px/32px Cairo; ">A number</li>
+                                                <li class="invalid"  id="Symbols" style="font: normal normal normal 16px/32px Cairo; ">A symbol</li>
                                             </ul>
                                         </div>
                                     </div>

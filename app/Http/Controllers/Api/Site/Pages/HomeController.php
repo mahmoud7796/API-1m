@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Site\Pages;
+namespace App\Http\Controllers\Api\Site\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Card;

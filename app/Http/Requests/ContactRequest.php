@@ -24,7 +24,9 @@ class ContactRequest extends FormRequest
     public function rules()
     {
         return [
-            'contact' => 'required|string',
+            'contact'=>'required|string',
+            'provider_id'=>'required',
+
         ];
     }
 }

@@ -41,7 +41,7 @@
                             <h4 style="font: normal normal normal 20px/32px Cairo; color: #1F2933;">Please check
                                 <span id="userEmail" style="font: normal normal bold 20px/32px Cairo; color: #1F2933;">{{Session::get('userEmail')}}</span>
                                 , We have sent you an email with a confirmation link Nothing there ? <a id="sendEmail"
-                                    style="font: normal normal bold 20px/32px Cairo; color: #073D79;" href="">Click Here
+                                    style="font: normal normal bold 20px/32px Cairo; color: #073D79;" href="{{route('site.resendEmail',Session::get('userEmail'))}}">Click Here
                                     to Resend</a></h4>
                             <span class="alert alert-info" style="display: none" id="waitMinute">please wait a minute to resend again</span>
                         @else
@@ -49,7 +49,8 @@
                                     style="font: normal normal bold 20px/32px Cairo; color: #1F2933;">your mail</span>
                                 , We have sent you an email with a confirmation link Nothing there ? <a
                                     style="font: normal normal bold 20px/32px Cairo; color: #073D79;" href="">Click Here
-                                    to Resend</a></h4>                        @endif
+                                    to Resend</a></h4>
+                        @endif
                     </div>
                     <div class="col-md-4">
                         <img src="img/Component 15 – 3.png" width="312" height="101" class="img-fluid" alt=""/>
@@ -66,7 +67,6 @@
 
     $(document).on('click', '#sendEmail', function (e) {
         e.preventDefault();
-        $("#sendEmail").attr("disabled", true);
         var userEmail = $('#userEmail').text()
         console.log(userEmail)
 
@@ -82,6 +82,7 @@
             data: {},
             cache: false,
             success: function (response) {
+                $("#sendEmail").attr("disabled", true);
                 if (response.status === true) {
                     $('#sendMsg').show()
                     $('#waitMinute').show()

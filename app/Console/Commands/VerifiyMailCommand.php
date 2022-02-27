@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 
 class VerifiyMailCommand extends Command
 {
@@ -37,6 +38,6 @@ class VerifiyMailCommand extends Command
      */
     public function handle()
     {
-        return 0;
+       return  Artisan::call('queue:work --stop-when-empty');
     }
 }

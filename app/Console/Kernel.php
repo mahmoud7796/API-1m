@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\VerifiyMailCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Artisan;
 
 class Kernel extends ConsoleKernel
 {
@@ -19,9 +20,7 @@ class Kernel extends ConsoleKernel
     ];
     protected function schedule(Schedule $schedule)
     {
-        Artisan::call('queue:work');
-
-        $schedule->command('queue:work --stop-when-empty')->everyMinute();
+        $schedule->command('verify:email')->everyMinute();
     }
 
     /**

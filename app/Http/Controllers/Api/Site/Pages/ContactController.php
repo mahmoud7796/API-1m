@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Api\Site\Pages;
 use App\Exceptions\NotAuthrizedException;
 use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ContactR;
 use App\Http\Requests\ContactRequest;
 use App\Http\Resources\ContactResource;
 use App\Traits\ContactControllerTrait;
 use App\Traits\ResponseJson;
 use Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
@@ -39,7 +42,7 @@ class ContactController extends Controller
     {
         try {
             $contact = $this->showContact($id);
-            return response()->json($contact);
+            return $this->jsonResponse(new ContactResource($contact), false, '', 200);
         } catch (NotFoundException | NotAuthrizedException $e) {
             return $e->render();
         }
@@ -48,7 +51,12 @@ class ContactController extends Controller
     public function update(ContactRequest $request, $id)
     {
         try {
-            $this->updateContact($request, $id);
+            $contact = $this->updateContact($id);
+            $contact->update([
+               'contact_string' => $request->contact,
+                'provider_id' => 2,
+                'user_id' => $request->userId,
+            ]);
             return $this->jsonResponse('', false, 'Your contact updated successfully', 200);
         } catch (NotFoundException | NotAuthrizedException $e) {
             return $e->render();

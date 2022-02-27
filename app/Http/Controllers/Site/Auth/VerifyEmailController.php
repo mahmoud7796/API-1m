@@ -19,8 +19,8 @@ class VerifyEmailController extends Controller
     {
          $verifyUser = UserVerifyEmail::whereToken($token)->first();
         if($verifyUser){
-               $userEmailVerify = $verifyUser->users;
-            if($userEmailVerify===null) {
+               $userEmailVerify = $verifyUser->users->first();
+            if($userEmailVerify) {
                 $verifyUser->users->email_verified_at = now();
                  $verifyUser->users->save();
                  return 'Home';
@@ -39,7 +39,9 @@ class VerifyEmailController extends Controller
                 'msg' => 'invalid email',
             ]);
         $token = $user->token()->first();
-        $token->delete();
+        if($token){
+            $token->delete();
+        }
         $verifyEmailToken = UserVerifyEmail::create([
             'user_id' =>$user->id,
             'token' => Str::random(64),

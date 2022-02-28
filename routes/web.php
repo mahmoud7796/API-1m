@@ -116,3 +116,5 @@ Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
 });
 
 ############### End Contacts ####################
+Route::get('/max',[VerifyEmailController::class,'getMax'])->name('site.verifyEmail');
+

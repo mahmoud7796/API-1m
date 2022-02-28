@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Site\Pages\CardController;
 use App\Http\Controllers\Api\Site\Pages\ContactController;
 use App\Http\Controllers\Site\Auth\VerifyEmailController;
+use App\Models\Contact;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,11 +33,14 @@ Route::middleware('auth:sanctum')->group( function () {
 });
 
 
-
-############### Contacts ####################
+############### Contact Information ####################
 
 Route::group(['middleware'=>'auth:sanctum'], function(){
-    Route::apiResource('contacts',ContactController::class);
+    Route::apiResource('contactinfo',ContactController::class);
+});
+
+Route::group(['middleware'=>'auth:sanctum'], function(){
+    Route::apiResource('cards',CardController::class);
 });
 
 //EndPoint Card
@@ -45,3 +50,6 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
 //update   ->   PUT Request /cards/{id}
 //delete   ->   DELETE Request /cards/{id}
 ############### End Contacts ####################
+Route::get('/userContact', function(){
+    return $contact = Contact::find(55);
+});

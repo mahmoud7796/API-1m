@@ -7,6 +7,7 @@ use App\Exceptions\NotAuthrizedException;
 use App\Exceptions\NotFoundException;
 use App\Http\Requests\ContactRequest;
 use App\Models\Contact;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Auth;
 
@@ -17,30 +18,33 @@ trait ContactControllerTrait
      * @throws NotAuthrizedException
      */
 
-    function indexContact()
+    function indexContact($userId)
     {
-        $contact = Contact::get();
-        if (!$contact) {
-            throw new NotFoundException();
-        }
+        $contact = Contact::whereUserId($userId)->get();
+ /*       $authUserId = $contact->first()->user_id;
+        if ($userId != $authUserId) {
+            throw new NotAuthrizedException;
+        }*/
         return $contact;
     }
 
-    function showContact($id)
+    function showContact($contactId, $userId)
     {
-        $contact = Contact::find($id);
+        $contact = Contact::find($contactId);
+
         if (!$contact) {
             throw new NotFoundException();
         }
-        if (!Gate::allows('view', $contact)) {
-            throw new NotAuthrizedException();
+        $authUserId = $contact->user_id;
+        if ($userId != $authUserId) {
+            throw new NotAuthrizedException;
         }
+
         return $contact;
     }
 
-    function createContact(ContactRequest $request)
+    function createContact(ContactRequest $request, $userId)
     {
-        $userId = Auth::id();
         Contact::create([
             'contact_string' => $request->contact,
             'provider_id' => $request->provider_id,
@@ -48,26 +52,35 @@ trait ContactControllerTrait
         ]);
     }
 
-    function updateContact($id)
+    function updateContact(ContactRequest $request, $userId, $contactId)
     {
-        $contact = Contact::find($id);
+        $contact = Contact::find($contactId);
+
         if (!$contact) {
             throw new NotFoundException();
         }
-        if (!Gate::allows('update', $contact)) {
-            throw new NotAuthrizedException();
+        $authUserId = $contact->user_id;
+        if ($userId != $authUserId) {
+            throw new NotAuthrizedException;
         }
+        $contact->update([
+            'contact_string' => $request->contact,
+            'provider_id' => $request->provider_id,
+            'user_id' => $userId,
+        ]);
         return $contact;
     }
 
-    function deleteContact($id)
+    function deleteContact($contactId, $userId)
     {
-        $contact = Contact::find($id);
+        $contact = Contact::find($contactId);
+
         if (!$contact) {
             throw new NotFoundException();
         }
-        if (!Gate::allows('view', $contact)) {
-            throw new NotAuthrizedException();
+        $authUserId = $contact->user_id;
+        if ($userId != $authUserId) {
+            throw new NotAuthrizedException;
         }
         return $contact;
     }

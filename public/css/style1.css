@@ -38,8 +38,8 @@
     white-space: nowrap;
 }
 #newCardBtn {
-    height: 53px;
-    width: 130px;
+    height: 54px;
+    width: 196px;
     background: var(--unnamed-color-0d67cb) 0% 0% no-repeat padding-box;
     background: #0D67CB 0% 0% no-repeat padding-box;
     box-shadow: 2px 2px 4px #00000029;
@@ -62,7 +62,6 @@
     border-top: 10px solid #C52528;
 }
 #deletemodalBtn {
-    
     box-shadow: 2px 2px 4px #00000029;
     border-radius: 15px;
 }
@@ -122,27 +121,46 @@ input:checked + .slider:before {
 .form-control {
     background: var(--unnamed-color-e4e7eb) 0% 0% no-repeat padding-box;
     background: #E4E7EB 0% 0% no-repeat padding-box;
-    border-radius: 15px;
+    border-radius: 10px;
     opacity: 1;
 }
 #saveChangesBtn {
     background: #D8D8D8 0% 0% no-repeat padding-box;
     box-shadow: 2px 2px 4px #00000029;
-    border-radius: 15px;
+    border-radius: 15px;/*
     width: 167px;
     height: 46px;
+*/
 }
 #deleteCardBtn {
     box-shadow: 2px 2px 4px #00000029;
-    border-radius: 15px;
+    border-radius: 15px;/*
     width: 167px;
     height: 46px;
+*/
 }
 .scroll {
     height: 150px;
     overflow-y: scroll;
     border: none;
-    height: 475px;
+    height: px;
 }
-
-
+#newContactInfoBtn {
+    height: 54px;
+    background: var(--unnamed-color-0d67cb) 0% 0% no-repeat padding-box;
+    background: #0D67CB 0% 0% no-repeat padding-box;
+    box-shadow: 2px 2px 4px #00000029;
+    border-radius: 15px;
+    opacity: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.card-detalis {
+    height: 384px;
+    overflow-y: scroll;
+    border: none;
+    background-color: #F5F7FA;
+    box-shadow: 1px 1px 2px #00000029;
+    border-radius: 15px;
+}

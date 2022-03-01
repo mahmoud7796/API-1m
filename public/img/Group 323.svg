@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g id="Group_322" data-name="Group 322" transform="translate(0 -8)">
+    <circle id="Ellipse_50" data-name="Ellipse 50" cx="16" cy="16" r="16" transform="translate(0 8)" fill="#6fa4e0"/>
+    <g id="pencil" transform="translate(-41.184 -33.2)">
+      <path id="Path_2128" data-name="Path 2128" d="M86.96,52.988l-1.876,1.876-3.4,3.4L75.688,64.26h0l-.016-.016-.924-.924h0l-1.88-1.88h0l-.968-.968,5.652-5.648,1.336-1.34,2.376-2.376.032-.032.6-.6.432-.432.844-.84Z" transform="translate(-21.792)" fill="#fff"/>
+      <path id="Path_2129" data-name="Path 2129" d="M53.9,334.788l-1.564.312-3.132.628.6-3.152.3-1.576Z" transform="translate(0 -270.528)" fill="#fff"/>
+      <path id="Path_2130" data-name="Path 2130" d="M155.312,121.34l-1.876,1.876-3.4,3.4-5.992,5.992h0l-.016-.016-.924-.924,1.344-1.34,8.052-8.056h0l1.88-1.876Z" transform="translate(-90.144 -68.352)" fill="#fff" opacity="0.1"/>
+      <path id="Path_2131" data-name="Path 2131" d="M312.464,52.988l-1.876,1.876-.94-.94h0l-1.88-1.876-.968-.972.6-.6.432-.432.844-.84Z" transform="translate(-247.296)" fill="#fff"/>
+      <rect id="Rectangle_301" data-name="Rectangle 301" width="2.656" height="1.328" transform="matrix(0.707, -0.707, 0.707, 0.707, 62.351, 53.926)" fill="#fff" opacity="0.1"/>
+      <path id="Path_2132" data-name="Path 2132" d="M309.648,50.168l-1.88,1.88-.968-.972.6-.6.432-.432.844-.84Z" transform="translate(-247.296)" fill="#fff" opacity="0.1"/>
+      <path id="Path_2133" data-name="Path 2133" d="M82.264,97.072l-.1.1h0l-.432.432-.636.636-3.716,3.716h0l-.972.968-3.544,3.544L71.9,105.5l5.652-5.648,1.336-1.34,2.376-2.376L81.3,96.1Z" transform="translate(-21.792 -45.024)" fill="#fff" opacity="0.1"/>
+      <path id="Path_2134" data-name="Path 2134" d="M109.848,402.74l-1.564.316-.784.156,1.412-1.412Z" transform="translate(-55.968 -338.496)" fill="#fff" opacity="0.1"/>
+      <path id="Path_2135" data-name="Path 2135" d="M61.828,331.968,60.4,333.4l.156-.824.3-1.576Z" transform="translate(-10.752 -270.528)" fill="#fff" opacity="0.1"/>
+      <path id="Path_2136" data-name="Path 2136" d="M65.168,52.988l-1.876,1.876-3.4,3.4L58.82,59.336l-2.372,2.372h0l-1.34,1.34h0l-.972.972h0l-.24.24h0l-1.564.312L49.2,65.2h0l.448-2.328.156-.824.3-1.576,5.652-5.648,1.336-1.34,2.376-2.376.032-.032.6-.6.432-.432.844-.84Z" fill="none"/>
+      <line id="Line_10" data-name="Line 10" x2="3.788" y2="3.788" transform="translate(50.108 60.472)" fill="none"/>
+      <line id="Line_11" data-name="Line 11" x2="3.788" y2="3.784" transform="translate(59.504 51.08)" fill="none"/>
+    </g>
+  </g>
+</svg>

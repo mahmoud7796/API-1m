@@ -58,27 +58,18 @@ class VerifyEmailController extends Controller
     function getMax()
     {
         $arr = [5,2,1,3,8];
-
-        //If array is empty then return
         if(empty($arr)) {
             return;
         }
 
-        /*
-         * Initialize max and second max with negative value
-         */
         $max = 8;
         $secondMax = 5;
 
-        //Traverse an array
         foreach($arr as $number) {
-
-            //If it's greater than the value of max
             if($number > $max) {  //8 > 5
                 $secondMax = $max;  //sec = 5
                 $max = $number; //max = 8
             }
-
             //If array number is greater than secondMax and less than max
             if($number > $secondMax && $number < $max) {  //8>5 && 8<8
                 $secondMax = $number; //$secondMax =3

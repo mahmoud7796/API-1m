@@ -17,6 +17,7 @@ class CardResource extends JsonResource
         return[
             "id"=> $this->id,
             "name"=> $this->name,
+            "contact"=> ContactResource::collection($this->whenLoaded('contact')),
         ];
     }
 }

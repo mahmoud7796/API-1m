@@ -25,7 +25,7 @@ class ContactRequest extends FormRequest
     {
         return [
             'contact'=>'required|string',
-            'provider_id'=>'required',
+            'providerId'=>'required',
 
         ];
     }

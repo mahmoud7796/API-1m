@@ -11,41 +11,43 @@ use App\Models\CardContact;
 use App\Traits\ResponseJson;
 use Auth;
 use DB;
+use Illuminate\Http\Request;
 
 class CardController extends Controller
 {
     use ResponseJson;
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $card = Card::get();
-            if (!$card) {
-                return $this->jsonResponse('', true, 'There is no card', 404);
+            $userId = $request->userId;
+            $authId = auth('sanctum')->Id();
+            if (!$userId) {
+                throw new NotFoundException;
             }
-            return $this->jsonResponse(CardResource::collection($card), false, '', 200);
-        } catch (\Exception $ex) {
-            return $ex;
-            return $this->jsonResponse('', true, 'Something went wrong', 301);
+            $cards = Card::with('contact.provider')->whereUserId($userId)->get();
+            return $this->jsonResponse(CardResource::collection($cards), false, '', 200);
+        } catch (\Exception $e) {
+            return $e;
         }
     }
 
-    public function create(CardRequest $request)
+    public function store(CardRequest $request)
     {
         try {
             DB::beginTransaction();
             $card = Card::create([
-                'name' => $request->cardName,
+                'name' => $request->name,
                 'user_id' => $request->userId,
             ]);
 
-            $contacts = $request->contactIds;
+            $contacts = $request->contactInfoIds;
             if ($contacts) {
                 $contactCount = count($contacts);
-                for ($i = 0; $i <$contactCount; $i++) {
+                for ($i = 0; $i < $contactCount; $i++) {
                     CardContact::create([
                         'contact_id' => $contacts[$i],
-                        'card_id' => $request->cardId
+                        'card_id' => $card->id
                     ]);
                 }
             }
@@ -59,24 +61,24 @@ class CardController extends Controller
     }
 
 
-        public function show($id)
-        {
-            $userId= Auth::id();
-            $card= Card::find($id);
-            $contactsThatInCard= Card::whereUserId($userId)->whereId($id)->with('contact:id')->first();
-            $contactsId =  $contactsThatInCard->contact;
-            $contactids = array();
-              foreach($contactsId as $contactId) {
-                  $contactids[]=$contactId->id;
-            }
+    public function show($id)
+    {
+        $userId = Auth::id();
+        $card = Card::find($id);
+        $contactsThatInCard = Card::whereUserId($userId)->whereId($id)->with('contact:id')->first();
+        $contactsId = $contactsThatInCard->contact;
+        $contactids = array();
+        foreach ($contactsId as $contactId) {
+            $contactids[] = $contactId->id;
+        }
 
-           return response()->json([
+        return response()->json([
                 'card' => $card,
                 'contactsThatInCard' => $contactids,
-                   'status' => true
-                ]
-            );
-        }
+                'status' => true
+            ]
+        );
+    }
 
 
     public function update(CardRequest $request)

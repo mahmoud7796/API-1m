@@ -7,6 +7,7 @@ use App\Exceptions\NotAuthrizedException;
 use App\Exceptions\NotFoundException;
 use App\Http\Requests\ContactRequest;
 use App\Models\Contact;
+use App\Models\Provider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Auth;
@@ -20,11 +21,7 @@ trait ContactControllerTrait
 
     function indexContact($userId)
     {
-        $contact = Contact::whereUserId($userId)->get();
- /*       $authUserId = $contact->first()->user_id;
-        if ($userId != $authUserId) {
-            throw new NotAuthrizedException;
-        }*/
+        $contact = Contact::with('provider')->whereUserId($userId)->get();
         return $contact;
     }
 
@@ -47,7 +44,7 @@ trait ContactControllerTrait
     {
         Contact::create([
             'contact_string' => $request->contact,
-            'provider_id' => $request->provider_id,
+            'provider_id' => $request->providerId,
             'user_id' => $userId,
         ]);
     }

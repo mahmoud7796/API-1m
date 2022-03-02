@@ -14,6 +14,13 @@ class ContactController extends Controller
 {
     use ContactControllerTrait;
 
+    public function index(){
+        try{
+            return view('site.contactInfo');
+        }catch(\Exception $e){
+            return $e;
+        }
+    }
     public function create(ContactRequest $request)
     {
         try{
@@ -25,9 +32,9 @@ class ContactController extends Controller
         }catch(\Exception $e){
             return  $e;
         }
-
-
     }
+
+
     public function show($id){
         try{
             $contact = $this->showContact($id);

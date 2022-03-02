@@ -4,7 +4,7 @@
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
 <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet">
 <link rel="stylesheet" href="fontawesome/css/all.min.css">
 <style type="text/css">
@@ -17,10 +17,10 @@ body {
 
 <body>
 <div class="container-fluid">
-@include('header')
+@include('site.includes.header')
   <div class="row justify-content-center pt-5">
     <div class="card col-md-8 o-hidden border-0 shadow-lg my-5 ">
-      <div class="card-body pt-5"> 
+      <div class="card-body pt-5">
         <!-- Nested Row within Card Body -->
         <div class="row ">
           <div class="col-md-6 pt-3 text-left">
@@ -160,10 +160,10 @@ body {
       </div>
     </div>
   </div>
-  @include('footer')
+    @include('site.includes.footer')
 </div>
-<script src="js/jquery-3.2.1.min.js"></script> 
-<script src="js/popper.min.js"></script> 
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/popper.min.js"></script>
 <script src="js/bootstrap.js"></script>
 </body>
 </html>

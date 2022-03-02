@@ -17,11 +17,11 @@ body {
 <body>
 <div class="container-fluid">
     @include('site.includes.header')
-  <div class="row justify-content-center pt-5">
+    <div class="row justify-content-center pt-5">
     <div class="card col-md-8 o-hidden border-0 shadow-lg my-5 ">
-      <div class="card-body p-5">
+      <div class="card-body p-5"> 
         <!-- Nested Row within Card Body -->
-
+        
         <div class="row justify-content-center pt-3">
           <div class="col-md-6">
 			       <div class="row justify-content- pt-5">
@@ -34,7 +34,7 @@ body {
         <div class="row justify-content-">
           <div class="col-md-5"> <a href=""  style="font: 20px Cairo; color: #FFFFFF"  class="btn btn-block" id="createCardBtn" data-toggle="modal" data-target="#exampleModal">Create Your First Card</a> </div>
         </div>
-
+		  
 		        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                   <div class="modal-content">
@@ -60,7 +60,7 @@ body {
                                       <h6 style="font: normal normal normal 16px/30px Cairo; color: #1F2933;">Personal Account</h6>
                                       <h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">/Johnsmith22</h7>
                                     </div>
-                                    <!--                                  <div class="row"><h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">/Johnsmith22</h7></div>-->
+                                    <!--                                  <div class="row"><h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">/Johnsmith22</h7></div>--> 
                                   </div>
                                   <div class="col-md-4 pt-3">
                                     <label class="switch">
@@ -95,12 +95,12 @@ body {
                         </div>
                       </div>
                     </div>
-
+               
                   </div>
                 </div>
               </div>
 			</div>
-          <div class="col-md-6 pt-5 pl-5 text-center">
+          <div class="col-md-6 pt-5 pb-5 text-center">
             <div style=" border-radius: 10px; height: 54px;" class="row justify-content-end">
               <div style="background-color: #0E67CB; border-radius: 10px;" class="col-md-4 pt-2"> <a style="font: normal normal normal 20px/32px cairo; color: #FFFFFF;" href="">Your Cards</a></div>
               <div style="background-color: #E7F0FB;" class="col-md-4 pt-2"><a style=" font: normal normal normal 20px/32px cairo; color: #1F2933;" href="">Your Contact Info</a></div>
@@ -136,7 +136,7 @@ body {
               </div>
             </div>
           </div>
-          <div class="col-md-6 pl-5 text-center"> <img src="img/card details.png" class="img-fluid" width="342" height="486" alt=""/> </div>
+          <div class="col-md-6 pl-5 pt-5 text-center"> <img src="img/card details.png" class="img-fluid" width="342" height="486" alt=""/> </div>
         </div>
       </div>
     </div>

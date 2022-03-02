@@ -19,17 +19,17 @@ body {
 <body>
 <div class="container-fluid">
 @include('header')
-  <div class="row justify-content-center pt-5">
+<div class="row justify-content-center pt-5">
     <div class="card col-md-8 o-hidden border-0 shadow-lg my-5 ">
       <div class="card-body pt-5">
         <!-- Nested Row within Card Body -->
-        <div class="row ">
-          <div class="col-md-6 text-left">
+        <div class="row pb-5">
+          <div class="col-md-6 pt-5 text-left">
             <div class="row"> <a href=""><i style="font-size: 37px; color: #0A52A2;" class="bi-chevron-left pr-3"></i></a> <img src="img/Ellipse 46.png" width="60" height="60" alt=""/>
               <h6 style="font: normal normal normal 20px/32px cairo;" class="pt-3 pl-3">Ahmed Said</h6>
             </div>
           </div>
-          <div class="col-md-6 pl-5 text-center">
+          <div class="col-md-6 pt-5 text-center">
             <div style=" border-radius: 10px; height: 54px;" class="row justify-content-end">
               <div style="background-color: #E7F0FB; border-bottom-left-radius: 10px; border-top-left-radius: 10px;" class="col-md-4 pt-2"><a style=" font: normal normal normal 20px/32px cairo; color: #1F2933;" href="">Your Cards</a></div>
               <div style="background-color: #E7F0FB;" class="col-md-4 pt-2"><a style=" font: normal normal normal 20px/32px cairo; color: #1F2933;" href="">Your Contact Info</a></div>
@@ -43,8 +43,8 @@ body {
         <div class="row justify-content-center">
           <h3 style="font: normal normal 24px/60px Cairo; color: #1F2933;">You can click on any contact information to navigate to it directly.</h3>
         </div>
-        <div class="row pt-5">
-          <div class="col-md-4 pl-5 pr-5">
+        <div class="row">
+          <div class="col-md-4 pt-5 pl-5 pr-5">
             <div class="card card-detalis" style="">
               <div class="card-body">
                 <div class="row justify-content-center">
@@ -56,7 +56,7 @@ body {
               </div>
             </div>
           </div>
-          <div class="col-md-4 pl-5 pr-5">
+          <div class="col-md-4 pt-5 pl-5 pr-5">
             <div class="card card-detalis" style="">
               <div class="card-body">
                 <div class="row justify-content-center">
@@ -68,7 +68,7 @@ body {
               </div>
             </div>
           </div>
-          <div class="col-md-4 pl-5 pr-5">
+          <div class="col-md-4 pt-5 pl-5 pr-5">
             <div class="card card-detalis" style="">
               <div class="card-body">
                 <div class="row justify-content-center">

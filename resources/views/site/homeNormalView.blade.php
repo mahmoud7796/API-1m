@@ -12,7 +12,7 @@
 body {
 }
 </style>
-<title>Home-No Active Cards View</title>
+<title>Home Normal view</title>
 </head>
 
 <body>

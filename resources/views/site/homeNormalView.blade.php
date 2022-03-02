@@ -41,7 +41,7 @@ body {
             </div>
           </div>
         </div>
-        <div class="row ">
+        <div class="row pt-4">
           <div class="col-md-6 pt-5">
             <h3 style="font: normal normal bold 32px/60px Cairo; color: #1F2933;">Your Cards</h3>
           </div>
@@ -189,9 +189,9 @@ body {
                 <h5 style="font: bold 20px/37px Cairo; color: #1F2933;">Card Details</h5>
               </div>
               <div class="col-md-5">
-                <div class="row justify-content-center pt-5">
-                  <div class="col-md-6"> <a href="" style=" font: 14px Cairo; color: #1F2933; background: #E9901C 0% 0% no-repeat padding-box;  height: 40px; border-radius: 25px;" class="btn btn-block">4 Scans</a> </div>
-                  <div class="col-md-6"> <a href="" style=" font: 14px Cairo; color: #FFFFFF; background: #52606D 0% 0% no-repeat padding-box;  height: 40px; border-radius: 25px;" class="btn btn-block">3 Adds</a> </div>
+                <div class="row justify-content-center ">
+                  <div class="col-md-6 pt-5"> <a href="" style=" font: 14px Cairo; color: #1F2933; background: #E9901C 0% 0% no-repeat padding-box;  height: 40px; border-radius: 25px;" class="btn btn-block">4 Scans</a> </div>
+                  <div class="col-md-6 pt-5"> <a href="" style=" font: 14px Cairo; color: #FFFFFF; background: #52606D 0% 0% no-repeat padding-box;  height: 40px; border-radius: 25px;" class="btn btn-block">3 Adds</a> </div>
                 </div>
               </div>
             </div>
@@ -246,9 +246,9 @@ body {
                 </div>
               </div>
             </div>
-            <div class="row pb-5 pr-3 pt-5">
+            <div class="row pb-5 pr-3 ">
               <div class="col-md-6"></div>
-              <div class="col-md-3"><a href="" style="font: bold 16px/32px Cairo; " class="btn btn-block btn-outline-danger" id="deleteCardBtn" data-toggle="modal" data-target="#exampleModal4">Delete Card</a></div>
+              <div class="col-md-3 pt-6"><a href="" style="font: bold 16px/32px Cairo; " class="btn btn-block btn-outline-danger" id="deleteCardBtn" data-toggle="modal" data-target="#exampleModal4">Delete Card</a></div>
 
               <!-- Modal -->
               <div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">
@@ -272,7 +272,7 @@ body {
                   </div>
                 </div>
               </div>
-              <div class="col-md-3"><a href="" style="font: 16px/32px Cairo; color: #6B6B6B;" class="btn btn-block" id="saveChangesBtn">Save Changes</a></div>
+              <div class="col-md-3 pt-5"><a href="" style="font: 16px/32px Cairo; color: #6B6B6B;" class="btn btn-block" id="saveChangesBtn">Save Changes</a></div>
             </div>
           </div>
         </div>

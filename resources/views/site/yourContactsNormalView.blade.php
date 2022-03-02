@@ -20,10 +20,10 @@ body {
 @include('header')
   <div class="row justify-content-center pt-5">
     <div class="card col-md-8 o-hidden border-0 shadow-lg my-5 ">
-      <div class="card-body pt-5"> 
+      <div class="card-body "> 
         <!-- Nested Row within Card Body -->
-        <div class="row ">
-          <div class="col-md-6 text-left">
+        <div class="row pb-5">
+          <div class="col-md-6 pt-5 text-left">
             <div class="row">
               <div class="col-md-8">
                 <div class="input-group rounded"> <span style="background-color: #E4E7EB; border-top-left-radius: 15px; border-bottom-left-radius: 15px;" class="input-group-text border-0" id="search-addon"><i class="fas fa-search"></i></span>
@@ -33,7 +33,7 @@ body {
               </div>
             </div>
           </div>
-          <div class="col-md-6 pl-5 text-center">
+          <div class="col-md-6 pt-5 text-center">
             <div style=" border-radius: 10px; height: 54px;" class="row justify-content-end">
               <div style="background-color: #E7F0FB; border-bottom-left-radius: 10px; border-top-left-radius: 10px;" class="col-md-4 pt-2"><a style=" font: normal normal normal 20px/32px cairo; color: #1F2933;" href="">Your Cards</a></div>
               <div style="background-color: #E7F0FB;" class="col-md-4 pt-2"><a style=" font: normal normal normal 20px/32px cairo; color: #1F2933;" href="">Your Contact Info</a></div>
@@ -48,22 +48,22 @@ body {
           <h3 style="font: normal normal 24px/60px Cairo; color: #1F2933;">You can view the cards you scanned for each contact by pressing on their name</h3>
         </div>
         <div class="row pt-5">
-          <div class="col-md-3 pl-5 pr-5">
+          <div class="col-md-3 pt-5 pl-5 pr-5">
             <div class="row"> <img src="img/Ellipse 46.png" width="72" height="72" alt=""/>
               <h6 style="font: normal normal normal 20px/32px cairo;" class="pt-4 pl-3">Ahmed Said</h6>
             </div>
           </div>
-          <div class="col-md-3 pl-5 pr-5">
+          <div class="col-md-3 pt-5 pl-5 pr-5">
             <div class="row"> <img src="img/Ellipse 46.png" width="72" height="72" alt=""/>
               <h6 style="font: normal normal normal 20px/32px cairo;" class="pt-4 pl-3">Ahmed Said</h6>
             </div>
           </div>
-          <div class="col-md-3 pl-5 pr-5">
+          <div class="col-md-3 pt-5 pl-5 pr-5">
             <div class="row"> <img src="img/Ellipse 46.png" width="72" height="72" alt=""/>
               <h6 style="font: normal normal normal 20px/32px cairo;" class="pt-4 pl-3">Ahmed Said</h6>
             </div>
           </div>
-          <div class="col-md-3 pl-5 pr-5">
+          <div class="col-md-3 pt-5 pl-5 pr-5">
             <div class="row"> <img src="img/Ellipse 46.png" width="72" height="72" alt=""/>
               <h6 style="font: normal normal normal 20px/32px cairo;" class="pt-4 pl-3">Ahmed Said</h6>
             </div>

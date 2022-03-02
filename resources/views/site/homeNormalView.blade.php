@@ -248,7 +248,7 @@ body {
             </div>
             <div class="row pb-5 pr-3 ">
               <div class="col-md-6"></div>
-              <div class="col-md-3 pt-6"><a href="" style="font: bold 16px/32px Cairo; " class="btn btn-block btn-outline-danger" id="deleteCardBtn" data-toggle="modal" data-target="#exampleModal4">Delete Card</a></div>
+              <div class="col-md-3 pt-5"><a href="" style="font: bold 16px/32px Cairo; " class="btn btn-block btn-outline-danger" id="deleteCardBtn" data-toggle="modal" data-target="#exampleModal4">Delete Card</a></div>
 
               <!-- Modal -->
               <div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">

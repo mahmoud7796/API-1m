@@ -17,7 +17,7 @@ body {
 <body>
 <div class="container-fluid">
 @include('header')
-  <div class="row justify-content-center">
+  <div class="row justify-content-center pt-5">
     <div class="card col-md-8 o-hidden border-0 shadow-lg my-5 ">
       <div class="card-body p-5"> 
         <!-- Nested Row within Card Body -->

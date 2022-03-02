@@ -17,10 +17,10 @@ body {
 
 <body>
 <div class="container-fluid">
-@include('header')
+@include('site.includes.header')
   <div class="row justify-content-center">
     <div class="card col-md-8 o-hidden border-0 shadow-lg my-5 ">
-      <div class="card-body pt-5"> 
+      <div class="card-body pt-5">
         <!-- Nested Row within Card Body -->
         <div class="row ">
           <div class="col-md-6 text-left">
@@ -72,7 +72,7 @@ body {
                                   <h6 style="font: normal normal normal 16px/30px Cairo; color: #1F2933;">Personal Account</h6>
                                   <h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">/Johnsmith22</h7>
                                 </div>
-                            
+
                               </div>
                               <div class="col-md-4 pt-3">
                                 <label class="switch">
@@ -137,7 +137,7 @@ body {
                       <div href="" style=" font: 16px/30px Cairo; color: #0E67CB; background: 0% 0% no-repeat padding-box; border-radius: 15px;" class="btn" data-toggle="modal" data-target="#exampleModal1"><img class="pr-2" src="img/Icon ionic-md-share.svg" alt=""/> Share</div>
                     </div>
                   </div>
-                  
+
                   <!-- share button Modal -->
                   <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -219,7 +219,7 @@ body {
                       <h6 style="font: normal normal normal 15px/30px Cairo; color: #1F2933;">Personal Account</h6>
                       <h7 style="font: normal normal normal 13px/26px Cairo; color: #52606D;">/Johnsmith22</h7>
                     </div>
-                    <!--   <div class="row"><h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">/Johnsmith22</h7></div>--> 
+                    <!--   <div class="row"><h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">/Johnsmith22</h7></div>-->
                   </div>
                   <div class="col-md-2 pt-3">
                     <label class="switch">
@@ -236,7 +236,7 @@ body {
                       <h6 style="font: normal normal normal 14px/30px Cairo; color: #1F2933;">Personal Account</h6>
                       <h7 style="font: normal normal normal 11px/26px Cairo; color: #52606D;">/Johnsmith22</h7>
                     </div>
-                    <!--   <div class="row"><h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">/Johnsmith22</h7></div>--> 
+                    <!--   <div class="row"><h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">/Johnsmith22</h7></div>-->
                   </div>
                   <div class="col-md-2 pt-3">
                     <label class="switch">
@@ -249,7 +249,7 @@ body {
             <div class="row pb-5 pr-3">
               <div class="col-md-6"></div>
               <div class="col-md-3"><a href="" style="font: bold 16px/32px Cairo; " class="btn btn-block btn-outline-danger" id="deleteCardBtn" data-toggle="modal" data-target="#exampleModal4">Delete Card</a></div>
-              
+
               <!-- Modal -->
               <div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -279,10 +279,10 @@ body {
       </div>
     </div>
   </div>
-  @include('footer')
+    @include('site.includes.footer')
 </div>
-<script src="js/jquery-3.2.1.min.js"></script> 
-<script src="js/popper.min.js"></script> 
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/popper.min.js"></script>
 <script src="js/bootstrap.js"></script>
 </body>
 </html>

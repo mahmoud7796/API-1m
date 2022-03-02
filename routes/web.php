@@ -118,3 +118,7 @@ Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
 ############### End Contacts ####################
 Route::get('/max',[VerifyEmailController::class,'getMax'])->name('site.verifyEmail');
 
+Route::get('/home-test',function(){
+    return view('site.noActiveCards View');
+    return view('site.homeNormalView');
+});

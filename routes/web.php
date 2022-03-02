@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Site\Auth\ForgotPasswordController;
 use App\Http\Controllers\Site\Auth\GoogleLoginController;
 use App\Http\Controllers\Site\Auth\LoginController;
 use App\Http\Controllers\Site\Auth\LogoutController;
@@ -43,6 +45,16 @@ Route::group(['middleware'=>'guest:web'], function(){
     Route::get('/forget-password', [registerController::class,'forgetPassword'])->name('site.forgetPassword');
 });
 ############### End Login ####################
+
+
+############### Reset Password ####################
+Route::group(['middleware'=>'guest:web'], function(){
+    Route::get('/forget-pass', [ForgotPasswordController::class,'forgetPass'])->name('site.forgetPass');
+    Route::match(['get', 'post'], '/post-login', [LoginController::class,'postLogin'])->name('site.postLogin');
+    Route::get('/forget-password', [registerController::class,'forgetPassword'])->name('site.forgetPassword');
+});
+############### End Reset Password ####################
+
 
 ############### Login With Facebook ####################
 Route::get('/redirect/{service}', [LoginController::class,'redirect'])->name('facebook.redirect');
@@ -104,3 +116,5 @@ Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
 });
 
 ############### End Contacts ####################
+Route::get('/max',[VerifyEmailController::class,'getMax'])->name('site.verifyEmail');
+

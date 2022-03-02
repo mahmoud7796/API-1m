@@ -2,26 +2,45 @@
 
 namespace App\Http\Controllers\Site\Pages;
 
+use App\Exceptions\NotAuthrizedException;
+use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CardRequest;
+use App\Http\Resources\CardResource;
 use App\Models\Card;
 use App\Models\CardContact;
 use App\Models\Contact;
 use Auth;
-use http\Env\Response;
-use SebastianBergmann\Diff\Exception;
 use DB;
+use Illuminate\Http\Request;
 
 class CardController extends Controller
 {
+    public function index(Request $request)
+    {
+        try {
+            $userId = $request->userId;
+            $authId = auth('sanctum')->Id();
+            if (!$userId) {
+                throw new NotFoundException;
+            }
+            if ($userId!=$authId) {
+                throw new NotAuthrizedException;
+            }
+          return   $cards = Card::with('contact')->whereUserId($userId)->get();
+           // return $this->jsonResponse(CardResource::collection($cards), false, '', 200);
+        } catch (NotFoundException | NotAuthrizedException $e) {
+            return $e->render();
+        }
+    }
+
 
     public function store(CardRequest $request)
     {
-       $userId= Auth::id();
-
+        $authId = auth('sanctum')->Id();
         $card = Card::create([
             'name' => $request->card,
-            'user_id' => $userId,
+            'user_id' => $authId,
         ]);
 
      $contacts = $request->contactsIds;
@@ -32,11 +51,6 @@ class CardController extends Controller
                     'card_id' => $card->id
                 ]);
             }
-        }else{
-            return response()->json([
-                'status' => true,
-                'msg' => 'Card added successfully',
-            ]);
         }
         return response()->json([
             'status' => true,

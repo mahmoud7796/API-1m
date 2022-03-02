@@ -2,54 +2,80 @@
 
 namespace App\Http\Controllers\Api\Site\Pages;
 
+use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CardRequest;
+use App\Http\Resources\CardResource;
 use App\Models\Card;
 use App\Models\CardContact;
 use App\Traits\ResponseJson;
 use Auth;
 use DB;
+use Illuminate\Http\Request;
 
 class CardController extends Controller
 {
     use ResponseJson;
 
+    public function index(Request $request)
+    {
+        try {
+            $userId = $request->userId;
+            $authId = auth('sanctum')->Id();
+            if (!$userId) {
+                throw new NotFoundException;
+            }
+            $cards = Card::with('contact.provider')->whereUserId($userId)->get();
+            return $this->jsonResponse(CardResource::collection($cards), false, '', 200);
+        } catch (\Exception $e) {
+            return $e;
+        }
+    }
+
     public function store(CardRequest $request)
     {
-       $userId= Auth::id();
-        $card = Card::create([
-            'name' => $request->card,
-            'user_id' => $userId,
-        ]);
+        try {
+            DB::beginTransaction();
+            $card = Card::create([
+                'name' => $request->name,
+                'user_id' => $request->userId,
+            ]);
 
-     $contacts = $request->contactsIds;
-        if($contacts){
-            for ($i=0;$i<count($contacts);$i++){
-                CardContact::create([
-                    'contact_id' => $contacts[$i],
-                    'card_id' => $card->id
-                ]);
+            $contacts = $request->contactInfoIds;
+            if ($contacts) {
+                $contactCount = count($contacts);
+                for ($i = 0; $i < $contactCount; $i++) {
+                    CardContact::create([
+                        'contact_id' => $contacts[$i],
+                        'card_id' => $card->id
+                    ]);
+                }
             }
+            DB::commit();
+            return $this->jsonResponse('', false, 'Card created successfully', 200);
+        } catch (\Exception $ex) {
+            DB::rollback();
+            return $ex;
+            return $this->jsonResponse('', true, 'Something went wrong', 301);
         }
-        return $this->jsonResponse('',false,'Card added successfully',200);
     }
 
 
-    public function edit($id)
+    public function show($id)
     {
-        $userId= Auth::id();
-        $card= Card::find($id);
-        $contactsThatInCard= Card::whereUserId($userId)->whereId($id)->with('contact:id')->first();
-        $contactsId =  $contactsThatInCard->contact;
+        $userId = Auth::id();
+        $card = Card::find($id);
+        $contactsThatInCard = Card::whereUserId($userId)->whereId($id)->with('contact:id')->first();
+        $contactsId = $contactsThatInCard->contact;
         $contactids = array();
-          foreach($contactsId as $contactId) {
-              $contactids[]=$contactId->id;
+        foreach ($contactsId as $contactId) {
+            $contactids[] = $contactId->id;
         }
 
-       return response()->json([
-            'card' => $card,
-            'contactsThatInCard' => $contactids,
-               'status' => true
+        return response()->json([
+                'card' => $card,
+                'contactsThatInCard' => $contactids,
+                'status' => true
             ]
         );
     }
@@ -58,9 +84,9 @@ class CardController extends Controller
     public function update(CardRequest $request)
     {
         try {
-            $userId= Auth::id();
+            $userId = Auth::id();
             $card = Card::whereUserId($userId)->find($request->card_id);
-            if($userId!==$card->user_id) {
+            if ($userId !== $card->user_id) {
                 return redirect()->back();
             }
             $card->contact()->detach();
@@ -71,14 +97,14 @@ class CardController extends Controller
             ]);
 
             $contacts = $request->contactsIds;
-            if($contacts){
-                for ($i=0;$i<count($contacts);$i++){
+            if ($contacts) {
+                for ($i = 0; $i < count($contacts); $i++) {
                     CardContact::create([
                         'contact_id' => $contacts[$i],
                         'card_id' => $card->id
                     ]);
                 }
-            }else{
+            } else {
                 return response()->json([
                     'status' => true,
                     'msg' => 'Card added successfully',
@@ -90,7 +116,7 @@ class CardController extends Controller
                 'msg' => 'Card added successfully',
             ]);
 
-        }catch (Exception $ex){
+        } catch (Exception $ex) {
             DB::rollback();
             return $ex;
         }
@@ -99,7 +125,7 @@ class CardController extends Controller
 
     public function delete($id)
     {
-        $card= Card::find($id);
+        $card = Card::find($id);
         $card->delete();
         return response()->json([
             'status' => true,

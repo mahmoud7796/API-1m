@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Site\Pages\CardController;
+use App\Http\Controllers\Api\Site\Pages\ConnectionController;
 use App\Http\Controllers\Api\Site\Pages\ContactController;
+use App\Http\Controllers\Api\Site\Pages\ProvidersController;
 use App\Http\Controllers\Site\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,11 +34,19 @@ Route::middleware('auth:sanctum')->group( function () {
 });
 
 
-
-############### Contacts ####################
+############### Contact Information ####################
 
 Route::group(['middleware'=>'auth:sanctum'], function(){
-    Route::apiResource('contacts',ContactController::class);
+    Route::apiResource('contactinfo',ContactController::class);
+    Route::apiResource('cards',CardController::class);
+
+    ######## Providers ################
+    Route::get('/providers', [ProvidersController::class, 'index']);
+    ######## End Providers ################
+
+    ######## Connections ################
+    Route::get('/added/connection', [ConnectionController::class, 'addedCount']);
+    ######## End Connections ################
 });
 
 //EndPoint Card
@@ -45,3 +56,11 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
 //update   ->   PUT Request /cards/{id}
 //delete   ->   DELETE Request /cards/{id}
 ############### End Contacts ####################
+/*Route::get('/userContact', function(){
+    return   $contact = Contact::with(['provider'=>function($q){
+      return $q->select('id','name','imgURL');
+  }])->whereUserId(105)->get();
+     $contactProvider = $contact->provider;
+    $data['contact'] = $contact->provider;
+    return $contact;
+});*/

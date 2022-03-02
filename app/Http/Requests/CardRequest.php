@@ -24,7 +24,7 @@ class CardRequest extends FormRequest
     public function rules()
     {
         return [
-            'card' => 'required|max:100|max:255',
+            'name' => 'required|max:100|max:255',
         ];
     }
     public function messages()

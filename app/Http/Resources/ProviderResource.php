@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ContactResource extends JsonResource
+class ProviderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,9 @@ class ContactResource extends JsonResource
     {
         return[
             "id"=> $this->id,
-            "contact"=> $this->contact_string,
-            "provider"=> new ProviderResource($this->whenLoaded('provider')),
-            "card"=> ContactResource::collection($this->whenLoaded('card_id')),
-
+            "name"=> $this->name,
+            "imgURL"=> $this->imgURL,
+            "contact"=> ContactResource::collection($this->whenLoaded('contact')),
         ];
     }
 }

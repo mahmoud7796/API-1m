@@ -21,7 +21,7 @@ body {
 @include('header')
   <div class="row justify-content-center pt-5">
     <div class="card col-md-8 o-hidden border-0 shadow-lg my-5 ">
-      <div class="card-body pt-5"> 
+      <div class="card-body pt-5">
         <!-- Nested Row within Card Body -->
         <div class="row ">
           <div class="col-md-6 text-left">
@@ -97,8 +97,8 @@ body {
   </div>
   @include('footer')
 </div>
-<script src="js/jquery-3.2.1.min.js"></script> 
-<script src="js/popper.min.js"></script> 
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/popper.min.js"></script>
 <script src="js/bootstrap.js"></script>
 </body>
 </html>

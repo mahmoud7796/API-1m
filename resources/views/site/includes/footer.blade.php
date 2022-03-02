@@ -3,7 +3,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-3">
-		<div class="row">
+		<div class="row justify-content-center">
 		<img src="img/MicrosoftTeams-image (12).png" width="220" height="220" alt=""/>
 		</div>
 	  </div>

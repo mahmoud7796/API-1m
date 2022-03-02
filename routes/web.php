@@ -22,9 +22,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('contactDetails');
-});
 
  ############### Register ####################
  Route::group(['middleware'=>'guest:web'], function(){

@@ -18,12 +18,12 @@ body {
 <body>
 <div class="container-fluid">
 @include('site.includes.header')
-  <div class="row justify-content-center pt-5">
+<div class="row justify-content-center">
     <div class="card col-md-8 o-hidden border-0 shadow-lg my-5 ">
-      <div class="card-body pt-5">
+      <div class="card-body"> 
         <!-- Nested Row within Card Body -->
         <div class="row ">
-          <div class="col-md-6 text-left">
+          <div class="col-md-6 pt-5 text-left">
 			  <div class="row">
 				  <div class="col-md-8">
             <div class="input-group rounded"> <span style="background-color: #E4E7EB; border-top-left-radius: 15px; border-bottom-left-radius: 15px;" class="input-group-text border-0" id="search-addon"><i class="fas fa-search"></i></span>
@@ -32,9 +32,9 @@ body {
               <span style="background-color: #52606D; color: #FFFFFF; border-bottom-right-radius: 15px; border-top-right-radius: 15px; font: 18px/29px Cairo;" class="input-group-text border-0" id="search-addon">search</span> </div>
 				  </div>
 			  </div>
-
+			  
           </div>
-          <div class="col-md-6 text-center">
+          <div class="col-md-6 pt-5 text-center">
                      <div style=" border-radius: 10px; height: 54px;" class="row justify-content-end">
               <div style="background-color: #0E67CB; border-radius: 10px;" class="col-md-4 pt-2"> <a style="font: normal normal normal 20px/32px cairo; color: #FFFFFF;" href="">Your Cards</a></div>
               <div style="background-color: #E7F0FB;" class="col-md-4 pt-2"><a style=" font: normal normal normal 20px/32px cairo; color: #1F2933;" href="">Your Contact Info</a></div>
@@ -43,10 +43,10 @@ body {
           </div>
         </div>
         <div class="row pt-5">
-          <div class="col-md-6">
+          <div class="col-md-6 pt-5">
             <h3 style="font: normal normal bold 32px/60px Cairo; color: #1F2933;">Your Cards</h3>
           </div>
-          <div class="col-md-6 "><a style="font: 20px/32px cairo; color: #FFFFFF" type="submit" class="btn btn-block float-right" id="newCardBtn" data-toggle="modal" data-target="#exampleModal"><img class="pr-2" src="img/Icon ionic-ios-add.svg" alt=""/> New Card </a></div>
+          <div class="col-md-6 pt-5 "><a style="font: 20px/32px cairo; color: #FFFFFF" type="submit" class="btn btn-block float-right" id="newCardBtn" data-toggle="modal" data-target="#exampleModal"><img class="pr-2" src="img/Icon ionic-ios-add.svg" alt=""/> New Card </a></div>
           <!-- new card Modal -->
           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -73,7 +73,7 @@ body {
                                   <h6 style="font: normal normal normal 16px/30px Cairo; color: #1F2933;">Personal Account</h6>
                                   <h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">/Johnsmith22</h7>
                                 </div>
-                                <!--                                  <div class="row"><h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">/Johnsmith22</h7></div>-->
+                                <!--                                  <div class="row"><h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">/Johnsmith22</h7></div>--> 
                               </div>
                               <div class="col-md-4 pt-3">
                                 <label class="switch">
@@ -125,20 +125,20 @@ body {
                   </div>
                   <div class="row pt-3 pl-2"><img class="pr-2" src="img/Gmail.svg" alt=""/><img class="pr-2" src="img/Facebook.svg" alt=""/><img class="mr-2"  src="img/instagram (4).png" width="28" height="28" alt=""/><img class="pr-2"  src="img/Telegram.svg" alt=""/><img class="pr-2"  src="img/phone.svg" alt=""/><img class="pr-2"  src="img/Pinterest.svg" alt=""/><img class="pr-2" src="img/Snap Chat.svg" alt=""/><img class="pr-2"  src="img/Twitter.svg" alt=""/><img class="pr-2" src="img/WhatsApp.svg" alt=""/></div>
                   </a>
-                  <div class="col-md-5 pl-4">
+                  <div class="col-md-5">
 					<a href="" class="row justify-content-end">
-                    <div class="col-md-5 pl-4 ">
-                      <div style=" font: 14px Cairo; color: #1F2933; background: #E9901C 0% 0% no-repeat padding-box; width: 85px; height: 40px; border-radius: 25px;" class="btn btn-block">4 Scans</div>
+                    <div class="col-md-6 pt-3 pl-4 ">
+                      <div style=" font: 14px Cairo; color: #1F2933; background: #E9901C 0% 0% no-repeat padding-box;  height: 40px; border-radius: 25px;" class="btn btn-block">4 Scans</div>
                     </div>
-                    <div class="col-md-6 pl-4">
-                      <div href="" style=" font: 14px Cairo; color: #FFFFFF; background: #52606D 0% 0% no-repeat padding-box; width: 85px; height: 40px; border-radius: 25px;" class="btn btn-block ">3 Adds</div>
+                    <div class="col-md-6 pt-3">
+                      <div href="" style=" font: 14px Cairo; color: #FFFFFF; background: #52606D 0% 0% no-repeat padding-box; height: 40px; border-radius: 25px;" class="btn btn-block ">3 Adds</div>
                     </div>
                     </a>
                     <div class="row justify-content-end pt-5">
                       <div href="" style=" font: 16px/30px Cairo; color: #0E67CB; background: 0% 0% no-repeat padding-box; border-radius: 15px;" class="btn" data-toggle="modal" data-target="#exampleModal1"><img class="pr-2" src="img/Icon ionic-md-share.svg" alt=""/> Share</div>
                     </div>
                   </div>
-
+                  
                   <!-- share button Modal -->
                   <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -171,7 +171,7 @@ body {
               </div>
             </div>
             <div class="row justify-content-center pt-5">
-              <div class="col-sm-12 col-md-7">
+              
                 <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
                   <ul class="pagination">
                     <li class="paginate_button page-item previous disabled" id="dataTable_previous"> <a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a> </li>
@@ -181,7 +181,7 @@ body {
                     <li class="paginate_button page-item next" id="dataTable_next"> <a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a> </li>
                   </ul>
                 </div>
-              </div>
+              
             </div>
           </div>
           <div class="col-md-6 text-center my-auto pl-5 pt-5">

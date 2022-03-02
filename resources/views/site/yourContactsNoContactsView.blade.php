@@ -17,11 +17,11 @@ body {
 <body>
 <div class="container-fluid">
 @include('site.includes.header')
-  <div class="row justify-content-center pt-5">
+<div class="row justify-content-center pt-5">
     <div class="card col-md-8 o-hidden border-0 shadow-lg my-5 ">
-      <div class="card-body p-5">
+      <div class="card-body p-5"> 
         <!-- Nested Row within Card Body -->
-
+        
         <div class="row justify-content-center">
           <div class="col-md-6">
             <div class="row justify-content- pt-5">
@@ -31,17 +31,17 @@ body {
               <h4 style="font: 20px/60px Cairo; color: #1F2933;">When you scan someone else's card, they will be added as a contact here</h4>
             </div>
           </div>
-          <div class="col-md-6 pt-5 pl-5 text-center">
+          <div class="col-md-6 pt-5 text-center">
             <div style=" border-radius: 10px; height: 54px;" class="row justify-content-end">
               <div style="background-color: #E7F0FB; border-bottom-left-radius: 10px; border-top-left-radius: 10px;" class="col-md-4 pt-2"><a style=" font: normal normal normal 20px/32px cairo; color: #1F2933;" href="">Your Cards</a></div>
 				  <div style="background-color: #E7F0FB;" class="col-md-4 pt-2"><a style=" font: normal normal normal 20px/32px cairo; color: #1F2933;" href="">Your Contact Info</a></div>
               <div style="background-color: #0E67CB; border-radius: 10px;" class="col-md-4 pt-2"> <a style="font: normal normal normal 20px/32px cairo; color: #FFFFFF;" href="">Your Contact</a></div>
-
+            
             </div>
           </div>
         </div>
-        <div class="row justify-content-center pt-3">
-          <div class="col-md-6">
+        <div class="row justify-content-center pt-5">
+          <div class="col-md-6 pt-5">
             <div class="row">
               <div class="card" style="background: #E4E7EB 0% 0% no-repeat padding-box; border-radius: 10px;">
                 <div class="card-body">
@@ -67,11 +67,11 @@ body {
               </div>
             </div>
           </div>
-          <div class="col-md-6 pl-5 text-center"> <img src="{{asset('img/card details.png')}}" class="img-fluid" width="342" height="486" alt=""/> </div>
+          <div class="col-md-6 pl-5 pt-5 text-center"> <img src="img/card details.png" class="img-fluid" width="342" height="486" alt=""/> </div>
         </div>
       </div>
     </div>
-  </div>
+  </div>>
     @include('site.includes.footer')
 </div>
 <script src="js/jquery-3.2.1.min.js"></script>

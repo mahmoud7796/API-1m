@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col-md-3">
 		<div class="row justify-content-center">
-		<img src="img/MicrosoftTeams-image (12).png" width="220" height="220" alt=""/>
+		<img src="{{('img/MicrosoftTeams-image (12).png')}}" width="220" height="220" alt=""/>
 		</div>
 	  </div>
     <div class="col-md-6 pt-5">
@@ -16,15 +16,15 @@
 	  </div>
       <div class="col-md-3 pt-5">
 		  <div class="row pt-5 justify-content-center">
-        <div class="col-md-3 pt-2"><img src="img/Path 60.svg" alt=""/></div>
-        <div class="col-md-3 pt-2"><img src="img/Path 56.svg" alt=""/></div>
-        <div class="col-md-3 pt-2"><img src="img/insta.svg" alt=""/></div>
+        <div class="col-md-3 pt-2"><img src="{{('img/Path 60.svg')}}" alt=""/></div>
+        <div class="col-md-3 pt-2"><img src="{{('img/Path 56.svg')}}" alt=""/></div>
+        <div class="col-md-3 pt-2"><img src="{{('img/insta.svg')}}" alt=""/></div>
       </div>
 		</div>
     </div>
   </div>
-  <!-- Grid container --> 
-  
+  <!-- Grid container -->
+
   <!-- Copyright -->
   <div class="text-center pb-5" style="font: 14px/26px Cairo; color: #FFFFFF;">© Initium Solutions 2022 | All Rights Reserved</div>
   <!-- Copyright -->

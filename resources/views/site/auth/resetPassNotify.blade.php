@@ -10,14 +10,14 @@
 body {
 }
 </style>
-<title>Forgot password 2</title>
+<title>Forgot password Notify</title>
 </head>
 
 <body>
 <div class="container-fluid">
   <div class="row" id="center">
     <div class="card o-hidden col-md-8 border-0 shadow-lg my-5">
-      <div class="card-body p-5"> 
+      <div class="card-body p-5">
         <!-- Nested Row within Card Body -->
         <div class="row justify-content-center">
           <div class="col-md-4 pl-5  mb-3"> <img src="img/OneMeLogo.png" width="120" height="57" alt=""/> </div>
@@ -27,8 +27,12 @@ body {
         </div>
         <div class="row pt-5">
           <div class="col-md-8 pb-3 pl-5">
-            <h4 style="font: 20px/32px Cairo; color: #1F2933;">Please check your email, we've sent you a message, you can follow it's instructions to reset your Password</h4>
-          </div>
+              @if(Session::has('userEmail'))
+            <h4 style="font: 20px/32px Cairo; color: #1F2933;">Please check <span class="font-weight-bold" >{{Session::get('userEmail')}}</span>, we've sent you a message, you can follow it's instructions to reset your Password</h4>
+                  @else
+                  <h4 style="font: 20px/32px Cairo; color: #1F2933;">Please check Your mail, we've sent you a message, you can follow it's instructions to reset your Password</h4>
+                   @endif
+           </div>
           <div class="col-md-4 pb-3"> <img src="img/Component 15 – 3.png" width="312" height="101" alt=""/></div>
           <div class="row ml-5">
             <h4 style="font: 20px/32px Cairo; color: #1F2933;">Nothing there ? <a style="color: #073D79;" href="">Click Here to Resend</a></h4>

@@ -20,7 +20,7 @@ body {
 @include('header')
   <div class="row justify-content-center pt-5">
     <div class="card col-md-8 o-hidden border-0 shadow-lg my-5 ">
-      <div class="card-body "> 
+      <div class="card-body ">
         <!-- Nested Row within Card Body -->
         <div class="row pb-5">
           <div class="col-md-6 pt-5 text-left">
@@ -35,9 +35,9 @@ body {
           </div>
           <div class="col-md-6 pt-5 text-center">
             <div style=" border-radius: 10px; height: 54px;" class="row justify-content-end">
-              <div style="background-color: #E7F0FB; border-bottom-left-radius: 10px; border-top-left-radius: 10px;" class="col-md-4 pt-2"><a style=" font: normal normal normal 20px/32px cairo; color: #1F2933;" href="">Your Cards</a></div>
-              <div style="background-color: #E7F0FB;" class="col-md-4 pt-2"><a style=" font: normal normal normal 20px/32px cairo; color: #1F2933;" href="">Your Contact Info</a></div>
-              <div style="background-color: #0E67CB; border-radius: 10px;" class="col-md-4 pt-2"> <a style="font: normal normal normal 20px/32px cairo; color: #FFFFFF;" href="">Your Contact</a></div>
+              <div style="background-color: #E7F0FB; border-bottom-left-radius: 10px; border-top-left-radius: 10px;" class="col-md-4 pt-2"><a style=" font: normal normal normal 20px/32px cairo; color: #1F2933;" href="{{route('home')}}">Your Cards</a></div>
+              <div style="background-color: #E7F0FB;" class="col-md-4 pt-2"><a style=" font: normal normal normal 20px/32px cairo; color: #1F2933;" href="{{route('site.contacts.index')}}">Your Contact Info</a></div>
+              <div style="background-color: #0E67CB; border-radius: 10px;" class="col-md-4 pt-2"> <a style="font: normal normal normal 20px/32px cairo; color: #FFFFFF;" href="{{route('site.contacts.addedContact')}}">Your Contact</a></div>
             </div>
           </div>
         </div>
@@ -49,22 +49,22 @@ body {
         </div>
         <div class="row pt-5">
           <div class="col-md-3 pt-5 pl-5 pr-5">
-            <div class="row"> <img src="img/Ellipse 46.png" width="72" height="72" alt=""/>
+            <div class="row"> <img src="{{asset('img/Ellipse 46.png')}}" width="72" height="72" alt=""/>
               <h6 style="font: normal normal normal 20px/32px cairo;" class="pt-4 pl-3">Ahmed Said</h6>
             </div>
           </div>
           <div class="col-md-3 pt-5 pl-5 pr-5">
-            <div class="row"> <img src="img/Ellipse 46.png" width="72" height="72" alt=""/>
+            <div class="row"> <img src="{{asset('img/Ellipse 46.png')}}" width="72" height="72" alt=""/>
               <h6 style="font: normal normal normal 20px/32px cairo;" class="pt-4 pl-3">Ahmed Said</h6>
             </div>
           </div>
           <div class="col-md-3 pt-5 pl-5 pr-5">
-            <div class="row"> <img src="img/Ellipse 46.png" width="72" height="72" alt=""/>
+            <div class="row"> <img src="{{asset('img/Ellipse 46.png')}}" width="72" height="72" alt=""/>
               <h6 style="font: normal normal normal 20px/32px cairo;" class="pt-4 pl-3">Ahmed Said</h6>
             </div>
           </div>
           <div class="col-md-3 pt-5 pl-5 pr-5">
-            <div class="row"> <img src="img/Ellipse 46.png" width="72" height="72" alt=""/>
+            <div class="row"> <img src="{{asset('img/Ellipse 46.png')}}" width="72" height="72" alt=""/>
               <h6 style="font: normal normal normal 20px/32px cairo;" class="pt-4 pl-3">Ahmed Said</h6>
             </div>
           </div>
@@ -85,8 +85,8 @@ body {
   </div>
   @include('footer')
 </div>
-<script src="{{asset('js/jquery-3.2.1.min.js')}}"></script> 
-<script src="{{asset('js/popper.min.js')}}"></script> 
+<script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
+<script src="{{asset('js/popper.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.js')}}"></script>
 </body>
 </html>

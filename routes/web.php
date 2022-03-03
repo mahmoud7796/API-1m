@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Site\Auth\ForgotPasswordController;
 use App\Http\Controllers\Site\Auth\GoogleLoginController;
 use App\Http\Controllers\Site\Auth\LoginController;
@@ -42,18 +41,19 @@ use Illuminate\Support\Facades\Route;
  Route::group(['middleware'=>'guest:web'], function(){
     Route::get('/login', [LoginController::class,'login'])->name('site.login');
      Route::match(['get', 'post'], '/post-login', [LoginController::class,'postLogin'])->name('site.postLogin');
-    Route::get('/forget-password', [registerController::class,'forgetPassword'])->name('site.forgetPassword');
  });
  ############### End Login ####################
 
 
  ############### Reset Password ####################
- Route::group(['middleware'=>'guest:web'], function(){
-     Route::get('/forget-pass', [ForgotPasswordController::class,'forgetPass'])->name('site.forgetPass');
-     Route::match(['get', 'post'], '/post-login', [LoginController::class,'postLogin'])->name('site.postLogin');
-     Route::get('/forget-password', [registerController::class,'forgetPassword'])->name('site.forgetPassword');
- });
- ############### End Reset Password ####################
+     Route::get('/forgot-pass', [ForgotPasswordController::class,'forgetPass'])->name('site.forgetPass');
+     Route::match(['get', 'post'], '/post-forgot', [ForgotPasswordController::class,'postForgotPass'])->name('site.postForgotPass');
+     Route::get('/forget-password', [ForgotPasswordController::class,'notifyResetPass'])->name('site.resetPassNotify');
+     Route::get('/resetPass/{token}', [ForgotPasswordController::class,'resetPass'])->name('site.resetPass');
+     Route::get('/reset-password/{token}',[ForgotPasswordController::class,'resetPassword'])->name('site.resetPassword');
+     Route::post('/change-pass/',[ForgotPasswordController::class,'changePass'])->name('site.changePass');
+
+############### End Reset Password ####################
 
 
  ############### Login With Facebook ####################
@@ -75,9 +75,7 @@ use Illuminate\Support\Facades\Route;
  });
  ############### End Logout ####################
 
-
-
- ############### Pages ####################
+ ###############  End Reset Password  ####################
 
  Route::group(['middleware'=>'guest:web'], function(){
      Route::get('/homeTest', function(){

@@ -59,7 +59,7 @@
 							   </div>
 							</div>
                             <div class="text-center pt-5">
-							<a style="font: normal normal bold 16px/32px Cairo; color: #0A52A2;" href="">Forgot your Password ?</a>
+							<a style="font: normal normal bold 16px/32px Cairo; color: #0A52A2;" href="{{route('site.forgetPass')}}">Forgot your Password ?</a>
 							</div>
 							</form>
 						</div>

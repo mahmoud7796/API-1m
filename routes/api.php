@@ -37,8 +37,14 @@ Route::middleware('auth:sanctum')->group( function () {
 ############### Contact Information ####################
 
 Route::group(['middleware'=>'auth:sanctum'], function(){
+
+    ######## contactinfo ################
     Route::apiResource('contactinfo',ContactController::class);
+    ######## End contactinfo ################
+
+    ######## Cards ################
     Route::apiResource('cards',CardController::class);
+    ######## End Cards ################
 
     ######## Providers ################
     Route::get('/providers', [ProvidersController::class, 'index']);

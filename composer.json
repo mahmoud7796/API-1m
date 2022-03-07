@@ -12,7 +12,8 @@
         "laravel/sanctum": "^2.14",
         "laravel/socialite": "^5.5",
         "laravel/telescope": "^4.7",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "simplesoftwareio/simple-qrcode": "~4"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -34,7 +35,7 @@
             "Tests\\": "tests/"
         },
         "files": [
-            "app/Helper/Getname.php"
+          "app/Helper/General.php"
         ]
     },
     "scripts": {

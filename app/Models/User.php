@@ -51,6 +51,10 @@ class User extends Authenticatable
         return $this->hasMany(Contact::class,'user_id');
     }
 
+    public function card(){
+        return $this->hasMany(Card::class,'user_id');
+    }
+
     public function added(){
         return $this->belongsToMany(self::class, 'connections', 'adder_id','added_id','id','id');
     }

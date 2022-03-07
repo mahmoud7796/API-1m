@@ -8,7 +8,7 @@ class ContactObserver
 {
     public function deleted(Contact $contact)
     {
-        $contact -> card()->detach();
+        $contact->card()->detach();
     }
 
 

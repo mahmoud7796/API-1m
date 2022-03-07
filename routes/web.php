@@ -6,8 +6,11 @@ use App\Http\Controllers\Site\Auth\LoginController;
 use App\Http\Controllers\Site\Auth\LogoutController;
 use App\Http\Controllers\Site\Auth\RegisterController;
 use App\Http\Controllers\Site\Auth\VerifyEmailController;
+use App\Http\Controllers\Site\Pages\CardController;
 use App\Http\Controllers\Site\Pages\ContactController;
 use App\Http\Controllers\Site\Pages\HomeController;
+use App\Http\Controllers\Site\Pages\QrController;
+use App\Models\Card;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -103,19 +106,31 @@ use Illuminate\Support\Facades\Route;
 
  ############### End Contacts ####################
 
- ############### Contacts ####################
-
+ ############### Card ####################
  Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
-     Route::post('/index', [ContactController::class,'index'])->name('site.contacts.index');
-     Route::post('/create', [ContactController::class,'create'])->name('site.contacts.create');
-     Route::get('/show/{id}', [ContactController::class,'show'])->name('site.contacts.getContact');
-     Route::post('/update/{id}', [ContactController::class,'update'])->name('site.contacts.update');
-     Route::get('/delete/{id}', [ContactController::class,'delete'])->name('site.contacts.delete');
+     Route::post('/index', [CardController::class,'index'])->name('site.contacts.index');
+     Route::get('/show/{id}', [CardController::class,'show'])->name('site.contacts.getContact');
+     Route::post('/update/{id}', [CardController::class,'update'])->name('site.contacts.update');
+     Route::get('/delete/{id}', [CardController::class,'delete'])->name('site.contacts.delete');
  });
+ ############### End Card ####################
+Route::get('/show/{id}', [QrController::class,'show'])->name('site.card.qrShow');
 
- ############### End Contacts ####################
+############### shareQR ####################
+Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
+    Route::get('/{id}', [CardController::class,'index'])->name('site.qr.show');
+/*    Route::get('/show/{id}', [CardController::class,'show'])->name('site.contacts.getContact');
+    Route::post('/update/{id}', [CardController::class,'update'])->name('site.contacts.update');
+    Route::get('/delete/{id}', [CardController::class,'delete'])->name('site.contacts.delete');*/
+});
+############### End shareQR ####################
  Route::get('/max',[VerifyEmailController::class,'getMax'])->name('site.verifyEmail');
 Route::get('/home-test',function(){
     return view('site.noActiveCards View');
     return view('site.homeNormalView');
+});
+
+//Route::get('/card/{id}', [CardController::class,'signature'])->name('signature');
+Route::get('card',function(){
+     $card = Card::with('contact')->whereId(31)->first();
 });

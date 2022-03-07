@@ -6,6 +6,7 @@ use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CardRequest;
 use App\Http\Resources\CardResource;
+use App\Http\Resources\UserResource;
 use App\Models\Card;
 use App\Models\CardContact;
 use App\Traits\ResponseJson;
@@ -25,6 +26,9 @@ class CardController extends Controller
             if (!$userId) {
                 throw new NotFoundException;
             }
+            if ($userId!=$authId) {
+                return $this->jsonResponse('', true, 'Not authrized', 402);
+            }
             $cards = Card::with('contact.provider')->whereUserId($userId)->get();
             return $this->jsonResponse(CardResource::collection($cards), false, '', 200);
         } catch (\Exception $e) {
@@ -35,12 +39,12 @@ class CardController extends Controller
     public function store(CardRequest $request)
     {
         try {
+            $authId = auth('sanctum')->Id();
             DB::beginTransaction();
             $card = Card::create([
                 'name' => $request->name,
-                'user_id' => $request->userId,
+                'user_id' => $authId,
             ]);
-
             $contacts = $request->contactInfoIds;
             if ($contacts) {
                 $contactCount = count($contacts);
@@ -61,23 +65,24 @@ class CardController extends Controller
     }
 
 
-    public function show($id)
+    public function show(Request $request)
     {
-        $userId = Auth::id();
-        $card = Card::find($id);
-        $contactsThatInCard = Card::whereUserId($userId)->whereId($id)->with('contact:id')->first();
-        $contactsId = $contactsThatInCard->contact;
-        $contactids = array();
-        foreach ($contactsId as $contactId) {
-            $contactids[] = $contactId->id;
+        try {
+            $authId = auth('sanctum')->Id();
+            $card = Card::whereId($request->cardId)->whereUserId($authId)->first();
+            if(!$card){
+                return $this->jsonResponse('', true, 'Card not found', 404);
+            }
+            $cards = Card::with('contact.provider')->whereId($request->cardId)->whereUserId($authId)->get();
+            $cardWithContacts = CardResource::collection($cards);
+            $success['CardWithContacts'] = $cardWithContacts;
+            $userData = auth('sanctum')->user();
+            $user = new UserResource($userData);
+            $success['owner'] = $user;
+            return $this->jsonResponse($success, false, '', 200);
+        } catch (\Exception $e) {
+            return $e;
         }
-
-        return response()->json([
-                'card' => $card,
-                'contactsThatInCard' => $contactids,
-                'status' => true
-            ]
-        );
     }
 
 

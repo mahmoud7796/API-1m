@@ -4,18 +4,44 @@ namespace App\Http\Controllers\Site\Pages;
 
 use App\Exceptions\NotAuthrizedException;
 use App\Exceptions\NotFoundException;
+use App\Helper\General;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CardRequest;
-use App\Http\Resources\CardResource;
 use App\Models\Card;
 use App\Models\CardContact;
-use App\Models\Contact;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CardController extends Controller
 {
+
+    public function create()
+    {
+        try {
+            $card = Card::create([
+                'name' => 'madaCard1',
+                'user_id' =>  105,
+            ]);
+            $image = QrCode::format('png')
+                ->merge('img/OneMeLogo.png', 0.4, true)
+                ->size(300)->errorCorrection('H')
+                ->style('round')
+                ->color(13,103,203)
+                ->generate($card->id);
+            $cardQrPath= new General();
+            $cardQrPath =  $cardQrPath->saveImage($image);
+            $card->update([
+                'qr_url'=>$cardQrPath
+            ]);
+            return 'saved succecfullu';
+            return view('qrGenerate',compact($card));
+        }catch(\Exception $e){
+            return  $e;
+        }
+    }
     public function index(Request $request)
     {
         try {

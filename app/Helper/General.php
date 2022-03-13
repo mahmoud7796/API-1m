@@ -2,7 +2,9 @@
 
 namespace App\Helper;
 
-class Getname {
+use Illuminate\Support\Facades\Storage;
+
+class General {
     public $fName;
     public $mName;
     public $lName;
@@ -25,13 +27,15 @@ class Getname {
             echo 'error';
         }
     }
-/*
-        public function getFullName()
-        {
-            $fullName = $this->fName.' '.$this->mName.' '.$this->lName;
-            $this->fullName = $fullName;
-            return $this->fullName;
-        }*/
+
+    function saveImage($photo){
+        $cardQrName = 'img-' . time() . '.png';
+        Storage::disk('cardQr')->put($cardQrName, $photo);
+        $imagePath= '/img/cardQr/'.$cardQrName;
+        return $imagePath;
+    }
+
+
 
 }
 

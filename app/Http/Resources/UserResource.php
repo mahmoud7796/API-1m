@@ -19,7 +19,8 @@ class UserResource extends JsonResource
             "fullName"=> $this->fullName,
             "email"=> $this->email,
             "profile_img"=> $this->profile_img,
-
+            "added"=> self::collection($this->whenLoaded('added')),
+            "adder"=> self::collection($this->whenLoaded('adder'))
         ];
     }
 }

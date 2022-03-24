@@ -35,7 +35,11 @@ class General {
         return $imagePath;
     }
 
-
+    function providerType($email) :string {
+        $provider_type = explode('@',$email);
+        $mail = explode('.',$provider_type[1]);;
+        return $mail[0];
+    }
 
 }
 

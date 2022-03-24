@@ -15,7 +15,7 @@ class ProvidersController extends Controller
     {
         try {
             $providers = Provider::get();
-            if(!$providers){
+            if(empty($providers)){
                 return $this->jsonResponse('', true, 'There is no providers', 404);
             }
             return $this->jsonResponse(ProviderResource::collection($providers), false, '', 200);

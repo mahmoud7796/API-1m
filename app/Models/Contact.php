@@ -13,7 +13,8 @@ class Contact extends Model
     protected $fillable = [
         'provider_id',
         'user_id',
-        'contact_string'
+        'contact_string',
+        'is_verified'
     ];
 
     public $timestamps = true;

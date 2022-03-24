@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Api\Site\Pages;
 
-use App\Exceptions\NotAuthrizedException;
-use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Traits\ContactControllerTrait;
@@ -32,6 +30,11 @@ class ConnectionController extends Controller
 
         } catch ( \Exception $e) {
         }
+    }
+
+    public function addedUsers(Request $request)
+    {
+
     }
 
 }

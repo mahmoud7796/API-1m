@@ -10,7 +10,8 @@ use App\Http\Controllers\Site\Pages\CardController;
 use App\Http\Controllers\Site\Pages\ContactController;
 use App\Http\Controllers\Site\Pages\HomeController;
 use App\Http\Controllers\Site\Pages\QrController;
-use App\Models\Card;
+use App\Mail\VerifyEmail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,9 +37,12 @@ use Illuminate\Support\Facades\Route;
  Route::get('/verify-email/{token}',[VerifyEmailController::class,'verifyEmail'])->name('site.verifyEmail');
  Route::get('/verification/',[VerifyEmailController::class,'index'])->name('site.verification');
  Route::get('/resend-verify/{email}',[VerifyEmailController::class,'resend'])->name('site.resendEmail');
+ Route::get('/resend-verify/{email}',[VerifyEmailController::class,'resend'])->name('site.resendEmail');
+ Route::post('/send-verification',[VerifyEmailController::class,'customVerifyEmail'])->name('site.customVerifyEmail');
+ Route::get('/send-verification-mail',[VerifyEmailController::class,'verifyEmailPage'])->name('site.verifyEmailPage');
 
 
- ############### End Verify Email ###############
+############### End Verify Email ###############
 
 ############### Login ####################
  Route::group(['middleware'=>'guest:web'], function(){
@@ -85,7 +89,7 @@ use Illuminate\Support\Facades\Route;
          return view('homeTest');
      });
 
- Route::get('/', [HomeController::class,'landingPage'])->name('landingPage');
+ //Route::get('/', [HomeController::class,'landingPage'])->name('landingPage');
  });
 
  Route::group(['middleware'=>'auth:web'], function(){
@@ -94,27 +98,31 @@ use Illuminate\Support\Facades\Route;
 
  });
 
- ############### Contacts ####################
+############### Contacts ####################
+Route::group(['middleware'=>'auth:web','prefix'=>'contact'], function(){
+    Route::get('/eeee', [ContactController::class,'addedContact'])->name('site.contacts.addedContact');
+    Route::get('/', [ContactController::class,'index'])->name('site.contacts.index');
+    Route::post('/create', [ContactController::class,'store'])->name('site.contacts.create');
+    Route::get('/show/{id}', [ContactController::class,'show'])->name('site.contacts.getContact');
+    Route::post('/update/{id}', [ContactController::class,'update'])->name('site.contacts.update');
+    Route::get('/delete/{id}', [ContactController::class,'delete'])->name('site.contacts.delete');
+});
+############### End Contacts ####################
 
- Route::group(['middleware'=>'auth:web','prefix'=>'contact'], function(){
-     Route::get('/index', [ContactController::class,'index'])->name('site.contacts.index');
-     Route::post('/create', [ContactController::class,'create'])->name('site.contacts.create');
-     Route::get('/show/{id}', [ContactController::class,'show'])->name('site.contacts.getContact');
-     Route::post('/update/{id}', [ContactController::class,'update'])->name('site.contacts.update');
-     Route::get('/delete/{id}', [ContactController::class,'delete'])->name('site.contacts.delete');
- });
+############### Cards ####################
 
- ############### End Contacts ####################
+Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
+    Route::get('/index', [CardController::class,'index'])->name('site.card.index');
+    Route::match(['get', 'post'],'/create', [CardController::class,'create'])->name('site.card.create');
+    Route::get('/show/{id}', [CardController::class,'show'])->name('site.card.getContact');
+    Route::post('/update/{id}', [CardController::class,'update'])->name('site.card.update');
+    Route::get('/delete/{id}', [CardController::class,'delete'])->name('site.card.delete');
+});
 
- ############### Card ####################
- Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
-     Route::post('/index', [CardController::class,'index'])->name('site.contacts.index');
-     Route::get('/show/{id}', [CardController::class,'show'])->name('site.contacts.getContact');
-     Route::post('/update/{id}', [CardController::class,'update'])->name('site.contacts.update');
-     Route::get('/delete/{id}', [CardController::class,'delete'])->name('site.contacts.delete');
- });
- ############### End Card ####################
-Route::get('/show/{id}', [QrController::class,'show'])->name('site.card.qrShow');
+############### End cards ####################
+
+
+Route::get('/card-show/{id}', [QrController::class,'show'])->name('site.card.qrShow');
 
 ############### shareQR ####################
 Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
@@ -131,6 +139,9 @@ Route::get('/home-test',function(){
 });
 
 //Route::get('/card/{id}', [CardController::class,'signature'])->name('signature');
-Route::get('card',function(){
-     $card = Card::with('contact')->whereId(31)->first();
+Route::get('/test',function(){
+    $mail = 'mada@gmail.com';
+    $provider_type = explode('@',$mail);
+    $mail = explode('.',$provider_type[1]);;
+    return $mail[0];
 });

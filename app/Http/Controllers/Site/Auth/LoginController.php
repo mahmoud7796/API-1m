@@ -33,12 +33,12 @@ class LoginController extends Controller
             if (auth()->guard('web')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')])){
                 $userIsVerified = Auth::user()->email_verified_at;
                 if($userIsVerified===null){
-                    return redirect()->back()-> with(['error' =>'Please verify your email']);
+                    auth('web')->logout();
+                    return redirect()->route('site.login')->with(['verify' =>'Your E-mail is not verified yet please']);
                 }
-                return "Home";
                 return redirect()->route('home');
             }else
-                return redirect()->back()-> with(['error' =>'Your Email Or Password is wrong']);
+                return redirect()->route('site.login')-> with(['error' =>'Your Email Or Password is wrong']);
         }catch (\Exception $ex){
             return redirect()->back()->with(['error' => 'Something error please try again later']);
 

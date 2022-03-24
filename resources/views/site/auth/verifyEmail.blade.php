@@ -17,7 +17,7 @@
         <!-- Nested Row within Card Body -->
         <div class="row"><img src="img/OneMeLogo.png" width="220" height="105" alt=""/></div>
         <div class="row pt-5">
-          <h3 style="font: normal normal bold 20px/32px Cairo;">Hello {{$user->fullName}},</h3>
+          <h3 style="font: normal normal bold 20px/32px Cairo;">Hello mada, {{$user->fullName}}</h3>
         </div>
         <div class="row pt-5">
           <h6 style="font: 20px/32px Cairo;">Thank you for creating your 1Me account, we need you to verify <br>

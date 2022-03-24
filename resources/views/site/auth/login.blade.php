@@ -32,7 +32,10 @@
 					</div>
 					</div>
                    @include('site.includes.alerts.errors')
-                   @include('site.includes.alerts.success')					<div class="row justify-content-center pb-3">
+                   @include('site.includes.alerts.success')
+                   @include('site.includes.alerts.verify')
+
+                   <div class="row justify-content-center pb-3">
 						<div class="col-md-6 ">
 							<!-- login form -->
 						<div class="row justify-content-center">

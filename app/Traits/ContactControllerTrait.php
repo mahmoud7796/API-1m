@@ -7,9 +7,6 @@ use App\Exceptions\NotAuthrizedException;
 use App\Exceptions\NotFoundException;
 use App\Http\Requests\ContactRequest;
 use App\Models\Contact;
-use App\Models\Provider;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Auth;
 
 trait ContactControllerTrait

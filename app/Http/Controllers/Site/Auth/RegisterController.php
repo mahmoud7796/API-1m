@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Site\Auth;
 
+use App\Helper\General;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Jobs\VerifyEmailJob;
+use App\Models\Contact;
 use App\Models\User;
 use App\Models\UserVerifyEmail;
 use Carbon\Carbon;
@@ -32,6 +34,12 @@ class RegisterController extends Controller
             $verifyEmailToken = UserVerifyEmail::create([
                 'user_id' =>$user->id,
                 'token' => Str::random(64),
+            ]);
+
+            Contact::create([
+                'contact_string' =>$user->email,
+                'is_verified' =>1,
+                'provider_id' =>1,
             ]);
             DB::commit();
             $on = Carbon::now()->addSeconds(2.5);

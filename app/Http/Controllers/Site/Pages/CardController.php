@@ -12,12 +12,10 @@ use App\Models\CardContact;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CardController extends Controller
 {
-
     public function create()
     {
         try {
@@ -42,6 +40,7 @@ class CardController extends Controller
             return  $e;
         }
     }
+
     public function index(Request $request)
     {
         try {

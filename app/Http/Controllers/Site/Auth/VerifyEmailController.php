@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\customVerifyEmailRequest;
 use App\Jobs\VerifyEmailJob;
 use App\Models\User;
 use App\Models\UserVerifyEmail;
@@ -14,6 +15,10 @@ class VerifyEmailController extends Controller
 {
     public function index(){
         return view('site.auth.verification');
+    }
+
+    public function verifyEmailPage(){
+        return view('site.auth.verifyEmailPage');
     }
 
     public function verifyEmail($token)
@@ -40,8 +45,14 @@ class VerifyEmailController extends Controller
                 'msg' => 'invalid email',
             ]);
         $token = $user->token()->first();
-        if($token){
+        $validToken = UserVerifyEmail::whereToken($token)->first();
+        if($validToken){
             $token->delete();
+        }else{
+            return response()->json([
+                'status' => false,
+                'msg' => 'invalid URL',
+            ]);
         }
         $verifyEmailToken = UserVerifyEmail::create([
             'user_id' =>$user->id,
@@ -55,28 +66,33 @@ class VerifyEmailController extends Controller
         ]);
     }
 
-    function getMax()
+    public function customVerifyEmail(customVerifyEmailRequest $request)
     {
-        $arr = [5,2,1,3,8];
-        if(empty($arr)) {
-            return;
-        }
-
-        $max = 8;
-        $secondMax = 5;
-
-        foreach($arr as $number) {
-            if($number > $max) {  //8 > 5
-                $secondMax = $max;  //sec = 5
-                $max = $number; //max = 8
+        try {
+            $user = User::whereEmail($request->email)->first();
+            if(!$user){
+                return response()->json([
+                    'status' => false,
+                ]);
             }
-            //If array number is greater than secondMax and less than max
-            if($number > $secondMax && $number < $max) {  //8>5 && 8<8
-                $secondMax = $number; //$secondMax =3
+            $token = $user->token()->first();
+            if($token){
+                $token->delete();
             }
-        }
-        return $secondMax;
+            $verifyEmailToken = UserVerifyEmail::create([
+                'user_id' =>$user->id,
+                'token' => Str::random(64),
+            ]);
+            $on = Carbon::now()->addSeconds(2.5);
+            dispatch(new VerifyEmailJob($user,$verifyEmailToken))->delay($on);
 
+            return response()->json([
+                'status' => true,
+            ]);
+        }catch (\Exception $ex){
+            return $ex;
+            return redirect()->route('landingPage')->with(['error'=>'Oops something error please try again']);
+        }
     }
 
 }

@@ -4,9 +4,9 @@
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
 <style type="text/css">
-@import url("css/style.css");
+@import url("{{asset('css/style.css')}}");
 body {
 }
 </style>
@@ -17,11 +17,11 @@ body {
 <div class="container-fluid">
   <div class="container pt-5">
     <div class="card o-hidden border-0 shadow-lg my-5">
-      <div class="card-body p-5"> 
+      <div class="card-body p-5">
         <!-- Nested Row within Card Body -->
         <div class="row">
           <div class="col-md-3"></div>
-          <div class="col-md-2"><img src="img/Ellipse 466.png" width="125" height="125" alt=""/></div>
+          <div class="col-md-2"><img src="{{asset('img/Ellipse 466.png')}}" width="125" height="125" alt=""/></div>
           <div class="col-md-3">
             <div class="row">
               <h3 style="font: normal normal bold 24px/45px Cairo; letter-spacing: 0px; color: #1F2933;">John Smith</h3>
@@ -36,13 +36,13 @@ body {
               <h4 class="pt-2 pl-2" style="font: normal normal normal 18px/21px Arial; letter-spacing: 0px; color: #1F2933;">JohnSmith36@Gmail.com</h4>
             </div>
           </div>
-          <div class="col-md-5"><img src="img/QR CODE.png" width="211" height="209" alt=""/></div>
+          <div class="col-md-5"><img src="{{asset('img/QR CODE.png')}}" width="211" height="209" alt=""/></div>
         </div>
         <div class="row pt-5">
           <div class="col-md-7">
             <div class="row">
               <h4 style="font: normal normal bold 24px/45px Cairo; letter-spacing: 0px; color: #1F2933;">Powered by 1Me</h4>
-              <img class="ml-2" src="img/logo.png" width="72" height="34" alt=""/></div>
+              <img class="ml-2" src="{{asset('img/logo.png')}}" width="72" height="34" alt=""/></div>
             <div class="row">
               <h6 style="font: normal normal normal 18px/33px Cairo; letter-spacing: 0px; color: #52606D;">With 1Me you can create cards just like this.</h6>
             </div>
@@ -53,6 +53,6 @@ body {
     </div>
   </div>
 </div>
-<script src="js/bootstrap.js"></script>
+<script src="{{asset('js/bootstrap.js')}}"></script>
 </body>
 </html>

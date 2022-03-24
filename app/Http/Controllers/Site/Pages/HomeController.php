@@ -31,10 +31,8 @@ class HomeController extends Controller
     public function home()
     {
         $userId = Auth::id();
-        $contacts = Contact::whereUserId($userId)->get();
-        $providers = Provider::get();
-        $cards= Card::whereUserId($userId)->withCount(['contact'])->get();
-        return view('site.pages.home',compact('contacts','providers','cards'));
+        $cards= Card::whereUserId($userId)->paginate(3);
+        return view('site.pages.home',compact('cards','userId'));
     }
 
     public function getCard()

@@ -111,6 +111,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
+
                             <div class="modal-body">
                                 <div style="display: none" id="addContactMsg" class="row mr-2 ml-2">
                                     <button class="btn btn-lg btn-block btn-outline-success mb-2"
@@ -143,6 +144,8 @@
                         </div>
                     </div>
                 </div>
+
+
             </div>
                 {{--END Contact modal--}}
 
@@ -221,6 +224,7 @@
         $('#addContactForm')[0].reset();
     }
     $('#contactModal').on('hidden.bs.modal', function () {
+        console.log('modal hide')
         resetForm();
     });
 </script>

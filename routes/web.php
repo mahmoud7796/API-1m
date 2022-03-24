@@ -122,7 +122,7 @@ Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
 ############### End cards ####################
 
 
-Route::get('/card-show/{id}', [QrController::class,'show'])->name('site.card.qrShow');
+Route::get('/card-show/{id}/{userId}', [QrController::class,'show'])->name('site.card.qrShow');
 
 ############### shareQR ####################
 Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){

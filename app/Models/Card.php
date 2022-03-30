@@ -13,7 +13,8 @@ class Card extends Model
     protected $fillable = [
         'name',
         'user_id',
-        'qr_url'
+        'qr_url',
+        'description'
     ];
 
     public $timestamps = true;
@@ -29,11 +30,11 @@ class Card extends Model
     {
         return $this->belongsTo(Card::class, 'card_id');
     }
-
+/*
     public function connection()
     {
         return $this->belongsTo(Connection::class, );
-    }
+    }*/
 
     protected static function boot()
     {

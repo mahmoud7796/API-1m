@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Site\Pages;
 
 use App\Exceptions\NotAuthrizedException;
 use App\Exceptions\NotFoundException;
-use App\Helper\General;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CardRequest;
 use App\Models\Card;
@@ -12,16 +11,17 @@ use App\Models\CardContact;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CardController extends Controller
 {
-    public function create()
+    public function create(CardRequest $request)
     {
         try {
+            $userId = Auth::id();
             $card = Card::create([
-                'name' => 'madaCard1',
-                'user_id' =>  105,
+                'name' => $request->card,
+                'user_id' =>  $userId,
+                'description' =>$request->description
             ]);
 /*            $image = QrCode::format('png')
                 ->merge('img/OneMeLogo.png', 0.4, true)
@@ -70,6 +70,7 @@ class CardController extends Controller
         $card = Card::create([
             'name' => $request->card,
             'user_id' => $authId,
+            'description' =>$request->description
         ]);
 
      $contacts = $request->contactsIds;
@@ -127,14 +128,21 @@ class CardController extends Controller
         try {
             $userId= Auth::id();
             $card = Card::whereUserId($userId)->find($request->card_id);
+            if(!$card){
+                return response()->json([
+                    'status' => false,
+                    'msg' => 'Not Found',
+                ]);
+            }
             if($userId!==$card->user_id) {
                 return redirect()->back();
             }
-            $card->contact()->detach();
             DB::beginTransaction();
+            $card->contact()->detach();
             $card->update([
                 'name' => $request->card,
                 'user_id' => $userId,
+                'description' =>$request->description
             ]);
 
             $contacts = $request->contactsIds;
@@ -167,6 +175,12 @@ class CardController extends Controller
     public function delete($id)
     {
         $card= Card::find($id);
+        if(!$card){
+            return response()->json([
+                'status' => false,
+                'msg' => "Not Found",
+            ]);
+        }
         $card->delete();
         return response()->json([
             'status' => true,

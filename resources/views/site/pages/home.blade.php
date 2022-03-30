@@ -4,6 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="stylesheet" href="css/bootstrap.css">
     <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet">
     <link rel="stylesheet" href="fontawesome/css/all.min.css">
@@ -61,18 +62,16 @@
                         </div>
                     </div>
                 </div>
-                @if($cards->count()>0)
 
+                @if($cards->count()>0)
                     <div class="row pt-4">
                         <div class="col-md-6 pt-5">
                             <h3 style="font: normal normal bold 32px/60px Cairo; color: #1F2933;">Your Cards</h3>
                         </div>
-                        <div class="col-md-6 pt-5"><a style="font: 20px/32px cairo; color: #FFFFFF" type="submit"
-                                                      class="btn btn-block float-right" id="newCardBtn"
-                                                      data-toggle="modal" data-target="#exampleModal"><img class="pr-2"
-                                                                                                           src="img/Icon ionic-ios-add.svg"
-                                                                                                           alt=""/> New
-                                Card </a></div>
+                        <div class="col-md-6 pt-5">
+                            <a style="font: 20px/32px cairo; color: #FFFFFF" type="submit" class="btn btn-block float-right" id="newCardBtn" data-toggle="modal" data-target="#exampleModal">
+                                <img class="pr-2" src="img/Icon ionic-ios-add.svg" alt=""/> New Card </a>
+                        </div>
                         <!-- new card Modal -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                              aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -82,7 +81,11 @@
                                         <div class="row justify-content-center">
                                             <h4 style="font: normal normal bold 24px/45px Cairo;">New Card</h4>
                                         </div>
-
+                                        <div style="display: none" id="addCardMsg" class="row mr-2 ml-2">
+                                            <button type="text" class="btn btn-lg btn-block btn-outline-success mb-2"
+                                                    id="type-error">Your Card Added Successfully
+                                            </button>
+                                        </div>
                                         <div class="row pb-5">
                                             <div class="col-md-7">
                                                 <div class="row pl-5 pt-5">
@@ -95,26 +98,36 @@
                                                 <div class="pt-3">
                                                     <div class="card card-modal" style="">
                                                         <div class="card-body">
+                                                            @if(isset($contacts) && $contacts->count()>0)
+                                                                @foreach($contacts as $contact)
                                                             <div class="row">
                                                                 <div class="col-md-2 pt-3 pl-4">
-                                                                    <img src="img/Facebook.svg" alt="" style="width: 40px; height: 40px;"/>
+                                                                    <img src="{{$contact->provider->imgURL}}" alt="" style="width: 40px; height: 40px;"/>
                                                                 </div>
                                                                 <div class="col-md-6 pl-5">
                                                                     <div class="row">
-                                                                        <h6 style="font: normal normal normal 16px/30px Cairo; color: #1F2933;">
-                                                                            Personal Account</h6>
-                                                                        <h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">
+                                                                        <h6 style="font: normal normal normal 16px/30px Cairo; color: #1F2933;">{{$contact->contact_string}}</h6>
+{{--                                                                        <h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">
                                                                             /Johnsmith22
-                                                                        </h7>
+                                                                        </h7>--}}
                                                                     </div>
 
                                                                 </div>
                                                                 <div class="col-md-4 pt-3">
                                                                     <label class="switch">
-                                                                        <input type="checkbox" checked>
+                                                                        <input id="contactsCheckbox" name="contactsCheckbox" value="{{$contact->id}}" type="checkbox" unchecked>
                                                                         <span class="slider round"></span> </label>
                                                                 </div>
+
                                                             </div>
+                                                                @endforeach
+                                                            @else
+                                                                <div class="row">
+                                                                    <h5></h5>
+                                                                </div>
+                                                                @endif
+
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -126,17 +139,20 @@
                                                 </div>
                                                 <div class="row pr-3">
                                                     <div class="col-md-12">
-                                                        <form action="">
+                                                        <form id="addCardForm" action="">
+                                                            @csrf
                                                             <div class="form-group">
-                                                                <input style="font: 16px/30px Cairo;" type="text"
-                                                                       class="form-control" placeholder="Card Name"
-                                                                       id="cardName">
+                                                                <input style="font: 16px/30px Cairo;" type="text" class="form-control" placeholder="Card Name" id="cardName">
+                                                                <small id="card_error" class="form-text text-danger"></small>
+
                                                             </div>
                                                             <div class="form-group">
-                                                                <textarea style="font: 16px/30px Cairo;"
-                                                                          class="form-control"
-                                                                          id="exampleFormControlTextarea1" rows="8"
-                                                                          placeholder="Card Description"></textarea>
+                                                                     <textarea style="font: 16px/30px Cairo;" class="form-control" name="cardDescription" rows="8" placeholder="Card Description (Optional)" id="cardDescription"> </textarea>
+
+{{--
+                                                                <textarea style="font: 16px/30px Cairo;" class="form-control" id="CardDescription" rows="8" placeholder="Card Description (Optional)"></textarea>
+--}}
+                                                                <small id="description_error" class="form-text text-danger"></small>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -144,7 +160,7 @@
                                                 <div class="row pt-5 mt-5"></div>
                                                 <div class="row pt-5 mt-5 pr-5 justify-content-end">
                                                     <div class="col-md-8 pt-3 pl-5">
-                                                        <a style="font: 20px/32px Cairo; color: #FFFFFF" type="submit" class="btn btn-block" id="createCardBtn1">Create Card</a>
+                                                        <button style="width: 150px;height: 60px;color: #FFFFFF" type="submit" id="saveCard" class="btn btn-primary">Save Card</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -267,7 +283,7 @@
                                 </div>
                         </div>
 
-                        <div id="updateCard" style="display:none;border-top: 10px solid #9EC2EA; background-color: #F5F7FA; border-radius: 10px;" class="col-md-6 pl-3">
+                        <div id="updateCard" style="display:none;border-top: 10px solid #0D67CB; background-color: #F5F7FA; border-radius: 10px;" class="col-md-6 pl-3">
                             <div class="row">
                                 <div class="col-md-7 pt-5">
                                     <h5 style="font: bold 20px/37px Cairo; color: #1F2933;">Card Details</h5>
@@ -278,6 +294,12 @@
                                         <div class="col-md-6 pt-5"><a href="" style=" font: 14px Cairo; color: #FFFFFF; background: #52606D 0% 0% no-repeat padding-box;  height: 40px; border-radius: 25px;" class="btn btn-block">3 Adds</a></div>
                                     </div>
                                 </div>
+                                <div style="display: none;margin-top: 9px" id="updateCardMsg" class="row mr-2 ml-2">
+                                    <button type="text" class="btn btn-lg btn-block btn-outline-success mb-2"
+                                            id="type-error">Your Card Added Successfully
+                                    </button>
+                                </div>
+
                             </div>
                             <div class="row pt-5 pr-3">
                                 <div class="col-md-12">
@@ -285,9 +307,11 @@
                                         <div class="form-group">
                                             <input value="" type="hidden" class="form-control" id="cardId">
                                             <input style="font: 16px/30px Cairo;" type="text" class="form-control" placeholder="Business Card Name" id="editCardName">
+                                            <small id="card_edit_error" class="form-text text-danger"></small>
                                         </div>
                                         <div class="form-group">
-                                            <textarea style="font: 16px/30px Cairo;" class="form-control" id="exampleFormControlTextarea2" rows="4" placeholder="ABC co. Card"></textarea>
+                                            <textarea style="font: 16px/30px Cairo;" class="form-control" id="editDescriptionCard" rows="4" placeholder="Card Description (Optional)"></textarea>
+                                            <small id="description_edit_error" class="form-text text-danger"></small>
                                         </div>
                                     </form>
                                 </div>
@@ -306,7 +330,7 @@
                                                 </div>
                                                 <div class="col-md-7 pl-5">
                                                     <div class="row">
-                                                        <h6 style="font: normal normal normal 15px/30px Cairo; color: #1F2933;">{{Str::limit($contact->contact_string,18,'...')}}</h6>
+                                                        <h6 style="font: normal normal normal 15px/30px Cairo; color: #1F2933;">{{Str::limit($contact->contact_string,10,'...')}}</h6>
                                                     </div>
                                                     <!--   <div class="row"><h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">/Johnsmith22</h7></div>-->
                                                 </div>
@@ -326,7 +350,13 @@
                             </div>
                             <div class="row pb-5 pr-3 ">
                                 <div class="col-md-6"></div>
-                                <div class="col-md-3 pt-5"><a href="" style="font: bold 16px/32px Cairo; " class="btn btn-block btn-outline-danger" id="deleteCardBtn" data-toggle="modal" data-target="#exampleModal4">Delete Card</a></div>
+                                <div class="col-md-3 pt-5"><a href="" style="font: bold 16px/32px Cairo; " data-id="" class="btn btn-block btn-outline-danger" id="deleteCardId" data-toggle="modal" data-target="#exampleModal4">Delete Card</a></div>
+                                <div class="col-md-3 pt-5"><a href="" style="font: bold 16px/32px Cairo; " class="btn btn-block btn-outline-primary" id="cardUpdate" role="button" data-toggle="modal">Update Card</a></div>
+
+{{--
+                                <button style="width: 150px;height: 60px;color: #FFFFFF" type="submit" id="cardUpdate" class="btn btn-primary">Update Card</button>
+--}}
+
 
                                 <!-- Modal -->
                                 <div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">
@@ -345,21 +375,19 @@
                                                     <h7 style="font: 20px/45px Cairo; color: #52606D;">Are you sure ? This Cannot be undone</h7>
                                                 </div>
                                                 <div class="row justify-content-center pt-3 pb-3">
-                                                    <div class="col-md-3"><a
-                                                            style="font: 20px/37px Cairo; color: #1F2933;" href=""
-                                                            class="btn btn-block">Cancel</a></div>
-                                                    <div class="col-md-3"><a
-                                                            style="background: #C52528 0% 0% no-repeat padding-box; font: 20px/32px Cairo; color: #FFFFFF;"
-                                                            href="" class="btn btn-block" id="deletemodalBtn">Delete</a>
-                                                    </div>
+                                                    <div class="col-md-3"><a id="deleteCancel" style="font: 20px/37px Cairo; color: #1F2933;" href="" class="btn btn-block">Cancel</a></div>
+                                                    <button style="width: 120px;height: 50px;color: #FFFFFF" type="submit" id="confirmationDelete" class="btn btn-danger">Delete</button>
+                                                    <input type="hidden" id="deletedCardId"/>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 pt-5"><a href="" style="font: 16px/32px Cairo; color: #6B6B6B;"
-                                                              class="btn btn-block" id="saveChangesBtn">Save Changes</a>
+                                <div class="col-md-3">
                                 </div>
+
+                            </div>
                             </div>
                         </div>
                         @endif
@@ -382,85 +410,6 @@
                                 <div class="col-md-5"><a href="" style="font: 20px Cairo; color: #FFFFFF"
                                                          class="btn btn-block" id="createCardBtn" data-toggle="modal"
                                                          data-target="#exampleModal">Create Your First Card</a></div>
-                            </div>
-
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <div class="row justify-content-center">
-                                                <h4 style="font: normal normal bold 24px/45px Cairo;">New Card</h4>
-                                            </div>
-                                            <div class="row pb-5">
-                                                <div class="col-md-7">
-                                                    <div class="row pl-5 pt-5">
-                                                        <h5 style="font: bold 20px/37px Cairo; color: #1F2933;">Contact information</h5>
-                                                    </div>
-                                                    <div class="row pl-5 pt-">
-                                                        <h6 style="font: 20px/37px Cairo; color: #52606D;">Add verified contact information to this card</h6>
-                                                    </div>
-                                                    <div class="pt-3">
-                                                        <div class="card card-modal" style="">
-                                                            <div class="card-body">
-                                                                <div class="row">
-                                                                    <div class="col-md-2 pt-3 pl-4">
-                                                                        <img src="img/Facebook.svg" alt="" style="width: 40px; height: 40px;"/>
-                                                                    </div>
-                                                                    <div class="col-md-6 pl-5">
-                                                                        <div class="row">
-                                                                            <h6 style="font: normal normal normal 16px/30px Cairo; color: #1F2933;">Personal Account</h6>
-                                                                            <h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">
-                                                                                /Johnsmith22
-                                                                            </h7>
-                                                                        </div>
-                                                                        <!--                                  <div class="row"><h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">/Johnsmith22</h7></div>-->
-                                                                    </div>
-                                                                    <div class="col-md-4 pt-3">
-                                                                        <label class="switch">
-                                                                            <input type="checkbox" checked>
-                                                                            <span class="slider round"></span> </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <div class="row pl-5 pt-5">
-                                                        <h5 style="font: bold 20px/37px Cairo; color: #1F2933;">Card
-                                                            Details</h5>
-                                                    </div>
-                                                    <div class="row pr-3">
-                                                        <div class="col-md-12">
-                                                            <form action="">
-                                                                <div class="form-group">
-                                                                    <input style="font: 16px/30px Cairo;" type="text"
-                                                                           class="form-control" placeholder="Card Name"
-                                                                           id="cardName">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <textarea style="font: 16px/30px Cairo;"
-                                                                              class="form-control"
-                                                                              id="exampleFormControlTextarea1" rows="8"
-                                                                              placeholder="Card Description"></textarea>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row pt-5 mt-5"></div>
-                                                    <div class="row pt-5 mt-5 pr-5 justify-content-end">
-                                                        <div class="col-md-8 pt-3 pl-5"><a
-                                                                style="font: 20px/32px Cairo; color: #FFFFFF"
-                                                                type="submit" class="btn btn-block" id="createCardBtn1">Create
-                                                                Card</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -515,9 +464,7 @@
 
             </div>
         </div>
-    </div>
     @include('site.includes.footer')
-</div>
 
 <script>
     $(document).on('click', '#share', function (e) {
@@ -568,7 +515,9 @@
 
 
     // add new card
+
     $(document).on('click', '#saveCard', function (e) {
+
         $("#saveCard").attr("disabled", true);
         $.ajaxSetup({
             headers: {
@@ -576,17 +525,23 @@
             }
         });
         $('#card_error').text('');
+        $('#description_error').text('');
+
         var cardName = $('#cardName').val();
+        var cardDescription = $('#cardDescription').val();
+        //console.log(cardDescription)
         var contacts = [];
         $.each($("input[name='contactsCheckbox']:checked"), function () {
             contacts.push($(this).val());
         });
+
         $.ajax({
             type: 'post',
             url: "{{route('site.card.create')}}",
             data: {
                 card: cardName,
                 contactsIds: contacts,
+                description: cardDescription
             },
             cache: false,
             success: function (response) {
@@ -597,7 +552,9 @@
                         this.checked = false;
                     });
                     $('#addCardMsg').show();
-                    window.location.href = "{{route('home')}}";
+                    $("#saveCard").attr("disabled", false);
+
+                       window.location.href = "{{route('home')}}";
                 }
             }, error: function (reject) {
                 $("#saveCard").attr("disabled", false);
@@ -607,6 +564,7 @@
                 });
             }
         });
+
     });
 
     function resetNewCard() {
@@ -641,6 +599,7 @@
         $.get("{{url("card/show")}}" + "/" + cardId, function (data) {
             const ids = data.contactsThatInCard;
             $('#editCardName').val(data.card.name);
+            $('#editDescriptionCard').val(data.card.description);
             for (const checkbox of document.querySelectorAll("#contactsCheckboxEdit[name=contactsCheckboxEdit]")) {
                 if (ids.includes(Number(checkbox.value))) {
                     checkbox.checked = true;
@@ -649,8 +608,10 @@
         })
     });
 
-    $(document).on('click', '#updateCard', function (e) {
-        $("#updateCard").attr("disabled", true);
+
+    $(document).on('click', '#cardUpdate', function (e) {
+        e.preventDefault()
+        $("#cardUpdate").attr("disabled", true);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -659,45 +620,57 @@
         $('#card_edit_error').text('');
         var cardName = $('#editCardName').val();
         var cardId = $('#cardId').val();
+        var editDescriptionCard = $('#editDescriptionCard').val();
         var contacts = [];
         $.each($("input[name='contactsCheckboxEdit']:checked"), function () {
             contacts.push($(this).val());
         });
         $.ajax({
             type: 'post',
-            url: "{{route('site.card.update',66)}}",
+            url: "{{url('card/update')}}"+"/"+cardId,
             data: {
                 card: cardName,
                 contactsIds: contacts,
-                card_id: cardId
+                card_id: cardId,
+                description:editDescriptionCard
             },
-            cache: false,
             success: function (response) {
                 if (response.status === true) {
                     $('#updateCardMsg').show();
-                    $('#editCardMsg').show();
-                    window.location.href = "{{route('home')}}";
+                    const myTimeout = setTimeout(updateCardMsgHide, 2000);
+                    const clearTime = setTimeout(clearTimeOut, 5000);
+                    function updateCardMsgHide() {
+                        $('#updateCardMsg').hide();
+                    }
+                    function clearTimeOut() {
+                        clearTimeout(myTimeout);
+                        clearTimeout(clearTime);
+                    }
+                    $("#cardUpdate").attr("disabled", false);
                 }
             }, error: function (reject) {
-                $("#updateCard").attr("disabled", false);
                 var response = $.parseJSON(reject.responseText);
                 $.each(response.errors, function (key, val) {
                     $("#" + key + "_edit_error").text(val[0]);
                 });
+                $("#cardUpdate").attr("disabled", false);
+
             }
         });
     });
+
     //get deleteId Card getDeleteId
     $(document).on('click', '#deleteCardId', function (e) {
         event.preventDefault();
-        var card_id = $(this).data('id');
-        $('#deleteCardId').val(card_id);
+        var card_id = $("#cardId").val();
+        var deletedCardId = $("#deletedCardId").val(card_id);
     });
+
     //delete card
-    $(document).on('click', '#confirmCardDelete', function (e) {
+    $(document).on('click', '#confirmationDelete', function (e) {
         e.preventDefault();
-        $("#confirmCardDelete").attr("disabled", true);
-        var deleteId = $('#deleteCardId').val();
+        $("#confirmationDelete").attr("disabled", true);
+        var deleteId = $('#deletedCardId').val();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -705,7 +678,7 @@
         });
         $.ajax({
             type: 'get',
-            url: "{{url('/card-delete')}}" + '/' + deleteId,
+            url: "{{url('card/delete')}}" + '/' + deleteId,
             data: {},
             cache: false,
             success: function (response) {
@@ -716,6 +689,11 @@
             error: function (reject) {
             }
         });
+    });
+
+    $(document).on('click', '#deleteCancel', function (e) {
+        event.preventDefault();
+        $("#exampleModal4").modal('hide');
     });
 
 </script>

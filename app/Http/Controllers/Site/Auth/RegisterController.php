@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Site\Auth;
 
-use App\Helper\General;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Jobs\VerifyEmailJob;

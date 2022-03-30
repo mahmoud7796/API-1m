@@ -23,7 +23,7 @@ class CardController extends Controller
                 'name' => 'madaCard1',
                 'user_id' =>  105,
             ]);
-            $image = QrCode::format('png')
+/*            $image = QrCode::format('png')
                 ->merge('img/OneMeLogo.png', 0.4, true)
                 ->size(300)->errorCorrection('H')
                 ->style('round')
@@ -33,9 +33,13 @@ class CardController extends Controller
             $cardQrPath =  $cardQrPath->saveImage($image);
             $card->update([
                 'qr_url'=>$cardQrPath
-            ]);
-            return 'saved succecfullu';
-            return view('qrGenerate',compact($card));
+            ]);*/
+            if ($card) {
+                return response()->json([
+                    'status' => true,
+                    'msg' => 'card added successfully',
+                ]);
+            }
         }catch(\Exception $e){
             return  $e;
         }
@@ -62,7 +66,7 @@ class CardController extends Controller
 
     public function store(CardRequest $request)
     {
-        $authId = auth('sanctum')->Id();
+        $authId = Auth::id();
         $card = Card::create([
             'name' => $request->card,
             'user_id' => $authId,
@@ -86,21 +90,35 @@ class CardController extends Controller
 
     public function edit($id)
     {
-        $userId= Auth::id();
-        $card= Card::find($id);
-        $contactsThatInCard= Card::whereUserId($userId)->whereId($id)->with('contact:id')->first();
-        $contactsId =  $contactsThatInCard->contact;
-        $contactids = array();
-          foreach($contactsId as $contactId) {
-              $contactids[]=$contactId->id;
+        try {
+            $userId= Auth::id();
+            $card= Card::find($id);
+            if(!$card){
+                return response()->json([
+                        'status' => false,
+                        'msg' => 'notFond'
+                    ]
+                );
+            }
+            if($userId!=$card->user_id){
+                return back();
+            }
+            $contactsThatInCard= Card::whereUserId($userId)->whereId($id)->with('contact:id')->first();
+            $contactsId =  $contactsThatInCard->contact;
+            $contactids = array();
+            foreach($contactsId as $contactId) {
+                $contactids[]=$contactId->id;
+            }
+            return response()->json([
+                    'status' => true,
+                    'card' => $card,
+                    'contactsThatInCard' => $contactids
+                ]
+            );
+        }catch (\Exception $e){
+            return $e;
         }
 
-       return response()->json([
-            'card' => $card,
-            'contactsThatInCard' => $contactids,
-               'status' => true
-            ]
-        );
     }
 
 

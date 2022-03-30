@@ -74,7 +74,7 @@
 
                 {{--PAGINATION--}}
                 <div class="d-flex justify-content-center">
-                    {!! $verifiedContacts->appends(['verified' => $verifiedContacts->currentPage()])->links('vendor.pagination.bootstrap-4') !!}
+                    {!! $verifiedContacts->appends(['verified' => $verifiedContacts->currentPage()])->links('site.pagination.links') !!}
                 </div>
                 {{--End PAGINATION--}}
 
@@ -93,8 +93,11 @@
                                     <h7 style="font: 20px/45px Cairo; color: #52606D;">Are you sure ? This Cannot be undone</h7>
                                 </div>
                                 <div class="row justify-content-center pt-3 pb-3">
-                                    <div class="col-md-3"><a style="font: 20px/37px Cairo; color: #1F2933;" href="" class="btn btn-block">Cancel</a></div>
-                                    <div class="col-md-3"><a style="background: #C52528 0% 0% no-repeat padding-box; font: 20px/32px Cairo; color: #FFFFFF;" href="" class="btn btn-block" id="deletemodalBtn">Delete</a> </div>
+                                    <input type="hidden" id="deleteContactId">
+                                    <button style="margin-right: 20px" id="confirmDelete" aria-hidden="true" type="button" class="btn btn-danger">Yes</button>
+                                    <button type="button" class="modal-delete-cancel btn btn-warning" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">No</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -163,7 +166,15 @@
                             <div class="col-md-7">
                                 <h6 style="font: normal normal normal 15px/30px Cairo; color: #1F2933;">{{$unVerifiedContact->contact_string}}</h6>
                             </div>
-                            <div class="col-md-3 pt-2"><img class="float-right" src="{{asset('img/Group 323.svg')}}" alt=""/></div>
+                            <a id="getContact" data-id="{{$unVerifiedContact->id}}" class="pr-3"  data-toggle="modal" data-target="#contactModalEdit" href=""><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#7B8794" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                                </svg>
+                            </a>
+                            <a class="pr-3" id="getDeleteId" data-id="{{$unVerifiedContact->id}}"  data-toggle="modal" data-target="#deleteModal" href="">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#7B8794" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"></path>
+                                </svg>
+                            </a>
                         </div>
                     </div>
                         @endforeach
@@ -174,11 +185,61 @@
                     @endif
                 </div>
 
-                {{--PAGINATION--}}
-            <div class="d-flex justify-content-center">
-                {!! $unVerifiedContacts->appends(['unverified' => $unVerifiedContacts->currentPage()])->links('vendor.pagination.bootstrap-4') !!}
+            {{--edit Contact modal--}}
+
+            <div class="modal fade" id="contactModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div style="display: none" id="editContactMsg" class="row mr-2 ml-2">
+                                <button class="btn btn-lg btn-block btn-outline-success mb-2"
+                                        id="type-error">Your Contact Updated Successfully
+                                </button>
+                            </div>
+                            <div class="row  d-flex justify-content-center " style="font: normal normal bold 24px/45px Cairo; color: #0D67CB">
+                                <p class="text-center">Edit Contact</p>
+                            </div>
+                            <form id="editContactForm">
+                                <input id="contactId" type="hidden" class="form-control" placeholder="">
+                                <div class="row pl-3 pr-3 mr-3 ml-3 d-flex justify-content-center">
+                                    <select name="provider" class="form-control" id="providerEdit" >
+                                        @if(isset($providers) && $providers->count()>0)
+                                            @foreach($providers as $provider)
+                                                <option value="{{$provider->id}}">{{$provider->name}}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                                <div class="row mt-3 pl-3 pr-3 mr-3 ml-3 d-flex justify-content-center">
+                                    <input id="contactNameEdit" name="contact" type="text" class="form-control" placeholder="example@contact.com Or 01xxxxxxxx">
+                                    <small id="contact_edit_error" class="form-text text-danger"></small>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer pr-5 pt-5 pb-5">
+                            <button onclick="resetEditForm()" id="resetEditContact" type="button" class="btn btn-light">Reset</button>
+                            <button type="submit" id="updateContact" class="btn btn-warning">Update Contact</button>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="d-flex justify-content-center">
+                {{--PAGINATION--}}
+
+                {!! $unVerifiedContacts->appends(['unverified' => $unVerifiedContacts->currentPage()])->links('site.pagination.links') !!}
+
                 {{--End PAGINATION--}}
+
+            </div>
+        </div>
+        {{--edit Contact modal--}}
+
+
 
             </div>
         </div>
@@ -186,6 +247,9 @@
     @include('site.includes.footer')
 <script>
     //Add New Contact
+    function resetEditForm(){
+        $('#editContactForm')[0].reset();
+    }
     $(document).on('click', '#saveContact', function(e){
         e.preventDefault();
         $("#saveContact").attr("disabled", true);
@@ -224,9 +288,111 @@
         $('#addContactForm')[0].reset();
     }
     $('#contactModal').on('hidden.bs.modal', function () {
-        console.log('modal hide')
-        resetForm();
+         resetForm();
+        $('#contact_error').text('');
     });
+
+    //get specific Contact getContactId
+
+    $('body').on('click', '#getContact', function (event) {
+        event.preventDefault();
+        var contact_id = $(this).data('id');
+        $.get("{{url("contact/show")}}" + "/"+contact_id, function (data) {
+            var providerId = data.contact.provider_id;
+            $('#contactNameEdit').val(data.contact.contact_string);
+            $('#contactId').val(data.contact.id);
+            $("#providerEdit").children('[value="'+providerId+'"]').attr('selected', true);
+        })
+        function contactFormEdit(){
+            $('#editContactForm')[0].reset();
+        }
+        $('#contactModalEdit').on('hidden.bs.modal', function () {
+            contactFormEdit();
+            $('#contact_error_edit').text('');
+        });
+    });
+
+    //Update Contact
+
+    $(document).on('click', '#updateContact', function(e){
+        e.preventDefault();
+        $("#updateContact").attr("disabled", true);
+        $('#contact_edit_error').text('');
+        var selectedProviderId= $('#providerEdit').find(":selected").val();
+        var contactName= $('#contactNameEdit').val();
+        var contactId= $('#contactId').val();
+        console.log(contactId)
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: 'post',
+            url: "{{url('/contact/update')}}" +'/'+ contactId,
+            data: {
+                contact:contactName,
+                providerId:selectedProviderId
+            },
+            cache: false,
+            success: function (response){
+                if(response.status===true){
+                    $('#editContactMsg').show();
+                    window.location.href = "{{route('site.contacts.index')}}";
+                }
+            },
+            error: function (reject){
+                $("#updateContact").attr("disabled", false);
+                var response = $.parseJSON(reject.responseText);
+                $.each(response.errors, function(key, val){
+                    $("#" + key + "_edit_error").text(val[0]);
+                });
+            }
+        });
+        function resetEditForm(){
+            $('#editContactForm')[0].reset();
+        }
+        $('#contactModalEdit').on('hidden.bs.modal', function () {
+            resetEditForm();
+            $('#contact_edit_error').text('');
+        });
+    });
+
+
+    //get deleteId CardContact getDeleteId
+    $(document).on('click', '#getDeleteId', function(e){
+        event.preventDefault();
+        var contact_id = $(this).data('id');
+        $('#deleteContactId').val(contact_id);
+    });
+
+    //delete CardContact
+    $(document).on('click', '#confirmDelete', function(e){
+        e.preventDefault();
+        $("#confirmDelete").attr("disabled", true);
+        var deleteId= $('#deleteContactId').val();
+        console.log(deleteId)
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: 'get',
+            url: "{{url('/contact/delete')}}" +'/'+ deleteId,
+            data: {
+            },
+            cache: false,
+            success: function (response){
+                if(response.status===true){
+                    window.location.href = "{{route('site.contacts.index')}}";
+                }
+            },
+            error: function (reject){
+            }
+        });
+    });
+
 </script>
 <script src="{{asset('js/popper.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.js')}}"></script>

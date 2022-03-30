@@ -114,7 +114,7 @@ Route::group(['middleware'=>'auth:web','prefix'=>'contact'], function(){
 Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
     Route::get('/index', [CardController::class,'index'])->name('site.card.index');
     Route::match(['get', 'post'],'/create', [CardController::class,'create'])->name('site.card.create');
-    Route::get('/show/{id}', [CardController::class,'show'])->name('site.card.getContact');
+    Route::get('/show/{id}', [CardController::class,'edit'])->name('site.card.getContact');
     Route::post('/update/{id}', [CardController::class,'update'])->name('site.card.update');
     Route::get('/delete/{id}', [CardController::class,'delete'])->name('site.card.delete');
 });

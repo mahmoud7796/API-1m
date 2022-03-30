@@ -32,7 +32,8 @@ class HomeController extends Controller
     {
         $userId = Auth::id();
         $cards= Card::whereUserId($userId)->paginate(3);
-        return view('site.pages.home',compact('cards','userId'));
+        $contacts = Contact::with('provider')->whereUserId($userId)->get();
+        return view('site.pages.home',compact('cards','userId','contacts'));
     }
 
     public function getCard()

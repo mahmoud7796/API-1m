@@ -24,14 +24,6 @@ class ContactController extends Controller
         }
     }
 
-    public function addedContact(){
-        try{
-            return view('site.pages.addedContact');
-        }catch(\Exception $e){
-            return $e;
-        }
-    }
-
     public function store(ContactRequest $request)
     {
         try {

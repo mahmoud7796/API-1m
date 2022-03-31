@@ -7,11 +7,10 @@ use App\Http\Controllers\Site\Auth\LogoutController;
 use App\Http\Controllers\Site\Auth\RegisterController;
 use App\Http\Controllers\Site\Auth\VerifyEmailController;
 use App\Http\Controllers\Site\Pages\CardController;
+use App\Http\Controllers\Site\Pages\ConnectionController;
 use App\Http\Controllers\Site\Pages\ContactController;
 use App\Http\Controllers\Site\Pages\HomeController;
 use App\Http\Controllers\Site\Pages\QrController;
-use App\Mail\VerifyEmail;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -100,7 +99,6 @@ use Illuminate\Support\Facades\Route;
 
 ############### Contacts ####################
 Route::group(['middleware'=>'auth:web','prefix'=>'contact'], function(){
-    Route::get('/eeee', [ContactController::class,'addedContact'])->name('site.contacts.addedContact');
     Route::get('/', [ContactController::class,'index'])->name('site.contacts.index');
     Route::post('/create', [ContactController::class,'store'])->name('site.contacts.create');
     Route::get('/show/{id}', [ContactController::class,'show'])->name('site.contacts.getContact');
@@ -121,6 +119,14 @@ Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
 
 ############### End cards ####################
 
+############### Connection ####################
+
+Route::group(['middleware'=>'auth:web','prefix'=>'connection'], function(){
+    Route::get('/', [ConnectionController::class,'addedContact'])->name('site.contacts.addedContact');
+    //Route::get('/', [CardController::class,'index'])->name('site.card.index');
+});
+
+############### End Connection ####################
 
 Route::get('/card-show/{id}/{userId}', [QrController::class,'show'])->name('site.card.qrShow');
 

@@ -92,8 +92,7 @@
                                                     <h5 style="font: bold 20px/37px Cairo; color: #1F2933;">Contact information</h5>
                                                 </div>
                                                 <div class="row pl-5 pt-">
-                                                    <h6 style="font: 20px/37px Cairo; color: #52606D;">Add verified
-                                                        contact information to this card</h6>
+                                                    <h6 style="font: 20px/37px Cairo; color: #52606D;">Add verified contact information to this card</h6>
                                                 </div>
                                                 <div class="pt-3">
                                                     <div class="card card-modal" style="">
@@ -123,7 +122,7 @@
                                                                 @endforeach
                                                             @else
                                                                 <div class="row">
-                                                                    <h5></h5>
+                                                                    <h5>There is no contacts</h5>
                                                                 </div>
                                                                 @endif
 
@@ -398,22 +397,113 @@
                     <div class="row justify-content-center pt-3">
                         <div class="col-md-6">
                             <div class="row justify-content- pt-5">
-                                <h3 style="font: normal normal bold 24px/60px Cairo; color: #1F2933;">You Haven't
-                                    Created Any Cards</h3>
+                                <h3 style="font: normal normal bold 24px/60px Cairo; color: #1F2933;">You Haven't Created Any Cards</h3>
                             </div>
                             <div class="row justify-content-">
-                                <h4 style="font: 20px/60px Cairo; color: #1F2933;">Create your first card to start using
-                                    1Me</h4>
+                                <h4 style="font: 20px/60px Cairo; color: #1F2933;">Create your first card to start using 1Me</h4>
                             </div>
                             <!-- create card button -->
                             <div class="row justify-content-">
-                                <div class="col-md-5"><a href="" style="font: 20px Cairo; color: #FFFFFF"
-                                                         class="btn btn-block" id="createCardBtn" data-toggle="modal"
-                                                         data-target="#exampleModal">Create Your First Card</a></div>
+                                <div class="col-md-5"><a href="" style="font: 20px Cairo; color: #FFFFFF" class="btn btn-block" id="createCardBtn" data-toggle="modal" data-target="#exampleModal">Create Card</a></div>
                             </div>
                         </div>
                     </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row justify-content-center">
+                                <h4 style="font: normal normal bold 24px/45px Cairo;">New Card</h4>
+                            </div>
+                            <div style="display: none" id="addCardMsg" class="row mr-2 ml-2">
+                                <button type="text" class="btn btn-lg btn-block btn-outline-success mb-2"
+                                        id="type-error">Your Card Added Successfully
+                                </button>
+                            </div>
+                            <div class="row pb-5">
+                                <div class="col-md-7">
+                                    <div class="row pl-5 pt-5">
+                                        <h5 style="font: bold 20px/37px Cairo; color: #1F2933;">Contact information</h5>
+                                    </div>
+                                    <div class="row pl-5 pt-">
+                                        <h6 style="font: 20px/37px Cairo; color: #52606D;">Add verified contact information to this card</h6>
+                                    </div>
+                                    <div class="pt-3">
+                                        <div class="card card-modal" style="">
+                                            <div class="card-body">
+                                                @if(isset($contacts) && $contacts->count()>0)
+                                                    @foreach($contacts as $contact)
+                                                        <div class="row">
+                                                            <div class="col-md-2 pt-3 pl-4">
+                                                                <img src="{{$contact->provider->imgURL}}" alt="" style="width: 40px; height: 40px;"/>
+                                                            </div>
+                                                            <div class="col-md-6 pl-5">
+                                                                <div class="row">
+                                                                    <h6 style="font: normal normal normal 16px/30px Cairo; color: #1F2933;">{{$contact->contact_string}}</h6>
+                                                                    {{--                                                                        <h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">
+                                                                                                                                                /Johnsmith22
+                                                                                                                                            </h7>--}}
+                                                                </div>
 
+                                                            </div>
+                                                            <div class="col-md-4 pt-3">
+                                                                <label class="switch">
+                                                                    <input id="contactsCheckbox" name="contactsCheckbox" value="{{$contact->id}}" type="checkbox" unchecked>
+                                                                    <span class="slider round"></span> </label>
+                                                            </div>
+
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    <div class="row">
+                                                        <h5>There is no contacts</h5>
+                                                    </div>
+                                                @endif
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="row pl-5 pt-5">
+                                        <h5 style="font: bold 20px/37px Cairo; color: #1F2933;">Card
+                                            Details</h5>
+                                    </div>
+                                    <div class="row pr-3">
+                                        <div class="col-md-12">
+                                            <form id="addCardForm" action="">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <input style="font: 16px/30px Cairo;" type="text" class="form-control" placeholder="Card Name" id="cardName">
+                                                    <small id="card_error" class="form-text text-danger"></small>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <textarea style="font: 16px/30px Cairo;" class="form-control" name="cardDescription" rows="8" placeholder="Card Description (Optional)" id="cardDescription"> </textarea>
+
+                                                    {{--
+                                                                                                                    <textarea style="font: 16px/30px Cairo;" class="form-control" id="CardDescription" rows="8" placeholder="Card Description (Optional)"></textarea>
+                                                    --}}
+                                                    <small id="description_error" class="form-text text-danger"></small>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="row pt-5 mt-5"></div>
+                                    <div class="row pt-5 mt-5 pr-5 justify-content-end">
+                                        <div class="col-md-8 pt-3 pl-5">
+                                            <button style="width: 150px;height: 60px;color: #FFFFFF" type="submit" id="saveCard" class="btn btn-primary">Save Card</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
                     <div class="row justify-content-center pt-5">
                         <div class="col-md-6">
                             <div class="row">
@@ -457,8 +547,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 pl-5 pt-5 text-center"><img src="img/card details.png" class="img-fluid"
-                                                                         width="342" height="486" alt=""/></div>
+                        <div class="col-md-6 pl-5 pt-5 text-center"><img src="img/card details.png" class="img-fluid" width="342" height="486" alt=""/></div>
                     </div>
                 @endif
 
@@ -654,7 +743,6 @@
                     $("#" + key + "_edit_error").text(val[0]);
                 });
                 $("#cardUpdate").attr("disabled", false);
-
             }
         });
     });

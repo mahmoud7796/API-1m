@@ -66,26 +66,32 @@ class CardController extends Controller
 
     public function store(CardRequest $request)
     {
-        $authId = Auth::id();
-        $card = Card::create([
-            'name' => $request->card,
-            'user_id' => $authId,
-            'description' =>$request->description
-        ]);
+        try {
+            $authId = Auth::id();
+            $card = Card::create([
+                'name' => $request->card,
+                'user_id' => $authId,
+                'description' =>$request->description
+            ]);
 
-     $contacts = $request->contactsIds;
-        if($contacts){
-            for ($i=0;$i<count($contacts);$i++){
-                CardContact::create([
-                    'contact_id' => $contacts[$i],
-                    'card_id' => $card->id
-                ]);
+            $contacts = $request->contactsIds;
+            if($contacts){
+                for ($i=0;$i<count($contacts);$i++){
+                    CardContact::create([
+                        'contact_id' => $contacts[$i],
+                        'card_id' => $card->id
+                    ]);
+                }
             }
+            return response()->json([
+                'status' => true,
+                'msg' => 'Card added successfully',
+            ]);
+
+        }catch (\Exception $ex){
+            return $ex;
+
         }
-        return response()->json([
-            'status' => true,
-            'msg' => 'Card added successfully',
-        ]);
     }
 
 
@@ -174,17 +180,25 @@ class CardController extends Controller
 
     public function delete($id)
     {
-        $card= Card::find($id);
-        if(!$card){
+        try {
+            $userId= Auth::id();
+            $card= Card::find($id);
+            if(!$card){
+                return response()->json([
+                    'status' => false,
+                    'msg' => "Not Found",
+                ]);
+            }
+            if($userId!==$card->user_id) {
+                return redirect()->back();
+            }
+            $card->delete();
             return response()->json([
-                'status' => false,
-                'msg' => "Not Found",
+                'status' => true,
             ]);
+        }catch (\Exception $ex){
+            return $ex;
         }
-        $card->delete();
-        return response()->json([
-            'status' => true,
-        ]);
     }
 
 }

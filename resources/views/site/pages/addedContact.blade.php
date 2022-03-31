@@ -48,37 +48,27 @@ body {
           <h3 style="font: normal normal 24px/60px Cairo; color: #1F2933;">You can view the cards you scanned for each contact by pressing on their name</h3>
         </div>
         <div class="row pt-5">
-          <div class="col-md-3 pt-5 pl-5 pr-5">
-            <div class="row"> <img src="{{asset('img/Ellipse 46.png')}}" width="72" height="72" alt=""/>
-              <h6 style="font: normal normal normal 20px/32px cairo;" class="pt-4 pl-3">Ahmed Said</h6>
+            @if(isset($addeds)&&$addeds->count()>0)
+                @foreach($addeds as $added)
+          <div style="margin-left: 100px" class="col-md-3 pt-5 pl-5 pr-5">
+              @if($added->profile_img)
+            <div  class="row">
+                <img src="{{asset($added->profile_img)}}" width="50" height="50" alt=""/>
+                @else
+                    <div class="row"><img src="{{asset('https://1me.live/public/assets/img/profile/default.png')}}" width="72" height="72" alt=""/>
+                        @endif
+                        <h6 style="font: normal normal normal 20px/32px cairo;" class="pt-4 pl-3">{{$added->email}}</h6>
             </div>
           </div>
-          <div class="col-md-3 pt-5 pl-5 pr-5">
-            <div class="row"> <img src="{{asset('img/Ellipse 46.png')}}" width="72" height="72" alt=""/>
-              <h6 style="font: normal normal normal 20px/32px cairo;" class="pt-4 pl-3">Ahmed Said</h6>
-            </div>
-          </div>
-          <div class="col-md-3 pt-5 pl-5 pr-5">
-            <div class="row"> <img src="{{asset('img/Ellipse 46.png')}}" width="72" height="72" alt=""/>
-              <h6 style="font: normal normal normal 20px/32px cairo;" class="pt-4 pl-3">Ahmed Said</h6>
-            </div>
-          </div>
-          <div class="col-md-3 pt-5 pl-5 pr-5">
-            <div class="row"> <img src="{{asset('img/Ellipse 46.png')}}" width="72" height="72" alt=""/>
-              <h6 style="font: normal normal normal 20px/32px cairo;" class="pt-4 pl-3">Ahmed Said</h6>
-            </div>
-          </div>
+                @endforeach
+            @else
+                <h3 style="width: 100%;text-align:center;font: normal normal 24px/60px Cairo; color: gray;">There is no friend added you</h3>
+            @endif
+
         </div>
         <div class="row justify-content-center pt-5">
-          <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-            <ul class="pagination">
-              <li class="paginate_button page-item previous disabled" id="dataTable_previous"> <a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a> </li>
-              <li class="paginate_button page-item active" ><a style="background-color: #0D67CB;" href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a> </li>
-              <li class="paginate_button page-item "> <a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a> </li>
-              <li class="paginate_button page-item "> <a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a> </li>
-              <li class="paginate_button page-item next" id="dataTable_next"> <a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a> </li>
-            </ul>
-          </div>
+            {!! $addeds->links('site.pagination.links') !!}
+
         </div>
       </div>
     </div>

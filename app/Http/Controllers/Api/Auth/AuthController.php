@@ -81,7 +81,7 @@ class AuthController extends Controller
             return $this->jsonResponse('', false, 'You have registered successfully, Please verify your email.', 200);
         } catch (\Exception $ex) {
             DB::rollback();
-            return $ex;
+          //  return $ex;
             return $this->jsonResponseError(true, 'Something went wrong', 400);
         }
     }

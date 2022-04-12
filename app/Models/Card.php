@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Observers\CardObserver;
+use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,6 +30,11 @@ class Card extends Model
     public function user()
     {
         return $this->belongsTo(Card::class, 'card_id');
+    }
+
+    public function getQrUrlAttribute($value)
+    {
+        return $this->attributes['qr_url']=asset($value) ;
     }
 /*
     public function connection()

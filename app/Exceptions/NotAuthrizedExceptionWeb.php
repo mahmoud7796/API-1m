@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use App\Traits\ResponseJson;
 use Exception;
 
-class NotAuthrizedException extends Exception
+class NotAuthrizedExceptionWeb extends Exception
 {
     use ResponseJson;
     public function render()

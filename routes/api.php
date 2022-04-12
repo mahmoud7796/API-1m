@@ -36,9 +36,6 @@ Route::middleware('auth:sanctum')->group( function () {
 
 ############### Contact Information ####################
 Route::group(['middleware'=>'auth:sanctum'], function(){
-    Route::get('/mada', function(){
-        return "auth middlware";
-    });
 
     ######## Connections ################
     Route::get('/added/index', [ConnectionController::class, 'addedUsers']);
@@ -47,10 +44,20 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
 
     ######## contactinfo ################
     Route::apiResource('contactinfo',ContactController::class);
+    Route::get('/contactinfo/index', [ContactController::class, 'index']);
+    Route::delete('/contactinfo/delete', [ContactController::class, 'delete']);
+
+    Route::post('/contactinfo/create', [ContactController::class, 'store']);
+
     ######## End contactinfo ################
 
     ######## Cards ################
     Route::apiResource('cards',CardController::class);
+
+    Route::group(['prefix'=>'cards'], function(){
+    Route::post('/create', [CardController::class, 'store']);
+    Route::get('/share/{cardId}', [CardController::class, 'share']);
+    });
     ######## End Cards ################
 
     ######## Providers ################

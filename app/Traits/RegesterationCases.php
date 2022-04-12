@@ -51,7 +51,7 @@ trait RegesterationCases
             //  $authUser = Auth::user();
             $success['token'] = $finduser->createToken('sanctumAuth')->plainTextToken;
             $success['user'] = new UserResource($finduser);
-            return $this->jsonResponse($success, false, 'You loged In successfully', 200);
+            return $this->jsonResponse($success, false, 'You logged in successfully', 200);
         } else {
             $validator = Validator::make($request->all(), $this->getValidationRulesBasedOnType($request->type));
             if ($validator->fails()) {

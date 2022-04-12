@@ -5,61 +5,57 @@ namespace App\Http\Controllers\Api\Site\Pages;
 use App\Exceptions\NotAuthrizedException;
 use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ContactRequest;
 use App\Http\Resources\ContactResource;
+use App\Models\Contact;
 use App\Traits\ContactControllerTrait;
 use App\Traits\ResponseJson;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
     use ResponseJson, ContactControllerTrait;
 
-    public function index(Request $request)
+    public function index()
     {
         try {
-            $userId = $request->userId;
             $authId = auth('sanctum')->Id();
-            if (!$userId) {
-                throw new NotFoundException;
-            }
-            if ($userId!=$authId) {
-                throw new NotAuthrizedException;
-            }
-            $contact = $this->indexContact($userId);
+            $contact = Contact::with('provider')->whereUserId($authId)->get();
             return $this->jsonResponse(ContactResource::collection($contact), false, '', 200);
-        } catch (NotFoundException | NotAuthrizedException $e) {
-            return $e->render();
+        } catch (\Exception $e) {
+            return $e;
         }
     }
 
-    public function store(ContactRequest $request)
+    public function store(Request $request)
     {
         try {
-            $userId = $request->userId;
-            $authId = auth('sanctum')->Id();
-            if (!$userId) {
-                return $this->jsonResponse('', true, 'User not found', 404);
+            $validator = Validator::make($request->all(), [
+                'contact' => ['required', 'string', 'max:255'],
+                'providerId' => ['required', 'integer'],
+            ]);
+
+            if ($validator->fails()) {
+                return $this->jsonResponseError(true, $validator->errors(), 400);
             }
-            if ($userId!=$authId) {
-                return $this->jsonResponse('', true, 'Not authrized', 402);
-            }
-            $this->createContact($request, $userId);
+            $userId = Auth::id();
+            Contact::create([
+                'contact_string' => $request->contact_string,
+                'provider_id' => $request->provider_id,
+                'user_id' => $userId,
+            ]);
             return $this->jsonResponse('', false, 'Your contact created successfully', 200);
         } catch (\Exception $e) {
-            return $e;
+           // return $e;
             return $this->jsonResponse('', true, 'Something went wrong', 501);
         }
     }
 
-    public function show(Request $request, $contactId)
+    public function show($contactId)
     {
         try {
-            $userId = $request->userId;
-            if (!$userId) {
-                return $this->jsonResponse('', true, 'user_id required', 402);
-            }
+            $userId = Auth::id();
             $contact = $this->showContact($contactId, $userId);
 
             return $this->jsonResponse(new ContactResource($contact), false, '', 200);
@@ -68,33 +64,48 @@ class ContactController extends Controller
         }
     }
 
-    public function update(ContactRequest $request, $contactId)
+    public function update(Request $request, $contactId)
     {
         try {
-            $userId = $request->userId;
-            if (!$userId) {
-                return $this->jsonResponse('', true, 'user_id required', 402);
+            $validator = Validator::make($request->all(), [
+                'contact' => ['required', 'string', 'max:255'],
+                'providerId' => ['required', 'integer'],
+            ]);
+
+            if ($validator->fails()) {
+                return $this->jsonResponseError(true, $validator->errors(), 400);
             }
-            $this->updateContact($request, $request->userId, $contactId);
+            $userId = Auth::id();
+            $contact = Contact::whereUserId($userId)->find($contactId);
+            if(!$contact){
+                return $this->jsonResponse('', true, 'Contact not found', 404);
+            }
+            if ($userId !== $contact->user_id) {
+                return $this->jsonResponse('', true, 'Not authrozied', 301);
+            }
+            $contact->update([
+                'contact' => $request->contact,
+                'providerId' => $request->contact,
+                'user_id' => $userId,
+            ]);
             return $this->jsonResponse('', false, 'Your contact updated successfully', 200);
-        } catch (NotFoundException | NotAuthrizedException $e) {
-            return $e->render();
+        } catch (\Exception $e) {
+            return $e;
             return $this->jsonResponse('', true, 'Something went wrong', 501);
         }
     }
 
-    public function delete(Request $request, $contactId)
+    public function destroy($contactId)
     {
-        try {
-            if (!$request->userId) {
-                return $this->jsonResponse('', true, 'user_id required', 402);
-            }
-            $contact = $this->deleteContact($contactId, $request->userId);
-            $contact->delete();
-            return $this->jsonResponse('', false, 'Contact deleted successfully', 501);
-        } catch (NotFoundException | NotAuthrizedException $e) {
-            return $e->render();
+        $authId = auth('sanctum')->Id();
+        $contact = Contact::find($contactId);
+        if(!$contact){
+            return $this->jsonResponse('', true, 'Not found', 301);
         }
-
+        if ($authId!==$contact->user_id) {
+            return $this->jsonResponse('', true, 'Not authorized', 402);
+        }
+        $contact->delete();
+        return $this->jsonResponse('', false, 'Contact deleted successfully', 200);
     }
 }

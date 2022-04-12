@@ -37,7 +37,7 @@ trait ContactControllerTrait
         return $contact;
     }
 
-    function createContact(ContactRequest $request, $userId)
+    function createContact($request, $userId)
     {
         Contact::create([
             'contact_string' => $request->contact,

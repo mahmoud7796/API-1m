@@ -576,7 +576,6 @@
     }
 
     $('#shareModal').on('hidden.bs.modal', function () {
-        console.log('modal hide')
         $('#copied').hide();
     });
 
@@ -785,8 +784,10 @@
     });
 
 </script>
-
+@yield("scripts")
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.js"></script>
+
+
 </body>
 </html>

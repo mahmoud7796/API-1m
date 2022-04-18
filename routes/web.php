@@ -10,6 +10,7 @@ use App\Http\Controllers\Site\Pages\CardController;
 use App\Http\Controllers\Site\Pages\ConnectionController;
 use App\Http\Controllers\Site\Pages\ContactController;
 use App\Http\Controllers\Site\Pages\HomeController;
+use App\Http\Controllers\Site\Pages\ProfileController;
 use App\Http\Controllers\Site\Pages\QrController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +36,6 @@ use Illuminate\Support\Facades\Route;
  ############### Verify Email ####################
  Route::get('/verify-email/{token}',[VerifyEmailController::class,'verifyEmail'])->name('site.verifyEmail');
  Route::get('/verification/',[VerifyEmailController::class,'index'])->name('site.verification');
- Route::get('/resend-verify/{email}',[VerifyEmailController::class,'resend'])->name('site.resendEmail');
  Route::get('/resend-verify/{email}',[VerifyEmailController::class,'resend'])->name('site.resendEmail');
  Route::post('/send-verification',[VerifyEmailController::class,'customVerifyEmail'])->name('site.customVerifyEmail');
  Route::get('/send-verification-mail',[VerifyEmailController::class,'verifyEmailPage'])->name('site.verifyEmailPage');
@@ -107,6 +107,13 @@ Route::group(['middleware'=>'auth:web','prefix'=>'contact'], function(){
 });
 ############### End Contacts ####################
 
+############### profile ####################
+Route::group(['middleware'=>'auth:web','prefix'=>'profile'], function(){
+    Route::post('/change-pass', [ProfileController::class,'changePassword'])->name('site.profile.changePass');
+    Route::post('/update-photo', [ProfileController::class,'updatePhoto'])->name('site.profile.updatePhoto');
+});
+############### End profile ####################
+
 ############### Cards ####################
 
 Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
@@ -133,9 +140,11 @@ Route::get('/card-show/{id}/{userId}', [QrController::class,'show'])->name('site
 ############### shareQR ####################
 Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
     Route::get('/{id}', [CardController::class,'index'])->name('site.qr.show');
-/*    Route::get('/show/{id}', [CardController::class,'show'])->name('site.contacts.getContact');
+/*
+    Route::get('/show/{id}', [CardController::class,'show'])->name('site.contacts.getContact');
     Route::post('/update/{id}', [CardController::class,'update'])->name('site.contacts.update');
-    Route::get('/delete/{id}', [CardController::class,'delete'])->name('site.contacts.delete');*/
+    Route::get('/delete/{id}', [CardController::class,'delete'])->name('site.contacts.delete');
+*/
 });
 ############### End shareQR ####################
  Route::get('/max',[VerifyEmailController::class,'getMax'])->name('site.verifyEmail');

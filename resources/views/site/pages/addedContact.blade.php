@@ -7,6 +7,9 @@
 <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
 <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet">
 <link rel="stylesheet" href="{{asset('fontawesome/css/all.min.css')}}">
+    {{--jquery and ajax--}}
+    <script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
+    {{--jquery and ajax--}}
 <style type="text/css">
 @import url("{{asset('css/style1.css')}}");
 body {
@@ -75,7 +78,10 @@ body {
   </div>
 @include('site.includes.footer')
 </div>
-<script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
+</div>
+
+@yield("scripts")
+
 <script src="{{asset('js/popper.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.js')}}"></script>
 </body>

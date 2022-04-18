@@ -20,8 +20,9 @@ class ContactController extends Controller
     public function index()
     {
         try {
-            $authId = auth('sanctum')->Id();
-            $contact = Contact::with('provider')->whereUserId($authId)->get();
+             $userId = Auth::id();
+            $contact = Contact::with('provider')->whereUserId($userId)->get();
+            info('apiIssue1');
             return $this->jsonResponse(ContactResource::collection($contact), false, '', 200);
         } catch (\Exception $e) {
             return $e;
@@ -41,13 +42,13 @@ class ContactController extends Controller
             }
             $userId = Auth::id();
             Contact::create([
-                'contact_string' => $request->contact_string,
-                'provider_id' => $request->provider_id,
+                'contact_string' => $request->contact,
+                'provider_id' => $request->providerId,
                 'user_id' => $userId,
             ]);
             return $this->jsonResponse('', false, 'Your contact created successfully', 200);
         } catch (\Exception $e) {
-           // return $e;
+           return $e;
             return $this->jsonResponse('', true, 'Something went wrong', 501);
         }
     }
@@ -97,12 +98,14 @@ class ContactController extends Controller
 
     public function destroy($contactId)
     {
-        $authId = auth('sanctum')->Id();
+        //$authId = auth('sanctum')->Id();
+        $userId = Auth::id();
+
         $contact = Contact::find($contactId);
         if(!$contact){
             return $this->jsonResponse('', true, 'Not found', 301);
         }
-        if ($authId!==$contact->user_id) {
+        if ($userId!==$contact->user_id) {
             return $this->jsonResponse('', true, 'Not authorized', 402);
         }
         $contact->delete();

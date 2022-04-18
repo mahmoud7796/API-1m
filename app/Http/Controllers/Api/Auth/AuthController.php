@@ -15,6 +15,7 @@ use Auth;
 use DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {

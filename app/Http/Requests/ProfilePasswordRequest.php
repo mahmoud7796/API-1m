@@ -25,7 +25,14 @@ class ProfilePasswordRequest extends FormRequest
     {
         return [
             'oldPassword' => 'required',
-            'password' => 'required|confirmed|min:8',
+            'password' => ['required', 'string', 'min:8', 'confirmed','regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'password.regex' => 'Password must contain at least one number, both uppercase and lowercase letters and symbol.',
         ];
     }
 }

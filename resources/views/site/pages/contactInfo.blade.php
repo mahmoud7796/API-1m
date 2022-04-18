@@ -154,7 +154,6 @@
                     </div>
                 </div>
 
-
             </div>
                 {{--END Contact modal--}}
 
@@ -400,7 +399,8 @@
     });
 
 </script>
-<script src="{{asset('js/popper.min.js')}}"></script>
-<script src="{{asset('js/bootstrap.js')}}"></script>
+@yield("scripts")
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.js"></script>
 </body>
 </html>

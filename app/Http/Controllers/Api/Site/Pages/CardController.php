@@ -42,10 +42,10 @@ class CardController extends Controller
             if ($validator->fails()) {
                 return $this->jsonResponseError(true, $validator->errors(), 400);
             }
-            $authId = auth('sanctum')->Id();
+            $authId = Auth::id();
             DB::beginTransaction();
             $card = Card::create([
-                'name' => $request->name,
+                'card' => $request->name,
                 'user_id' => $authId,
             ]);
              $image = QrCode::format('png')

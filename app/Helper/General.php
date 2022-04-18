@@ -28,18 +28,33 @@ class General {
         }
     }
 
-    function saveImage($photo){
-        $cardQrName = 'img-' . time() . '.png';
-        Storage::disk('cardQr')->put($cardQrName, $photo);
-        $imagePath= '/img/cardQr/'.$cardQrName;
+/*    function saveImage($photo,$path){
+        $imgName = 'img-' . time() . '.png';
+        Storage::disk('cardQr')->put($imgName, $photo);
+        $imagePath= $path.$imgName;
         return $imagePath;
-    }
+       $image_name = $photo -> move("/img/profileImgs/",$new_name);
 
-    function providerType($email) :string {
+    }*/
+
+     function providerType($email) :string {
         $provider_type = explode('@',$email);
         $mail = explode('.',$provider_type[1]);;
         return $mail[0];
     }
+
+   static function saveImage($photo,$folderPath){
+       $new_name = rand() . '.' . $photo->getClientOriginalExtension();
+       $photo->move(public_path() . '/img/'.$folderPath.'/', $new_name);
+       $imagePath= '/img/'.$folderPath.'/';
+       return $imagePath;
+    }
+    static function DeleteImage($imageUrl,$searchAfter, $path){
+        $strImage = Str::after($imageUrl, $searchAfter);
+        $image = public_path($path.$strImage);
+        return unlink($image);
+    }
+
 
 }
 

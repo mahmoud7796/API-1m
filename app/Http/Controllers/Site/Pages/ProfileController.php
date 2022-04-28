@@ -41,15 +41,16 @@ class ProfileController extends Controller
     public function updatePhoto(ProfileImgRequest $request)
     {
         try{
-                $user = User::find(Auth::id());
+                $authUser = Auth::id();
+                 $user = User::find($authUser);
                 $photo = $request->file('profileImg');
                 $img = General::saveImage($photo,'profileImgs');
-/*           return  $user->profile_img;
-/*                if(){
-                    return $user->profile_img;
-                }*/
+              if($user->profile_img){
+                   $path= public_path().$user->profile_img;
+                   unlink($path);
+                }
                 $user->update([
-                    'profile_img' => "maddddd"
+                    'profile_img' =>$img,
                 ]);
             return response()->json([
                 'status' => true,

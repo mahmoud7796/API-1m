@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Site\Pages;
 
-use App\Exceptions\NotAuthrizedException;
+use App\Exceptions\Base64Exception;
 use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CardRequest;
@@ -54,11 +54,11 @@ class CardController extends Controller
                 throw new NotFoundException;
             }
             if ($userId!=$authId) {
-                throw new NotAuthrizedException;
+                throw new Base64Exception;
             }
           return   $cards = Card::with('contact')->whereUserId($userId)->get();
            // return $this->jsonResponse(CardResource::collection($cards), false, '', 200);
-        } catch (NotFoundException | NotAuthrizedException $e) {
+        } catch (NotFoundException | Base64Exception $e) {
             return $e->render();
         }
     }

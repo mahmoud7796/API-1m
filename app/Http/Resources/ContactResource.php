@@ -17,6 +17,7 @@ class ContactResource extends JsonResource
         return[
             "id"=> $this->id,
             "contact"=> $this->contact_string,
+            "title"=> $this->title,
             "provider"=> new ProviderResource($this->whenLoaded('provider')),
             "card"=> ContactResource::collection($this->whenLoaded('card_id')),
 

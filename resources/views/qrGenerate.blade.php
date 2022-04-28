@@ -4,66 +4,67 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
+    <style type="text/css">
+        @import url("{{asset('css/style.css')}}");
+        body {
+        }
+    </style>
+    <title>{{$users->fullName ?? ""}} Card</title>
+</head>
 
-    <link rel="stylesheet" href="{{asset('assets/css/bootstrap.css')}}">
-	<link rel="stylesheet" href="{{asset('assets/fontawesome/css/all.min.css')}}">
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-        <style type="text/css">
-	  @import url("{{asset('assets/css/style.css')}}");
-
-	  body {
-
-      }
-      </style>
-
-    <title>profile</title>
-  </head>
 <body>
-	<div class="container-fluid">
-@include('site.includes.header')
+<div class="container-fluid">
+    <div class="container pt-5">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-5">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        <img src="{{asset($users->profile_img)}}" width="125" height="125" alt=""/>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <h3 style="font: normal normal bold 24px/45px Cairo; letter-spacing: 0px; color: #1F2933;">{{$users->fullName ?? ""}}</h3>
+                        </div>
+                        <div class="row"> <a href="{{asset('img/defaultQr.png')}}" download="defaultQr.png" style="font: 20px/32px Cairo; color: #FFFFFF" type="submit" class="btn btn-block" id="loginBtn">Download QR</a> </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                <div class="row pl-5 pt-5">
+                    <div class="col-md-7">
 
-	<section class="pt-5 mt-5">
+                        @forelse($contacts as$contact)
+                        <div>
+                            <img class="float-left mr-3" src="{{asset('img/defaultMail.png')}}" width="30" height="30" alt=""/>
+                            <h4 class="pt-2 pl-2" style="font: normal normal normal 18px/21px Arial; letter-spacing: 0px; color: #1F2933;">{{$users->email ?? ""}}</h4><br>
+                            <div class="clearfix"></div>
+                        </div>
+                        @empty
+                            <h4 class="pt-2 pl-2" style="font: normal normal normal 18px/21px Arial; letter-spacing: 0px; color: #1F2933;">There is no contacts</h4>
+                        @endforelse
 
-
-	 <div class="row pt-5 mt-5  d-flex justify-content-center font-weight-bold" style="font-size: 22px">
-         <button data-id="{{encrypt(97)}}" id="getUrl" class="btn btn-success">Share</button>
-<input id="cardUrl" type="text" value=""><br><br>
-	<p class="text-center">Card QR</p><br><br>
-	</div>
-
-	</section>
-
-
-	</div>
-    <h1>Card Info of {{$users->fullName}}</h1><br>
-    <h2>name: {{$users->fullName}}</h2>
-    <h2>card Name: {{$cards->name}} </h2>
-    <h2>Qr Code</h2>
-    <img src="{{asset($cards->qr_url)}}">
-    <h2>card contacts</h2>
-    @if(isset($contacts)&&$contacts->count()>0)
-        @foreach($contacts as $contact)
-    <div>
-        <img width="100 px" height="100 px" src="{{asset($contact->provider->imgURL)}}">
-        <h2>{{$contact->contact_string}}</h2>
+                    </div>
+                    <div class="col-md-5">
+                        <img src="{{asset('img/defaultQr.png')}}" width="211" height="209" alt=""/>
+                    </div>
+                </div>
+                <div class="row pt-5">
+                    <div class="col-md-7">
+                        <div class="row">
+                            <h4 style="font: normal normal bold 24px/45px Cairo; letter-spacing: 0px; color: #1F2933;">Powered by 1Me</h4>
+                            <img class="ml-2" src="{{asset('img/OneMeLogo@2x.png')}}" width="72" height="34" alt=""/></div>
+                        <div class="row">
+                            <h6 style="font: normal normal normal 18px/33px Cairo; letter-spacing: 0px; color: #52606D;">With 1Me you can create cards just like this.</h6>
+                        </div>
+                    </div>
+                    <div class="col-md-5 pl-5"> <a style="font: 20px/32px Cairo; color: #FFFFFF; background: #E7A82D 0% 0% no-repeat padding-box; box-shadow: 2px 2px 4px #00000029; border-radius: 15px; width: 187px; height: 54px;" type="submit" class="btn btn-block" id="">Get Yours Now</a></div>
+                </div>
+            </div>
+        </div>
     </div>
-        @endforeach
-        @endif
-
-
-    <script>
-    $(document).on('click', '#getUrl', function(e){
-        var cardId = $(this).data('id');
-        var cardUrl = "{{asset('show/').'/'.encrypt(97)}}";
-        console.log(cardUrl)
-
-        $('#cardUrl').val(cardUrl);
-        console.log(cardId)
-    });
-</script>
-<script src="{{asset('assets/js/jquery-3.2.1.min.js')}}"></script>
-<script src="{{asset('assets/js/popper.min.js')}}"></script>
-<script src="{{asset('assets/js/bootstrap.js')}}"></script>
+</div>
+<script src="{{asset('js/bootstrap.js')}}"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 
-use App\Exceptions\NotAuthrizedException;
+use App\Exceptions\Base64Exception;
 use App\Exceptions\NotFoundException;
 use App\Http\Requests\ContactRequest;
 use App\Models\Contact;
@@ -13,7 +13,7 @@ trait ContactControllerTrait
 {
     /**
      * @throws NotFoundException
-     * @throws NotAuthrizedException
+     * @throws Base64Exception
      */
 
     function indexContact($userId)
@@ -31,7 +31,7 @@ trait ContactControllerTrait
         }
         $authUserId = $contact->user_id;
         if ($userId != $authUserId) {
-            throw new NotAuthrizedException;
+            throw new Base64Exception;
         }
 
         return $contact;
@@ -55,7 +55,7 @@ trait ContactControllerTrait
         }
         $authUserId = $contact->user_id;
         if ($userId != $authUserId) {
-            throw new NotAuthrizedException;
+            throw new Base64Exception;
         }
         $contact->update([
             'contact_string' => $request->contact,
@@ -74,7 +74,7 @@ trait ContactControllerTrait
         }
         $authUserId = $contact->user_id;
         if ($userId != $authUserId) {
-            throw new NotAuthrizedException;
+            throw new Base64Exception;
         }
         return $contact;
     }

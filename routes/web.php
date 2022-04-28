@@ -155,8 +155,5 @@ Route::get('/home-test',function(){
 
 //Route::get('/card/{id}', [CardController::class,'signature'])->name('signature');
 Route::get('/test',function(){
-    $mail = 'mada@gmail.com';
-    $provider_type = explode('@',$mail);
-    $mail = explode('.',$provider_type[1]);;
-    return $mail[0];
+
 });

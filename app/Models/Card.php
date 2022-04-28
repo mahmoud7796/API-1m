@@ -15,9 +15,13 @@ class Card extends Model
         'name',
         'user_id',
         'qr_url',
-        'description'
+        'description',
+        'is_featured'
     ];
 
+    protected $casts =  [
+        'is_featured' => 'boolean',
+    ];
     public $timestamps = true;
     protected $hidden = ['pivot'];
 

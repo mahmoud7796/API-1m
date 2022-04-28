@@ -45,19 +45,22 @@ class CardController extends Controller
             $authId = Auth::id();
             DB::beginTransaction();
             $card = Card::create([
-                'card' => $request->name,
+                'name' => $request->name,
                 'user_id' => $authId,
             ]);
+            $cardId= encrypt(93);
+            $userId= encrypt(82);
+
+            $qrUrl= 'https://1me.live/public/card-show/'.$cardId.'/'.$userId;
              $image = QrCode::format('png')
                 ->merge('img/OneMeLogo.png', 0.4, true)
                 ->size(300)->errorCorrection('H')
                 ->style('round')
                 ->color(13,103,203)
-                ->generate($card->id);
-            $cardQrPath= new General();
-            $cardQrPath =  $cardQrPath->saveImage($image);
+                ->generate('https://www.1me.live/public/card-show/eyJpdiI6IkpaU0plaWRSUmhMaWZ0UkpMVXp2Qnc9PSIsInZhbHVlIjoiOFArb1hQQUMzV3FuY1oyc1hiTkNFUT09IiwibWFjIjoiODU2NzM3MTcyMTAwMjc3YjgxOGU2MTAxYjZiOGMyYmY3ZTcwNDUzNzE5NDE5NDA1ZTFkMmYzNDU4MGU1NWFlZSIsInRhZyI6IiJ9/eyJpdiI6InM1ODE4NVNPWEJWOGZkMDEyT1c1Rnc9PSIsInZhbHVlIjoiYWtBd25VOG5Ja01sb2FuTEtyUXNrQT09IiwibWFjIjoiNGIyNmRhZTgyNjNiN2M0MTY4YTMwZmQwZTEzNjNiZmY1ZDE3NGNmMWU5MmE2N2ZjZGVmNjYzMzNiMWEzOTQ1ZSIsInRhZyI6IiJ9');
+            $img = General::saveQr($image,'cardQr');
             $card->update([
-                'qr_url'=>$cardQrPath
+                'qr_url'=>$img
             ]);
             $contacts = $request->contactInfoIds;
             if ($contacts) {
@@ -73,7 +76,7 @@ class CardController extends Controller
             return $this->jsonResponse('', false, 'Card created successfully', 200);
         } catch (\Exception $ex) {
             DB::rollback();
-         //   return $ex;
+            return $ex;
             return $this->jsonResponse('', true, 'Something went wrong', 301);
         }
     }
@@ -171,6 +174,44 @@ class CardController extends Controller
             return $this->jsonResponse($success, false, '', 200);
         } catch (\Exception $e) {
             // return $e;
+            return $this->jsonResponse('', true, 'Something went wrong', 301);
+        }
+    }
+
+    public function featuredCard()
+    {
+        try {
+            $authId = auth('sanctum')->id();
+            $cards = Card::with('contact.provider')->whereUserId($authId)->whereIsFeatured(1)->get();
+            if(!$cards){
+                return $this->jsonResponse('', true, 'There are no featured cards', 404);
+            }
+            return $this->jsonResponse(CardResource::collection($cards), false, '', 200);
+        } catch (\Exception $e) {
+            //return $e;
+            return $this->jsonResponse('', true, 'Something went wrong', 301);
+        }
+    }
+
+    public function changeFeatured(Request $request)
+    {
+        try {
+            $authId = auth('sanctum')->id();
+            $cardId= $request->cardId;
+            if(!$cardId){
+                return $this->jsonResponse('', true, 'cardId required', 404);
+            }
+            $card = Card::whereUserId($authId)->find($cardId);
+            if(!$card){
+                return $this->jsonResponse('', true, 'Card not found', 404);
+            }
+             $isFeatured = $card -> is_featured == 1 ? 0:1;
+            $card-> update([
+                'is_featured'=>$isFeatured
+            ]);
+            return $this->jsonResponse('',false,'isFeatured changed',200);
+        } catch (\Exception $e) {
+            //return $e;
             return $this->jsonResponse('', true, 'Something went wrong', 301);
         }
     }

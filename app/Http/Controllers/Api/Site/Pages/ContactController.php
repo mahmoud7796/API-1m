@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Site\Pages;
 
-use App\Exceptions\NotAuthrizedException;
+use App\Exceptions\Base64Exception;
 use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ContactResource;
@@ -22,7 +22,6 @@ class ContactController extends Controller
         try {
              $userId = Auth::id();
             $contact = Contact::with('provider')->whereUserId($userId)->get();
-            info('apiIssue1');
             return $this->jsonResponse(ContactResource::collection($contact), false, '', 200);
         } catch (\Exception $e) {
             return $e;
@@ -58,9 +57,8 @@ class ContactController extends Controller
         try {
             $userId = Auth::id();
             $contact = $this->showContact($contactId, $userId);
-
             return $this->jsonResponse(new ContactResource($contact), false, '', 200);
-        } catch (NotFoundException | NotAuthrizedException $e) {
+        } catch (NotFoundException | Base64Exception $e) {
             return $e->render();
         }
     }

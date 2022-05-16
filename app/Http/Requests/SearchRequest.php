@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Traits\ResponseJson;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CardRequest extends FormRequest
+class SearchRequest extends FormRequest
 {
+    use ResponseJson;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -23,15 +25,17 @@ class CardRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'card' => 'required|max:100|max:255',
-            'description' => 'nullable|max:255',
+        $madad = [
+            'keyword' => 'required',
+
         ];
+
+       // return $this->jsonResponseError(true,$madad,  200);
     }
     public function messages()
     {
         return [
-            'card.regex' => 'Card musn\'t start with numbers.',
+
         ];
     }
 }

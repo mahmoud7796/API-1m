@@ -106,9 +106,8 @@ class ContactController extends Controller
         }
     }
 
-    public function delete($id)
+    public function delete(Contact $contact)
     {
-        $contact = Contact::find($id);
         if(!$contact){
             return response()->json([
                     'status' => false,

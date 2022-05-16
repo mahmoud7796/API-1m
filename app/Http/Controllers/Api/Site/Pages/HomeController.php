@@ -66,12 +66,19 @@ class HomeController extends Controller
     public function cardSearch(Request $request)
     {
         try {
-            $validator = Validator::make($request->all(),[
+            $validator = $this->validate($request, [
+                'keyword'=>['required|string'],
+            ]);
+            if(!$validator) {
+                return $validator;
+            }
+
+/*            $validator = Validator::make($request->all(),[
                 'keyword'=>'required|string',
             ]);
             if ($validator->fails()){
                 return $this->jsonResponseError(true,$validator->messages(),  200);
-            }
+            }*/
             $authUser = Auth::id();
                        $card = CardResource::collection(
                             Card::with('contact.provider')

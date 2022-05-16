@@ -5,20 +5,22 @@ namespace App\Http\Controllers\Site\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Card;
+use App\Models\User;
 use Auth;
 use DB;
-use Illuminate\Support\Facades\Crypt;
 
 
 class QrController extends Controller
 {
-    public function show($id)
+    public function show($shortLink)
     {
         try {
-            $id = Crypt::decrypt($id);
-            $cards = Card::with('contact')->whereId($id)->first();
-             $contacts= $cards->contact;
-            $users = Auth::user();
+             $cards = Card::whereShortLink($shortLink)->with('contact')->first();
+             if(!$cards){
+                 return back();
+             }
+              $contacts= $cards->contact;
+             $users = User::whereId($cards->user_id)->first();
             return view('qrGenerate',compact('cards','contacts','users'));
         } catch (\Exception $e ) {
             return "invalid URL";

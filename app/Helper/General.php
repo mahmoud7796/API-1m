@@ -2,7 +2,6 @@
 
 namespace App\Helper;
 
-use App\Exceptions\Base64Exception;
 use App\Traits\ResponseJson;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,10 +26,10 @@ class General {
         }
     }
 
-    static function saveQr($photo,$folder){
+    static function saveQr($photo,$pathToFolder){
         $imgName = 'img-' . time() . '.png';
         Storage::disk('cardQr')->put($imgName, $photo);
-        $imagePath= $folder.$imgName;
+        $imagePath= $pathToFolder.$imgName;
         return $imagePath;
     }
 

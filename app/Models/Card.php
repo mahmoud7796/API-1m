@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Observers\CardObserver;
-use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,13 +10,15 @@ class Card extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'user_id',
-        'qr_url',
-        'description',
-        'is_featured'
-    ];
+
+        protected $fillable = [
+            'name',
+            'user_id',
+            'qr_url',
+            'description',
+            'is_featured',
+            'short_link'
+        ];
 
     protected $casts =  [
         'is_featured' => 'boolean',

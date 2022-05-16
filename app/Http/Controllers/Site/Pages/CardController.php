@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site\Pages;
 
 use App\Exceptions\Base64Exception;
 use App\Exceptions\NotFoundException;
+use App\Helper\General;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CardRequest;
 use App\Models\Card;
@@ -11,6 +12,8 @@ use App\Models\CardContact;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CardController extends Controller
 {
@@ -21,19 +24,24 @@ class CardController extends Controller
             $card = Card::create([
                 'name' => $request->card,
                 'user_id' =>  $userId,
-                'description' =>$request->description
+                'description' =>$request->description,
+                'short_link' => Str::random(5)
             ]);
-/*            $image = QrCode::format('png')
+            $image = QrCode::format('png')
                 ->merge('img/OneMeLogo.png', 0.4, true)
                 ->size(300)->errorCorrection('H')
-                ->style('round')
-                ->color(13,103,203)
-                ->generate($card->id);
-            $cardQrPath= new General();
-            $cardQrPath =  $cardQrPath->saveImage($image);
+                ->style('dot')
+                ->eye('square')
+                ->color(0,0,0)
+                //  ->color(13,103,203)
+                ->eyeColor(0, 13,103,203, 13,103,203)
+                ->eyeColor(1, 13,103,203, 13,103,203)
+                ->eyeColor(2, 13,103,203, 13,103,203)
+                ->generate(asset('card-show/'.$card->short_link));
+            $cardQrPath =  General::saveQr($image,'img/cardQr/');
             $card->update([
                 'qr_url'=>$cardQrPath
-            ]);*/
+            ]);
             if ($card) {
                 return response()->json([
                     'status' => true,

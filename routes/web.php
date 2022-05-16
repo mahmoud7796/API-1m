@@ -1,5 +1,6 @@
 <?php
 
+use App\Helper\General;
 use App\Http\Controllers\Site\Auth\ForgotPasswordController;
 use App\Http\Controllers\Site\Auth\GoogleLoginController;
 use App\Http\Controllers\Site\Auth\LoginController;
@@ -12,7 +13,10 @@ use App\Http\Controllers\Site\Pages\ContactController;
 use App\Http\Controllers\Site\Pages\HomeController;
 use App\Http\Controllers\Site\Pages\ProfileController;
 use App\Http\Controllers\Site\Pages\QrController;
+use App\Models\Card;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,7 +122,7 @@ Route::group(['middleware'=>'auth:web','prefix'=>'profile'], function(){
 
 Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
     Route::get('/index', [CardController::class,'index'])->name('site.card.index');
-    Route::post('/store', [CardController::class,'store'])->name('site.card.create');
+    Route::post('/store', [CardController::class,'create'])->name('site.card.create');
     Route::get('/show/{id}', [CardController::class,'edit'])->name('site.card.getContact');
     Route::post('/update/{id}', [CardController::class,'update'])->name('site.card.update');
     Route::get('/delete/{id}', [CardController::class,'delete'])->name('site.card.delete');
@@ -135,7 +139,7 @@ Route::group(['middleware'=>'auth:web','prefix'=>'connection'], function(){
 
 ############### End Connection ####################
 
-Route::get('/card-show/{id}/{userId}', [QrController::class,'show'])->name('site.card.qrShow');
+Route::get('/card-show/{shortLink}', [QrController::class,'show'])->name('site.card.qrShow');
 
 ############### shareQR ####################
 Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
@@ -150,10 +154,52 @@ Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
  Route::get('/max',[VerifyEmailController::class,'getMax'])->name('site.verifyEmail');
 Route::get('/home-test',function(){
     return view('site.noActiveCards View');
-    return view('site.homeNormalView');
+   // return view('site.homeNormalView');
 });
 
 //Route::get('/card/{id}', [CardController::class,'signature'])->name('signature');
-Route::get('/test',function(){
+Route::get('/decrypt',function(){
+//    return $madda = Crypt::decrypt($strink);
 
+});
+
+Route::get('/card-create',function() {
+    //color(13,103,203)
+    $url = 'https://1me.live/public/card-show/eyJpdiI6ImRpSXAyMG54K0J3aWJNQWplWGt2cXc9PSIsInZhbHVlIjoicU5XTkxsTXlmOGRqejVZNGVpdGtWdz09IiwibWFjIjoiODFkMmQzMWQ1YjQ3N2Y4NjUzOTg5OWM5MDliOTg0ZDk2YzNkYmNhZDc1OGE1ZDFiY2JkNWZkNGI0NDMzY2NjYSIsInRhZyI6IiJ9/eyJpdiI6InFkeXQ0eVZHQlVmS0gzWC9wN3dtSlE9PSIsInZhbHVlIjoiMlV5Q1BTMTUzSW9zWU5tdTZrK3NtZz09IiwibWFjIjoiYWEzOGI4NDNjMTM1N2YyMDUyNjNlYjI4NTBlOGUxOWFlMzgxZDczY2FkMWM2YTMxMzQ0MzhjZjY0YzRiYjMwZSIsInRhZyI6IiJ9';
+            $userId = Auth::id();
+            $card = Card::create([
+                'name' => "test",
+                'user_id' =>  63,
+                'description' =>"description"
+            ]);
+             $link= url('https://1me.live/');
+            $image = QrCode::format('png')
+                ->merge('img/OneMeLogo.png', 0.4, true)
+                ->size(300)->errorCorrection('H')
+                ->style('dot')
+                ->eye('square')
+                ->color(0,0,0)
+              //  ->color(13,103,203)
+                ->eyeColor(0, 13,103,203, 13,103,203)
+                ->eyeColor(1, 13,103,203, 13,103,203)
+                ->eyeColor(2, 13,103,203, 13,103,203)
+                ->generate($url);
+            $cardQrPath =  General::saveQr($image,'img/cardQr/');
+            $card->update([
+                'qr_url'=>$cardQrPath
+            ]);
+                return response()->json([
+                    'status' => true,
+                    'msg' => 'card added successfully',
+                    ]);
+
+});
+Route::get('/test',function(){
+    $card = Card::create([
+        'name' => 'dsssss',
+        'user_id' =>  65,
+        'description' =>'sadsad',
+        'short_link' => Str::random(5)
+    ]);
+    return 'suceess';
 });

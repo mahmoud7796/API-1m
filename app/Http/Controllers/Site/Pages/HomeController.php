@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Card;
 use App\Models\Contact;
 use App\Models\Provider;
+use App\Models\User;
 use Auth;
 
 class HomeController extends Controller
@@ -33,7 +34,8 @@ class HomeController extends Controller
         $userId = Auth::id();
         $cards= Card::whereUserId($userId)->paginate(3);
         $contacts = Contact::with('provider')->whereUserId($userId)->get();
-        return view('site.pages.home',compact('cards','userId','contacts'));
+        $users = User::whereId($userId)->first();
+        return view('site.pages.home',compact('cards','userId','contacts','users'));
     }
 
     public function getCard()

@@ -22,9 +22,9 @@
 <body>
 <div class="container-fluid">
     @include('site.includes.header')
-    <div class="row justify-content-center ">
+    <div style="margin-bottom:75px;margin-right:0px;" class="row justify-content-center">
         <div class="card col-md-8 o-hidden border-0 shadow-lg my-5 ">
-            <div class="card-body pt-5">
+            <div style="width:1200px;" class="card-body pt-5">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
                     <div class="col-md-6 text-left pt-5">
@@ -101,7 +101,12 @@
                                                                 @foreach($contacts as $contact)
                                                                     <div class="row">
                                                                         <div class="col-md-2 pt-3 pl-4">
-                                                                            <img src="{{$contact->provider->imgURL}}" alt="" style="width: 40px; height: 40px;"/>
+                                                                            @if($contact->provider->imgURL)
+                                                                                <img src="{{$contact->provider->imgURL}}" alt="" style="width: 40px; height: 40px;"/>
+                                                                            @else
+                                                                                <img src="{{asset('public/img/catalog-default-img-modified.png')}}" alt="" style="width: 40px; height: 40px;"/>
+                                                                            @endif
+
                                                                         </div>
                                                                         <div class="col-md-6 pl-5">
                                                                             <div class="row">
@@ -146,11 +151,9 @@
 
                                                             </div>
                                                             <div class="form-group">
-                                                                <textarea style="font: 16px/30px Cairo;" class="form-control" name="cardDescription" rows="8" placeholder="Card Description (Optional)" id="cardDescription"> </textarea>
+                                                                <!--                                                                     <textarea style="font: 16px/30px Cairo;" class="form-control" name="cardDescription" rows="8" placeholder="Card Description (Optional)" id="cardDescription"> </textarea>
+                                                                -->                                                                     <textarea style="font: 16px/30px Cairo;" class="form-control" name="cardDescription" id="cardDescription" rows="4" placeholder="Card Description (Optional)"></textarea>
 
-                                                                {{--
-                                                                                                                                <textarea style="font: 16px/30px Cairo;" class="form-control" id="CardDescription" rows="8" placeholder="Card Description (Optional)"></textarea>
-                                                                --}}
                                                                 <small id="description_error" class="form-text text-danger"></small>
                                                             </div>
                                                         </form>
@@ -170,7 +173,7 @@
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" id="userId" value="{{encrypt($userId)}}">
+                    <input type="hidden" id="userId" value="{{$userId}}">
                     <div class="row pt-4">
                         <div class="col-md-6">
                             @if(isset($cards) && $cards->count()>0)
@@ -189,8 +192,8 @@
 
                                                     <div class="row pt-3 pl-2">
                                                         @if(isset($contacts) && $contacts->count()>0)
-                                                            @foreach($contacts as $contact)
-                                                                <img class="pr-2" width="30px" heghit="30px" src="{{$contact->provider->imgURL}}" alt=""/>
+                                                            @foreach($contacts as $provider)
+                                                                <img class="pr-2" width="30px" heghit="30px" src="{{$provider->provider->imgURL}}" alt=""/>
                                                             @endforeach
                                                         @endif
                                                     </div>
@@ -201,20 +204,20 @@
                                                         <div class="col-md-6 pt-3">
                                                             <div
                                                                 style=" font: 14px Cairo; color: #1F2933; background: #E9901C 0% 0% no-repeat padding-box; height: 40px; border-radius: 25px;"
-                                                                class="btn btn-block">4 Scans
+                                                                class="btn btn-block">0 Scans
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 pt-3">
                                                             <div href=""
                                                                  style=" font: 14px Cairo; color: #FFFFFF; background: #52606D 0% 0% no-repeat padding-box;  height: 40px; border-radius: 25px;"
-                                                                 class="btn btn-block ">3 Adds
+                                                                 class="btn btn-block ">0 Adds
                                                             </div>
                                                         </div>
                                                     </a>
                                                     <div class="row justify-content-end pt-5">
                                                         <div id="share" href=""
                                                              style=" font: 16px/30px Cairo; color: #0E67CB; background: 0% 0% no-repeat padding-box; border-radius: 15px;"
-                                                             data-id="{{encrypt($card->id)}}" class="btn"
+                                                             data-id="{{$card->short_link}}" class="btn"
                                                              data-toggle="modal" data-target="#shareModal"><img
                                                                 class="pr-2" src="img/Icon ionic-md-share.svg" alt=""/>
                                                             Share
@@ -294,8 +297,8 @@
                                 </div>
                                 <div class="col-md-5">
                                     <div class="row justify-content-center">
-                                        <div class="col-md-6 pt-5"><a href="" style=" font: 14px Cairo; color: #1F2933; background: #E9901C 0% 0% no-repeat padding-box;  height: 40px; border-radius: 25px;" class="btn btn-block">4 Scans</a></div>
-                                        <div class="col-md-6 pt-5"><a href="" style=" font: 14px Cairo; color: #FFFFFF; background: #52606D 0% 0% no-repeat padding-box;  height: 40px; border-radius: 25px;" class="btn btn-block">3 Adds</a></div>
+                                        <div class="col-md-6 pt-5"><a href="" style=" font: 14px Cairo; color: #1F2933; background: #E9901C 0% 0% no-repeat padding-box;  height: 40px; border-radius: 25px;" class="btn btn-block">0 Scans</a></div>
+                                        <div class="col-md-6 pt-5"><a href="" style=" font: 14px Cairo; color: #FFFFFF; background: #52606D 0% 0% no-repeat padding-box;  height: 40px; border-radius: 25px;" class="btn btn-block">0 Adds</a></div>
                                     </div>
                                 </div>
                                 <div style="display: none;margin-top: 9px" id="updateCardMsg" class="row mr-2 ml-2">
@@ -330,7 +333,11 @@
                                         <div class="col-md-6">
                                             <div class="row">
                                                 <div class="col-md-1 pt-3 pl-4">
-                                                    <img src="{{$contact->provider->imgURL}}" alt="" style="width: 30px; height: 30px;"/>
+                                                    @if($contact->provider->img)
+                                                        <img src="{{$contact->provider->imgURL}}" alt="" style="width: 30px; height: 30px;"/>
+                                                    @else
+                                                        <img src="{{asset('public/img/catalog-default-img-modified.png')}}" alt="" style="width: 40px; height: 40px;"/>
+                                                    @endif
                                                 </div>
                                                 <div class="col-md-7 pl-5">
                                                     <div class="row">
@@ -441,7 +448,12 @@
                                                     @foreach($contacts as $contact)
                                                         <div class="row">
                                                             <div class="col-md-2 pt-3 pl-4">
-                                                                <img src="{{$contact->provider->imgURL}}" alt="" style="width: 40px; height: 40px;"/>
+                                                                @if($contact->provider->imgURL)
+                                                                    <img src="{{$contact->provider->imgURL}}" alt="" style="width: 40px; height: 40px;"/>
+                                                                @else
+                                                                    <img src="{{asset('public/img/catalog-default-img-modified.png')}}" alt="" style="width: 40px; height: 40px;"/>
+                                                                @endif
+
                                                             </div>
                                                             <div class="col-md-6 pl-5">
                                                                 <div class="row">
@@ -486,11 +498,7 @@
 
                                                 </div>
                                                 <div class="form-group">
-                                                    <textarea style="font: 16px/30px Cairo;" class="form-control" name="cardDescription" rows="8" placeholder="Card Description (Optional)" id="cardDescription"> </textarea>
-
-                                                    {{--
-                                                                                                                    <textarea style="font: 16px/30px Cairo;" class="form-control" id="CardDescription" rows="8" placeholder="Card Description (Optional)"></textarea>
-                                                    --}}
+                                                    <textarea name="cardDescription" rows="8" style="font: 16px/30px Cairo;" type="text" class="form-control" placeholder="Card Description (Optional)" id="cardDescription"></textarea>
                                                     <small id="description_error" class="form-text text-danger"></small>
                                                 </div>
                                             </form>
@@ -562,9 +570,8 @@
 
 <script>
     $(document).on('click', '#share', function (e) {
-        var encId = $(this).data("id")
-        var userId = $('#userId').val()
-        var cardUrl = "{{asset('card-show/').'/'}}" + encId + "/" + userId;
+        var uniqueId = $(this).data("id")
+        var cardUrl = "{{asset('card-show/').'/'}}" + uniqueId;
         $('#cardUrl').val(cardUrl)
     });
 

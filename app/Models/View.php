@@ -17,4 +17,9 @@ class View extends Model
     ];
 
     public $timestamps = true;
+
+    public function card()
+    {
+        return $this->belongsTo(Card::class,'card_id');
+    }
 }

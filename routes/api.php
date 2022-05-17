@@ -47,6 +47,8 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
     ######## Connections ################
     Route::get('/added/index', [ConnectionController::class, 'addedUsers']);
     Route::get('/added/connection', [ConnectionController::class, 'addedCount']);
+    Route::post('connection/scan-card', [ConnectionController::class, 'scanCard']);
+
     ######## End Connections ################
 
     ######## contactinfo ################

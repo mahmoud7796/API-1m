@@ -65,6 +65,14 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(self::class, 'connections', 'added_id','adder_id','id','id');
     }
 
+    public function viewed(){
+        return $this->belongsToMany(self::class, 'views', 'viewer_id','viewed_id','id','id');
+    }
+
+    public function viewer(){
+        return $this->belongsToMany(self::class, 'views', 'viewed_id','viewer_id','id','id');
+    }
+
     public function token(){
         return  $this->hasOne(UserVerifyEmail::class,'user_id');
     }

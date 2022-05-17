@@ -22,6 +22,7 @@
 <body>
 <div class="container-fluid">
     @include('site.includes.header')
+
     <div style="margin-bottom:75px;margin-right:0px;" class="row justify-content-center">
         <div class="card col-md-8 o-hidden border-0 shadow-lg my-5 ">
             <div style="width:1200px;" class="card-body pt-5">

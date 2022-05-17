@@ -41,11 +41,11 @@ class Card extends Model
     {
         return $this->attributes['qr_url']=asset($value) ;
     }
-/*
-    public function connection()
+
+    public function view()
     {
-        return $this->belongsTo(Connection::class, );
-    }*/
+        return $this->hasMany(View::class,'card_id');
+    }
 
     protected static function boot()
     {

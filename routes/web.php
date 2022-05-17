@@ -124,6 +124,7 @@ Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
     Route::get('/index', [CardController::class,'index'])->name('site.card.index');
     Route::post('/store', [CardController::class,'create'])->name('site.card.create');
     Route::get('/show/{id}', [CardController::class,'edit'])->name('site.card.getContact');
+    Route::get('/show-card/{id}', [CardController::class,'show'])->name('site.card.show');
     Route::post('/update/{id}', [CardController::class,'update'])->name('site.card.update');
     Route::get('/delete/{id}', [CardController::class,'delete'])->name('site.card.delete');
 });
@@ -172,7 +173,6 @@ Route::get('/card-create',function() {
                 'user_id' =>  63,
                 'description' =>"description"
             ]);
-             $link= url('https://1me.live/');
             $image = QrCode::format('png')
                 ->merge('img/OneMeLogo.png', 0.4, true)
                 ->size(300)->errorCorrection('H')

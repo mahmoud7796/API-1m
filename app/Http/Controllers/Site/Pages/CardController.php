@@ -136,6 +136,29 @@ class CardController extends Controller
 
     }
 
+    public function show($id)
+    {
+        try {
+            $userId= Auth::id();
+            $card= Card::find($id);
+            if(!$card){
+                return response()->json([
+                    'status' => false,
+                    'msg' => "Not Found",
+                ]);
+            }
+            if($userId!==$card->user_id) {
+                return redirect()->back();
+            }
+            return response()->json([
+                'status' => true,
+                'card' => $card
+            ]);
+        }catch (\Exception $ex){
+            return $ex;
+        }
+    }
+
 
     public function update(CardRequest $request)
     {

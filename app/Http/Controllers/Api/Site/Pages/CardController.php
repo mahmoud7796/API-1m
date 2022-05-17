@@ -13,6 +13,7 @@ use Auth;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CardController extends Controller
@@ -47,20 +48,22 @@ class CardController extends Controller
             $card = Card::create([
                 'name' => $request->name,
                 'user_id' => $authId,
+                'short_link' => Str::random(5)
             ]);
-            $cardId= encrypt(93);
-            $userId= encrypt(82);
-
-            $qrUrl= 'https://1me.live/public/card-show/'.$cardId.'/'.$userId;
-             $image = QrCode::format('png')
+            $image = QrCode::format('png')
                 ->merge('img/OneMeLogo.png', 0.4, true)
                 ->size(300)->errorCorrection('H')
-                ->style('round')
-                ->color(13,103,203)
-                ->generate('https://www.1me.live/public/card-show/eyJpdiI6IkpaU0plaWRSUmhMaWZ0UkpMVXp2Qnc9PSIsInZhbHVlIjoiOFArb1hQQUMzV3FuY1oyc1hiTkNFUT09IiwibWFjIjoiODU2NzM3MTcyMTAwMjc3YjgxOGU2MTAxYjZiOGMyYmY3ZTcwNDUzNzE5NDE5NDA1ZTFkMmYzNDU4MGU1NWFlZSIsInRhZyI6IiJ9/eyJpdiI6InM1ODE4NVNPWEJWOGZkMDEyT1c1Rnc9PSIsInZhbHVlIjoiYWtBd25VOG5Ja01sb2FuTEtyUXNrQT09IiwibWFjIjoiNGIyNmRhZTgyNjNiN2M0MTY4YTMwZmQwZTEzNjNiZmY1ZDE3NGNmMWU5MmE2N2ZjZGVmNjYzMzNiMWEzOTQ1ZSIsInRhZyI6IiJ9');
-            $img = General::saveQr($image,'cardQr');
+                ->style('dot')
+                ->eye('square')
+                ->color(0,0,0)
+                //  ->color(13,103,203)
+                ->eyeColor(0, 13,103,203, 13,103,203)
+                ->eyeColor(1, 13,103,203, 13,103,203)
+                ->eyeColor(2, 13,103,203, 13,103,203)
+                ->generate(asset('card-show/'.$card->short_link));
+            $cardQrPath =  General::saveQr($image,'img/cardQr/');
             $card->update([
-                'qr_url'=>$img
+                'qr_url'=>$cardQrPath
             ]);
             $contacts = $request->contactInfoIds;
             if ($contacts) {

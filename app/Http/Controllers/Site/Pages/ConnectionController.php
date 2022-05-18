@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Site\Pages;
 
 use App\Http\Controllers\Controller;
+use App\Models\Card;
 use App\Models\User;
 use Auth;
+
 
 class ConnectionController extends Controller
 {
@@ -16,6 +18,26 @@ class ConnectionController extends Controller
             return view('site.pages.addedContact',compact('addeds'));
         }catch(\Exception $e){
             return $e;
+        }
+    }
+
+    public function countOfScan()
+    {
+        try{
+            $countScans = Card::select('id')->withCount('view')->get()->toArray();
+            if(!$countScans){
+                return response()->json([
+                        'status' => false,
+                        'msg' => 'notFond'
+                    ]
+                );
+            }
+            return response()->json([
+                'status' => true,
+                'data' => $countScans
+            ]);
+        }catch (\Exception $ex){
+            return $this->jsonResponse('', true, 'Something went wrong', 403);
         }
     }
 }

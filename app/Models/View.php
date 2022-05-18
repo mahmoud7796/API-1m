@@ -23,3 +23,4 @@ class View extends Model
         return $this->belongsTo(Card::class,'card_id');
     }
 }
+

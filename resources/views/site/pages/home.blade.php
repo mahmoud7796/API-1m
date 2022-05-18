@@ -22,8 +22,7 @@
 <body>
 <div class="container-fluid">
     @include('site.includes.header')
-
-    <div style="margin-bottom:75px;margin-right:0px;" class="row justify-content-center">
+    <div style="@if(isset($cards) && $cards->count()>0)margin-bottom:130px;margin-right:0px;@else margin-bottom:0px;margin-right:0px;@endif" class="row justify-content-center">
         <div class="card col-md-8 o-hidden border-0 shadow-lg my-5 ">
             <div style="width:1200px;" class="card-body pt-5">
                 <!-- Nested Row within Card Body -->
@@ -174,7 +173,6 @@
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" id="userId" value="{{$userId}}">
                     <div class="row pt-4">
                         <div class="col-md-6">
                             @if(isset($cards) && $cards->count()>0)
@@ -202,11 +200,9 @@
                                                 </a>
                                                 <div class="col-md-5 ">
                                                     <a href="" class="row justify-content-end">
-                                                        <div class="col-md-6 pt-3">
-                                                            <div
-                                                                style=" font: 14px Cairo; color: #1F2933; background: #E9901C 0% 0% no-repeat padding-box; height: 40px; border-radius: 25px;"
-                                                                class="btn btn-block">0 Scans
-                                                            </div>
+                                                        <div  class="col-md-6 pt-3">
+                                                            <div data-count="{{$card->id}}" style=" font: 14px Cairo; color: #1F2933; background: #E9901C 0% 0% no-repeat padding-box; height: 40px; border-radius: 25px;"
+                                                                 class="countScan btn btn-block">0 Scan</div>
                                                         </div>
                                                         <div class="col-md-6 pt-3">
                                                             <div href=""
@@ -218,7 +214,7 @@
                                                     <div class="row justify-content-end pt-5">
                                                         <div id="share" href=""
                                                              style=" font: 16px/30px Cairo; color: #0E67CB; background: 0% 0% no-repeat padding-box; border-radius: 15px;"
-                                                             data-id="{{$card->short_link}}" class="btn"
+                                                             data-id="{{$card->short_link}}" data-cardid="{{$card->id}}" class="btn"
                                                              data-toggle="modal" data-target="#shareModal"><img
                                                                 class="pr-2" src="img/Icon ionic-md-share.svg" alt=""/>
                                                             Share
@@ -256,9 +252,9 @@
                                                                         <a id="sendMail" href=""><img width="50 px" height="50 px" src="img/Gmail1.svg" alt=""/></a>
                                                                         <p style="width: 68px">Mail</p>
                                                                     </div>
-                                                                    <div class="col-md-3 text-center"><a
-                                                                            href="{{asset('img/defaultQr.png')}}"
-                                                                            download="defaultQr.png"><img
+                                                                    <div class="col-md-3 text-center">
+                                                                        <a id="cardDownload" href="{{asset('public/'.$card->name)}}"
+                                                                           download="QRcard{{time()}}"><img
                                                                                 src="img/Download.svg" alt=""/></a>
                                                                         <p>Download Qr Code</p>
                                                                     </div>
@@ -570,10 +566,60 @@
 @include('site.includes.footer')
 
 <script>
+
+    $( document ).ready(function() {
+        //console.log('sssss')
+        $.ajax({
+            type: 'get',
+            url: "{{route('site.connection.countOfScan')}}",
+            data: {},
+            cache: false,
+            success: function (response) {
+                if (response.status === true) {
+
+                    console.log(response['data'])
+                    console.log(Array.isArray(response['data']))
+                      var cardIds = [];
+                    $('.countScan').each(function (i, obj) {
+                       // console.log($(this).data("count"))
+                        cardIds.push($(this).data("count"));
+                    });
+                    response['data'].forEach(function (arrayItem) {
+                        var cardId = arrayItem.id;
+                        if(cardIds.includes(cardId)===true){
+                            $(`.countScan[data-count="${cardId}"]`).text(arrayItem.view_count+" Scans")
+                        }
+                    });
+                }
+            }, error: function (reject) {
+            }
+        });
+    });
+
+    //share card
     $(document).on('click', '#share', function (e) {
         var uniqueId = $(this).data("id")
+        var cardId = $(this).data("cardid")
         var cardUrl = "{{asset('card-show/').'/'}}" + uniqueId;
         $('#cardUrl').val(cardUrl)
+
+        $.ajax({
+            type: 'get',
+            url: "{{url('card/show-card')}}" + '/' + cardId,
+            data: {},
+            cache: false,
+            success: function (response) {
+                if (response.status === true) {
+                    let downloadUrl = 'https://1me.live/public/public/'+response.card.qr_url;
+                    $("#cardDownload").attr("href",downloadUrl )
+
+
+                }
+            },
+            error: function (reject) {
+            }
+        });
+
     });
 
 
@@ -589,7 +635,6 @@
     }
 
     $('#shareModal').on('hidden.bs.modal', function () {
-        console.log('modal hide')
         $('#copied').hide();
     });
 
@@ -621,6 +666,7 @@
     $(document).on('click', '#saveCard', function (e) {
 
         $("#saveCard").attr("disabled", true);
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -631,7 +677,6 @@
 
         var cardName = $('#cardName').val();
         var cardDescription = $('#cardDescription').val();
-        //console.log(cardDescription)
         var contacts = [];
         $.each($("input[name='contactsCheckbox']:checked"), function () {
             contacts.push($(this).val());
@@ -830,6 +875,7 @@
         event.preventDefault();
         $("#exampleModal4").modal('hide');
     });
+
 
 </script>
 @yield("scripts")

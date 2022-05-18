@@ -10,6 +10,7 @@ use App\Models\View;
 use App\Traits\ContactControllerTrait;
 use App\Traits\ResponseJson;
 use Auth;
+use http\Env\Response;
 use Illuminate\Http\Request;
 
 class ConnectionController extends Controller
@@ -28,7 +29,6 @@ class ConnectionController extends Controller
                 return $this->jsonResponse('', true, 'Not authrized', 403);
             }
                 $added=User::whereId($userId)->withCount('added')->first()->added_count;
-            // dd('succ');
             return $this->jsonResponse($added, false, '', 200);
 
         } catch ( \Exception $e) {
@@ -37,26 +37,28 @@ class ConnectionController extends Controller
 
     public function scanCard(Request $request)
     {
-        $request->viewed_id=67;
-        $request->card_id=143;
-        $request->viewer_id = 65;
-
-        $shortLink= $request->shortLink;
-        $cards = Card::whereShortLink('bcRrn')->first();
-        $viewedIds = View::whereViewerId($request->viewer_id)->pluck('viewed_id')->toArray();
-        $cardIds = View::whereViewerId($request->viewer_id)->pluck('card_id')->toArray();
-        $checkIfInViewedIds= in_array($request->viewed_id, $viewedIds);
-        $checkIfInCardIds=  in_array($request->card_id, $cardIds);
-        if (!$checkIfInViewedIds || !$checkIfInCardIds){
-            View::create([
-                'viewed_id'=> $request->viewed_id,
-                'card_id' => $request->card_id,
-                'viewer_id'=>$request->viewer_id
-            ]);
+        try{
+            $shortLink= $request->shortLink;
+            $cards = Card::whereShortLink($shortLink)->first();
+            if(!$cards){
+                return $this->jsonResponse('', true, 'there is no card', 403);
+            }
+            $viewedIds = View::whereViewerId($request->viewer_id)->pluck('viewed_id')->toArray();
+            $cardIds = View::whereViewerId($request->viewer_id)->pluck('card_id')->toArray();
+            $checkIfInViewedIds= in_array($request->viewed_id, $viewedIds);
+            $checkIfInCardIds=  in_array($request->card_id, $cardIds);
+            if (!$checkIfInViewedIds || !$checkIfInCardIds){
+                View::create([
+                    'viewed_id'=> $request->viewed_id,
+                    'card_id' => $request->card_id,
+                    'viewer_id'=>$request->viewer_id
+                ]);
+            }
+            return $this->jsonResponse(new CardResource($cards), false, '', 200);
+        }catch (\Exception $ex){
+            return $this->jsonResponse('', true, 'Something went wrong', 403);
         }
-        return $this->jsonResponse(new CardResource($cards), false, '', 200);
     }
-
 }
 
 

@@ -8,6 +8,7 @@ use App\Http\Resources\ContactResource;
 use App\Models\Card;
 use App\Models\Contact;
 use App\Models\Provider;
+use App\Models\User;
 use App\Traits\ResponseJson;
 use Auth;
 use Illuminate\Http\Request;

@@ -62,7 +62,6 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
      Route::get('/resetPass/{token}', [ForgotPasswordController::class,'resetPass'])->name('site.resetPass');
      Route::get('/reset-password/{token}',[ForgotPasswordController::class,'resetPassword'])->name('site.resetPassword');
      Route::post('/change-pass/',[ForgotPasswordController::class,'changePass'])->name('site.changePass');
-
 ############### End Reset Password ####################
 
 
@@ -85,7 +84,6 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
  });
  ############### End Logout ####################
 
- ###############  End Reset Password  ####################
 
  Route::group(['middleware'=>'guest:web'], function(){
      Route::get('/homeTest', function(){
@@ -135,7 +133,7 @@ Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
 
 Route::group(['middleware'=>'auth:web','prefix'=>'connection'], function(){
     Route::get('/', [ConnectionController::class,'addedContact'])->name('site.contacts.addedContact');
-    //Route::get('/', [CardController::class,'index'])->name('site.card.index');
+    Route::get('connection/count-scan', [ConnectionController::class,'countOfScan'])->name('site.connection.countOfScan');
 });
 
 ############### End Connection ####################

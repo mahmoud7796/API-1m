@@ -48,7 +48,6 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
     Route::get('/added/index', [ConnectionController::class, 'addedUsers']);
     Route::get('/added/connection', [ConnectionController::class, 'addedCount']);
     Route::post('connection/scan-card', [ConnectionController::class, 'scanCard']);
-
     ######## End Connections ################
 
     ######## contactinfo ################
@@ -89,7 +88,6 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
 
 
 Route::post('/testbase', function (){
-   // $base64 = file_put_contents('mada', base64_decode($imagedata));
     $imagedata1 = \App\Helper\General::base64();
      $imagedata = \App\Helper\General::base64_to_jpeg($imagedata1);
 });

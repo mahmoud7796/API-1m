@@ -12,6 +12,7 @@ class Card extends Model
 
 
         protected $fillable = [
+            'id',
             'name',
             'user_id',
             'qr_url',

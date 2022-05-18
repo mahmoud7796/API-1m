@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Api\Site\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CardResource;
+use App\Http\Resources\UserResource;
 use App\Models\Card;
 use App\Models\User;
 use App\Models\View;
 use App\Traits\ContactControllerTrait;
 use App\Traits\ResponseJson;
 use Auth;
-use http\Env\Response;
 use Illuminate\Http\Request;
 
 class ConnectionController extends Controller
@@ -39,23 +39,30 @@ class ConnectionController extends Controller
     {
         try{
             $shortLink= $request->shortLink;
-            $cards = Card::whereShortLink($shortLink)->first();
+            $cards = Card::whereShortLink($shortLink)->with('contact.provider')->first();
+            $user = User::whereId(Auth::id())->first();
+
             if(!$cards){
                 return $this->jsonResponse('', true, 'there is no card', 403);
             }
-            $viewedIds = View::whereViewerId($request->viewer_id)->pluck('viewed_id')->toArray();
-            $cardIds = View::whereViewerId($request->viewer_id)->pluck('card_id')->toArray();
-            $checkIfInViewedIds= in_array($request->viewed_id, $viewedIds);
-            $checkIfInCardIds=  in_array($request->card_id, $cardIds);
+            $cardId = $cards->id;
+            $viewedId= $cards->user_id;
+            $viewedIds = View::whereViewerId(Auth::id())->pluck('viewed_id')->toArray();
+            $cardIds = View::whereViewerId(Auth::id())->pluck('card_id')->toArray();
+            $checkIfInViewedIds= in_array($viewedId, $viewedIds);
+            $checkIfInCardIds=  in_array($cardId, $cardIds);
             if (!$checkIfInViewedIds || !$checkIfInCardIds){
                 View::create([
-                    'viewed_id'=> $request->viewed_id,
-                    'card_id' => $request->card_id,
-                    'viewer_id'=>$request->viewer_id
+                    'viewed_id'=>$viewedId ,
+                    'card_id' => $cardId,
+                    'viewer_id'=>Auth::id()
                 ]);
             }
-            return $this->jsonResponse(new CardResource($cards), false, '', 200);
+            $success['card']=new CardResource($cards);
+            $success['owner']=new UserResource($user);
+            return $this->jsonResponse($success, false, '', 200);
         }catch (\Exception $ex){
+            return $ex;
             return $this->jsonResponse('', true, 'Something went wrong', 403);
         }
     }

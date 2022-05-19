@@ -12,7 +12,7 @@ class Connection extends Model
     protected $fillable = [
         'adder_id',
         'added_id',
-        'card_id ',
+        'card_id',
         'connection_status',
     ];
     public $timestamps = true;

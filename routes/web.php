@@ -134,6 +134,7 @@ Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
 Route::group(['middleware'=>'auth:web','prefix'=>'connection'], function(){
     Route::get('/', [ConnectionController::class,'addedContact'])->name('site.contacts.addedContact');
     Route::get('connection/count-scan', [ConnectionController::class,'countOfScan'])->name('site.connection.countOfScan');
+    Route::get('connection/add-connection', [ConnectionController::class,'addConnection'])->name('site.connection.addConnection');
 });
 
 ############### End Connection ####################

@@ -35,7 +35,7 @@ class Card extends Model
 
     public function user()
     {
-        return $this->belongsTo(Card::class, 'card_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function getQrUrlAttribute($value)

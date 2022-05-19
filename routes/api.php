@@ -45,9 +45,13 @@ Route::middleware('auth:sanctum')->group( function () {
 Route::group(['middleware'=>'auth:sanctum'], function(){
 
     ######## Connections ################
-    Route::get('/added/index', [ConnectionController::class, 'addedUsers']);
-    Route::get('/added/connection', [ConnectionController::class, 'addedCount']);
-    Route::post('connection/scan-card', [ConnectionController::class, 'scanCard']);
+    Route::group(['prefix'=>'connection','middleware'=>'auth:sanctum'], function(){
+    //Route::get('/added/index', [ConnectionController::class, 'addedUsers']);
+   // Route::get('/added/connection', [ConnectionController::class, 'addedCount']);
+    Route::post('scan-card', [ConnectionController::class, 'scanCard']);
+    Route::post('add-connection', [ConnectionController::class,'addConnection'])->name('site.connection.addConnection');
+    Route::post('get-connection', [ConnectionController::class,'getConnection'])->name('site.connection.getConnection');
+    });
     ######## End Connections ################
 
     ######## contactinfo ################
@@ -89,7 +93,7 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
 
 Route::post('/testbase', function (){
     $imagedata1 = \App\Helper\General::base64();
-     $imagedata = \App\Helper\General::base64_to_jpeg($imagedata1);
+    $imagedata = \App\Helper\General::base64_to_jpeg($imagedata1);
 });
 
 

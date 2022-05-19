@@ -20,7 +20,8 @@ class UserResource extends JsonResource
             "email"=> $this->email,
             "profile_img"=> $this->profile_img,
             "added"=> self::collection($this->whenLoaded('added')),
-            "adder"=> self::collection($this->whenLoaded('adder'))
+            "adder"=> self::collection($this->whenLoaded('adder')),
+            "card"=> CardResource::collection($this->whenLoaded('card')),
         ];
     }
 }

@@ -19,8 +19,7 @@ class ContactResource extends JsonResource
             "contact"=> $this->contact_string,
             "title"=> $this->title,
             "provider"=> new ProviderResource($this->whenLoaded('provider')),
-            "card"=> ContactResource::collection($this->whenLoaded('card_id')),
-
+            "card"=> ContactResource::collection($this->whenLoaded('card')),
         ];
     }
 }

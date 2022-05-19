@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CardResource;
 use App\Http\Resources\UserResource;
 use App\Models\Card;
+use App\Models\Connection;
 use App\Models\User;
 use App\Models\View;
 use App\Traits\ContactControllerTrait;
@@ -26,7 +27,7 @@ class ConnectionController extends Controller
                 return $this->jsonResponse('', true, 'User_id required', 404);
             }
             if($userId !=$authId){
-                return $this->jsonResponse('', true, 'Not authrized', 403);
+                return $this->jsonResponse('', true, 'Not authorized', 403);
             }
                 $added=User::whereId($userId)->withCount('added')->first()->added_count;
             return $this->jsonResponse($added, false, '', 200);
@@ -39,9 +40,7 @@ class ConnectionController extends Controller
     {
         try{
             $shortLink= $request->shortLink;
-            $cards = Card::whereShortLink($shortLink)->with('contact.provider')->first();
-            $user = User::whereId(Auth::id())->first();
-
+            $cards = Card::whereShortLink($shortLink)->with('contact.provider','user')->first();
             if(!$cards){
                 return $this->jsonResponse('', true, 'there is no card', 403);
             }
@@ -58,9 +57,55 @@ class ConnectionController extends Controller
                     'viewer_id'=>Auth::id()
                 ]);
             }
-            $success['card']=new CardResource($cards);
-            $success['owner']=new UserResource($user);
-            return $this->jsonResponse($success, false, '', 200);
+            return $this->jsonResponse(new CardResource($cards), false, '', 200);
+        }catch (\Exception $ex){
+            return $ex;
+            return $this->jsonResponse('', true, 'Something went wrong', 403);
+        }
+    }
+
+    public function addConnection(Request $request)
+    {
+        try{
+            $addedId= $request->addedId;
+            $cardId= $request->cardId;
+            if(!$addedId and !$cardId){
+                return $this->jsonResponse('', true, 'adder_id, card_id required', 403);
+            }
+            if($addedId == Auth::id()){
+                return $this->jsonResponse('', true, 'Can not add yourself', 403);
+            }
+            $addedIds = Connection::whereAdderId(Auth::id())->pluck('added_id')->toArray();
+            $cardIds = Connection::whereAdderId(Auth::id())->pluck('card_id')->toArray();
+            $checkIfInViewedIds= in_array($addedId, $addedIds);
+            $checkIfInCardIds=  in_array($cardId, $cardIds);
+            if (!$checkIfInViewedIds || !$checkIfInCardIds){
+                Connection::create([
+                    'added_id'=>$addedId ,
+                    'card_id' => $cardId,
+                    'adder_id'=>Auth::id()
+                ]);
+            }
+            return $this->jsonResponse('', false, 'Added Successfully', 200);
+        }catch (\Exception $ex){
+            return $ex;
+            return $this->jsonResponse('', true, 'Something went wrong', 403);
+        }
+    }
+
+    public function getConnection()
+    {
+        try{
+            $cardIds = Connection::whereAdderId(Auth::id())->pluck('card_id');
+            $addedIds = Connection::whereAdderId(Auth::id())->pluck('added_id')->toArray();
+            $userIds= array_unique($addedIds);
+           return   $addedFriend = User::whereId(Auth::id())->with(['added'=> function($query) use ($userIds)  {
+                 $query->whereIn('added_id', $userIds)->first();
+             },
+             'added.card'=> function($query) use ($cardIds) {
+                 $query->whereIn('id', $cardIds);
+            },'added.card.contact.provider'])->first();
+            return $this->jsonResponse(new userResource($addedFriend), false, '', 200);
         }catch (\Exception $ex){
             return $ex;
             return $this->jsonResponse('', true, 'Something went wrong', 403);

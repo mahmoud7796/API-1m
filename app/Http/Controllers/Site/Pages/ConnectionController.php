@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Site\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Card;
+use App\Models\Connection;
 use App\Models\User;
 use Auth;
+use Illuminate\Http\Request;
 
 
 class ConnectionController extends Controller

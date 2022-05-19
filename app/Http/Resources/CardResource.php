@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CardResource extends JsonResource
@@ -20,6 +21,7 @@ class CardResource extends JsonResource
             "qr_url"=> asset($this->qr_url),
             "is_featured"=> $this->is_featured,
             "contact"=> ContactResource::collection($this->whenLoaded('contact')),
+            "user"=> new UserResource($this->whenLoaded('user')),
         ];
     }
 }

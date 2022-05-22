@@ -38,5 +38,4 @@ class Contact extends Model
         parent::boot();
         Contact::observe(ContactObserver::class);
     }
-
 }

@@ -159,6 +159,8 @@ class CardController extends Controller
         if ($authId!==$card->user_id) {
             return $this->jsonResponse('', true, 'Not authrized', 402);
         }
+        $path= public_path().'img/cardQr/'.$card->qr_url;
+        unlink($path);
         $card->delete();
         return $this->jsonResponse('', false, 'Card deleted successfully', 200);
     }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Observers\CardObserver;
+use App\Models\Connection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,6 +37,11 @@ class Card extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function connection()
+    {
+        return $this->hasMany(Connection::class, 'card_id');
     }
 
     public function getQrUrlAttribute($value)

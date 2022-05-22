@@ -14,9 +14,8 @@ class ConnectionController extends Controller
 {
     public function addedContact(){
         try{
-            $authUserId = Auth::id();
-              $connections = User::with('added')->whereId($authUserId)->first();
-              $addeds = $connections->added()->paginate(4);
+            $connectionIds = array_unique(Connection::whereAdderId(Auth::id())->pluck('added_id')->toArray());
+            $addeds= User::whereIn('id',$connectionIds)->paginate(4);
             return view('site.pages.addedContact',compact('addeds'));
         }catch(\Exception $e){
             return $e;
@@ -39,6 +38,32 @@ class ConnectionController extends Controller
                 'data' => $countScans
             ]);
         }catch (\Exception $ex){
+            return $this->jsonResponse('', true, 'Something went wrong', 403);
+        }
+    }
+
+    public function getConnection()
+    {
+        try{
+            $connectionIds = array_unique(Connection::whereAdderId(Auth::id())->pluck('added_id')->toArray());
+            $addeds= User::whereIn('id',$connectionIds)->get();
+        }catch (\Exception $ex){
+            //   return $ex;
+            return $this->jsonResponse('', true, 'Something went wrong', 403);
+        }
+    }
+
+    public function getConnectionScanedCards(Request $request)
+    {
+        try{
+            $ConnectionScanedCards = Connection::whereAdderId(Auth::id())->whereAddedId($request->addedId)->pluck('card_id')->toArray();
+            if(!$ConnectionScanedCards){
+                return $this->jsonResponse('', true, 'There is no card or has been removed', 403);
+            }
+            $cardData= Card::whereIn('id',$ConnectionScanedCards)->with('contact.provider')->get();
+            return $this->jsonResponse(CardResource::collection($cardData), false, '', 200);
+        }catch (\Exception $ex){
+            return $ex;
             return $this->jsonResponse('', true, 'Something went wrong', 403);
         }
     }

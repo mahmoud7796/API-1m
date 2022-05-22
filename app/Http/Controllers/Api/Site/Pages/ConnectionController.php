@@ -93,10 +93,12 @@ class ConnectionController extends Controller
         }
     }
 
-    public function getConnection()
+/*    public function getConnection()
     {
         try{
+
             $cardIds = Connection::whereAdderId(Auth::id())->pluck('card_id');
+            return Card::whereIn('id',$cardIds)->with('user')->get();
             $addedIds = Connection::whereAdderId(Auth::id())->pluck('added_id')->toArray();
             $userIds= array_unique($addedIds);
            return   $addedFriend = User::whereId(Auth::id())->with(['added'=> function($query) use ($userIds)  {
@@ -108,6 +110,37 @@ class ConnectionController extends Controller
             return $this->jsonResponse(new userResource($addedFriend), false, '', 200);
         }catch (\Exception $ex){
             return $ex;
+            return $this->jsonResponse('', true, 'Something went wrong', 403);
+        }
+    }*/
+
+    public function getConnection()
+    {
+        try{
+            $connectionIds = Connection::whereAdderId(Auth::id())->pluck('added_id')->toArray();
+            if(!$connectionIds){
+                return $this->jsonResponse('', true, 'There is no friends', 403);
+            }
+            $filterConnectionIds = array_unique($connectionIds);
+            $connectionData= User::whereIn('id',$filterConnectionIds)->get();
+            return $this->jsonResponse(UserResource::collection($connectionData), false, '', 200);
+        }catch (\Exception $ex){
+         //   return $ex;
+            return $this->jsonResponse('', true, 'Something went wrong', 403);
+        }
+    }
+
+    public function getConnectionScanedCards(Request $request)
+    {
+        try{
+            $ConnectionScanedCards = Connection::whereAdderId(Auth::id())->whereAddedId($request->addedId)->pluck('card_id')->toArray();
+            if(!$ConnectionScanedCards){
+                return $this->jsonResponse('', true, 'There is no card or has been removed', 403);
+            }
+            $cardData= Card::whereIn('id',$ConnectionScanedCards)->with('contact.provider')->get();
+            return $this->jsonResponse(CardResource::collection($cardData), false, '', 200);
+        }catch (\Exception $ex){
+               return $ex;
             return $this->jsonResponse('', true, 'Something went wrong', 403);
         }
     }

@@ -51,6 +51,8 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
     Route::post('scan-card', [ConnectionController::class, 'scanCard']);
     Route::post('add-connection', [ConnectionController::class,'addConnection'])->name('site.connection.addConnection');
     Route::post('get-connection', [ConnectionController::class,'getConnection'])->name('site.connection.getConnection');
+    Route::post('get-connection-cards', [ConnectionController::class,'getConnectionScanedCards'])->name('site.connection.getConnectionScanedCards');
+
     });
     ######## End Connections ################
 

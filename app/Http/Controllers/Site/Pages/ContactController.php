@@ -18,7 +18,8 @@ class ContactController extends Controller
             $verifiedContacts = Contact::whereUserId($userId)->whereIsVerified(1)->paginate(3, ['*'], 'verified');
             $unVerifiedContacts = Contact::whereUserId($userId)->whereIsVerified(0)->paginate(3, ['*'], 'unverified');
             $providers = Provider::get();
-            return view('site.pages.contactInfo', compact('providers', 'unVerifiedContacts', 'verifiedContacts'));
+            $users= Auth::user();
+            return view('site.pages.contactInfo', compact('providers', 'unVerifiedContacts', 'verifiedContacts','users'));
         } catch (\Exception $e) {
             return $e;
         }

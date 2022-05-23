@@ -57,9 +57,10 @@
                                     <div  class="row">
                                         <img src="{{asset($added->profile_img)}}" width="50" height="50" alt=""/>
                                         @else
-                                            <div class="row"><img src="{{asset('https://1me.live/public/assets/img/profile/default.png')}}" width="72" height="72" alt=""/>
+                                            <div class="row">
+                                                <img style="float: left" src="{{asset('https://1me.live/public/assets/img/profile/default.png')}}" width="72" height="72" alt=""/>
                                                 @endif
-                                                <h6 style="font: normal normal normal 20px/32px cairo;" class="pt-4 pl-3">{{$added->email}}</h6>
+                                                <a href="{{route('site.contacts.scanCard',$added->id)}}"><h6 style="font: normal normal normal 20px/32px cairo;float: left" class="pt-4 pl-3">{{Str::limit($added->fullName,10,'..')}}</h6></a>
                                             </div>
                                     </div>
                                     @endforeach

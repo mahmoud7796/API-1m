@@ -239,28 +239,25 @@
                                                                 </div>
                                                                 <div class="row justify-content-center">
                                                                     <div class="col-md-2 ">
-                                                                        <a id="sendWhatsApp" href=""><img width="50 px" height="50 px" src="img/whatsapp.jpg" alt=""/></a>
-                                                                        <p style="width: 66px">whatsap</p>
+                                                                        <a id="sendWhatsApp" href=""><img width="50 px" height="50 px" src="assets/img/providers/WhatsApp-big.svg" alt=""></a>
+                                                                        <p style="width: 73px;margin-left: -4px;margin-top: 5px;font-family: cairo;">whatsap &trade;</p>
                                                                     </div>
                                                                     <div class="col-md-2" style="margin-bottom: 9px">
                                                                         <a id="sendFb" href="">
-                                                                            <img width="55 px" height="55 px" src="img/facebook.png" alt=""/>
+                                                                            <img width="50 px" height="50 px" src="assets/img/providers/fb-big.svg" alt="">
                                                                         </a>
-                                                                        <p style="width: 68px">Facebook</p>
+                                                                        <p style="width: 79px;margin-left: -7px;margin-top: 6px;font-family: cairo;">Facebook &trade;</p>
                                                                     </div>
                                                                     <div class="col-md-2 ">
-                                                                        <a id="sendMail" href=""><img width="50 px" height="50 px" src="img/Gmail1.svg" alt=""/></a>
-                                                                        <p style="width: 68px">Mail</p>
+                                                                        <a id="sendMail" href=""><img width="50 px" height="50 px" src="assets/img/providers/Gmail.svg" alt=""></a>
+                                                                        <p style="width: 68px;margin-left: 12px;margin-top: 7px;font-family: cairo;">Mail</p>
                                                                     </div>
                                                                     <div class="col-md-3 text-center">
-                                                                        <a id="cardDownload" href="{{asset('public/'.$card->name)}}"
-                                                                           download="QRcard{{time()}}"><img
-                                                                                src="img/Download.svg" alt=""/></a>
-                                                                        <p>Download Qr Code</p>
+                                                                        <a id="cardDownload" href="https://1me.live/public/public/http://localhost:8000/img/cardQr/img-1653209388.png" download="QRcard1653555186"><img src="img/Download.svg" alt="" style="width: 50px;height: 50px;margin-right: 45px;"></a>
+                                                                        <p style="margin-left: -28px;font-size: 16px;font-family: cairo;margin-top: 7px;">Download QR Code</p>
                                                                     </div>
-                                                                </div>
 
-                                                                <div class="row justify-content-center">
+                                                                </div>                                                                <div class="row justify-content-center">
                                                                     <div class="form-group ">
                                                                         <input style="width: 338px; height: 50px;" type="text" class="form-control" id="cardUrl" aria-describedby="basic-addon3" placeholder="1Me.live/user#1234/6251248">
                                                                     </div>

@@ -87,7 +87,7 @@ class ConnectionController extends Controller
             if($contacts->isEmpty()){
                 return response()->json([
                     'status' => false,
-                    'msg' => 'no contact found'
+                    'msg' => 'there is no contact in this card or has been removed'
                 ]);
             }
             return response()->json([
@@ -99,4 +99,8 @@ class ConnectionController extends Controller
             return $this->jsonResponse('', true, 'Something went wrong', 403);
         }
     }
+
+
+
+
 }

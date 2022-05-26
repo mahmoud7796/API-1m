@@ -19,8 +19,28 @@ class QrController extends Controller
              if(!$cards){
                  return back();
              }
-              $contacts= $cards->contact;
+            $contacts= $cards->contact;
              $users = User::whereId($cards->user_id)->first();
+            return view('qrGenerate',compact('cards','contacts','users'));
+        } catch (\Exception $e ) {
+            return "invalid URL";
+        }
+    }
+
+    public function downloadVcf(Card $card)
+    {
+        try {
+            if($card->contact->isEmpty()){
+                return "There are no contacts to download";
+            }
+            //send contact
+
+            $cards = Card::whereShortLink($shortLink)->with('contact')->first();
+            if(!$cards){
+                return back();
+            }
+            $contacts= $cards->contact;
+            $users = User::whereId($cards->user_id)->first();
             return view('qrGenerate',compact('cards','contacts','users'));
         } catch (\Exception $e ) {
             return "invalid URL";

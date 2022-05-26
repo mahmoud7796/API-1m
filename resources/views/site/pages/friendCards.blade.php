@@ -78,14 +78,9 @@
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">×</span></button>
                                                     </div>
-                                                    <div id="appendContacts" class="modal-body">
-                                                        <div class="row">
-                                                            <div style="margin-left:9px;width: 100%">
-                                                                <img class="float-left mr-3" src="https://1me.live/public/images/providers/facebook1.png" width="30" height="30" alt="">
-                                                                <h4 class="pt-2 pl-2" style="font: normal normal normal 18px/21px Arial; letter-spacing: 0px; color: #1F2933;">mdaada</h4><br>
-                                                                <div class="clearfix"></div>
-                                                            </div>
-                                                        </div>
+                                                    <div class="modal-body">
+                                                        <div id="appendContacts" class="row">
+                                                            <h6 id="noContactsHandle" style=" margin-left:60px;display:none;color: gray">there is no contact in this card or has been removed</h6>                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -124,7 +119,7 @@
         event.preventDefault();
         var cardId = $(this).data('id');
         var addedId = $('#addedId').val();
-        console.log(addedId)
+        //console.log(addedId)
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -136,31 +131,30 @@
             data: {
                 addedId:addedId,
             },
-            cache: false,
             success: function (response){
               //  console.log(response)
                 if(response.status===true){
+                    var contact = '';
                     $.each(response.data, function(key, value) {
-                        console.log(value.id)
-                         var contactee =contact + '<div style="margin-left:9px;width: 100%"><img class="float-left mr-3" src="'+value.provider.imgURL+'" width="30" height="30" alt=""><h4 class="pt-2 pl-2" style="font: normal normal normal 18px/21px Arial; letter-spacing: 0px; color: #1F2933;">'+value.contact_string+'</h4><br><div class="clearfix"></div></div>';
+                        contact =contact + '<div style="margin-left:9px;width: 100%"><img class="float-left mr-3" src="'+value.provider.imgURL+'" width="30" height="30" alt=""><h4 class="pt-2 pl-2" style="font: normal normal normal 18px/21px Arial; letter-spacing: 0px; color: #1F2933;">'+value.contact_string+'</h4><br><div class="clearfix"></div></div>';
                     });
-                    console.log(contactee)
-                   // $("#appendContacts").html(contactee);
+                    $("#appendContacts").append(contact);
                 }else {
-
+                    $("#noContactsHandle").show();
                 }
             },
             error: function (reject){
-                console.log(reject)
+             //   console.log(reject)
 
             }
         });
         function contactFormEdit(){
            // $('#editContactForm')[0].reset();
         }
-        $('#contactModalEdit').on('hidden.bs.modal', function () {
-          //  contactFormEdit();
-         //   $('#contact_error_edit').text('');
+        $('#contactModal').on('hidden.bs.modal', function () {
+            $("#appendContacts").empty();
+            $("#appendContacts").append('<h6 id="noContactsHandle" style=" margin-left:60px;display:none;color: gray">there is no contact in this card or has been removed</h6>');
+
         });
     });
 

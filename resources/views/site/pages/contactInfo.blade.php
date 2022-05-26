@@ -7,10 +7,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
     <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('fontawesome/css/all.min.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />    {{--jquery and ajax--}}
     {{--jquery and ajax--}}
     <script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
-        {{--jquery and ajax--}}
+    {{--jquery and ajax--}}
     <style type="text/css">
         @import url("{{asset('css/style1.css')}}");
         body {
@@ -22,9 +22,10 @@
 <body>
 <div class="container-fluid">
     @include('site.includes.header')
-    <div class="row justify-content-center pt-5">
+    <div style="@if($verifiedContacts) margin-bottom:90px @else margin-bottom:230px @endif
+        ;margin-right:0px;" class="row justify-content-center pt-5">
         <div class="card col-md-8 o-hidden border-0 shadow-lg my-5 ">
-            <div class="card-body pt-5">
+            <div style="width:1200px;" class="card-body pt-5">
                 <!-- Nested Row within Card Body -->
                 <div class="row ">
                     <div class="col-md-6 pt-3 text-left">
@@ -45,37 +46,45 @@
                         </div>
                     </div>
                 </div>
-                <div class="row pt-5">
+                <div style="margin-bottom:100px;" class="row pt-5">
                     <div class="col-md-9 pt-5">
-                        <h3 style="font: normal normal bold  24px/45px Cairo; color: #1F2933;">Verified Contact Information</h3>
+                        <h3 style="font: normal normal bold  24px/45px Cairo; color: #1F2933;">Contact Information</h3>
                     </div>
                     <div class="col-md-3 pt-5"><a style="font: 20px cairo; color: #FFFFFF" type="submit" class="btn btn-block float-right" id="newContactInfoBtn" data-toggle="modal" data-target="#contactModal"><img class="pr-2" src="{{asset('img/Icon ionic-ios-add.svg')}}" alt=""/>New Contact</a></div>
                 </div>
 
-                <div class="row">
+                <div style="margin-bottom: 100px;" class="row">
                     @if(isset($verifiedContacts) && $verifiedContacts->count()>0)
                         @foreach($verifiedContacts as $verifiedContact)
-                    <div class="col-md-4 pl-5 pr-5">
-                        <div class="row pt-5">
-                            <div class="col-md-2 pt-2 "><img src="{{$verifiedContact->provider->imgURL}}" alt="" style="width: 40px; height: 40px;"/></div>
-                            <div class="col-md-7">
-                                <h1 style="margin-left: 30px;font:normal 15px/30px Cairo; color: #1F2933;">{{$verifiedContact->contact_string}}</h1>
+                            <div class="col-md-4 pl-5 pr-5">
+                                <div class="row pt-5">
+
+                                    <div class="col-md-2 pt-2 ">
+                                        @if($verifiedContact->provider->imgURL)
+                                            <img src="{{$verifiedContact->provider->imgURL}}" alt="" style="width: 40px; height: 40px;"/>
+                                        @else
+                                            <img src="{{asset('public/img/catalog-default-img-modified.png')}}" alt="" style="width: 40px; height: 40px;"/>
+                                        @endif
+
+                                    </div>
+                                    <div class="col-md-7">
+                                        <h1 style="margin-left: 30px;font:normal 15px/30px Cairo; color: #1F2933;">{{$verifiedContact->contact_string}}</h1>
+                                    </div>
+                                    <a id="getContact" data-id="{{$verifiedContact->id}}" class="pr-3" data-toggle="modal" data-target="#contactModalEdit" href=""><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#7B8794" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"></path>
+                                        </svg></a>
+                                    <a class="pr-3" id="getDeleteId" data-id="{{$verifiedContact->id}}" data-toggle="modal" data-target="#deleteModal" href="">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#7B8794" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"></path>
+                                        </svg>
+                                    </a>                        </div>
                             </div>
-                            <a id="getContact" data-id="{{$verifiedContact->id}}" class="pr-3" data-toggle="modal" data-target="#contactModalEdit" href=""><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#7B8794" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"></path>
-                                </svg></a>
-                            <a class="pr-3" id="getDeleteId" data-id="{{$verifiedContact->id}}" data-toggle="modal" data-target="#deleteModal" href="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#7B8794" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"></path>
-                                </svg>
-                            </a>                        </div>
-                    </div>
                         @endforeach
                     @else
                         <div style="width: 100%">
                             <h4 style="color: gray; text-align: center">There is no verified contact</h4>
                         </div>
-                        @endif
+                    @endif
                 </div>
 
                 {{--PAGINATION--}}
@@ -83,6 +92,7 @@
                     {!! $verifiedContacts->appends(['verified' => $verifiedContacts->currentPage()])->links('site.pagination.links') !!}
                 </div>
                 {{--End PAGINATION--}}
+
 
                 {{--delete modal--}}
                 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">
@@ -153,42 +163,9 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-                {{--END Contact modal--}}
+            {{--END Contact modal--}}
 
-
-                <div class="row pt-5 pl-2">
-                    <h3 style="font: normal normal bold  24px/45px Cairo; color: #1F2933;">Unverified Contact Information</h3>
-                </div>
-
-                <div class="row">
-                    @if(isset($unVerifiedContacts) && $unVerifiedContacts->count()>0)
-                        @foreach($unVerifiedContacts as $unVerifiedContact)
-                    <div class="col-md-4 pl-5 pr-5">
-                        <div class="row pt-5">
-                            <div class="col-md-2 pt-2 "><img src="{{$unVerifiedContact->provider->imgURL}}" alt="" style="width: 40px; height: 40px;"/></div>
-                            <div class="col-md-7">
-                                <h6 style="font: normal normal normal 15px/30px Cairo; color: #1F2933;">{{$unVerifiedContact->contact_string}}</h6>
-                            </div>
-                            <a id="getContact" data-id="{{$unVerifiedContact->id}}" class="pr-3"  data-toggle="modal" data-target="#contactModalEdit" href=""><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#7B8794" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                                </svg>
-                            </a>
-                            <a class="pr-3" id="getDeleteId" data-id="{{$unVerifiedContact->id}}"  data-toggle="modal" data-target="#deleteModal" href="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#7B8794" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                        @endforeach
-                    @else
-                        <div style="width: 100%">
-                            <h4 style="color: gray; text-align: center">There is no unverified contact</h4>
-                        </div>
-                    @endif
-                </div>
 
             {{--edit Contact modal--}}
 
@@ -234,22 +211,16 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                {{--PAGINATION--}}
-
-                {!! $unVerifiedContacts->appends(['unverified' => $unVerifiedContacts->currentPage()])->links('site.pagination.links') !!}
-
-                {{--End PAGINATION--}}
-
             </div>
         </div>
         {{--edit Contact modal--}}
 
 
 
-            </div>
-        </div>
     </div>
-    @include('site.includes.footer')
+</div>
+</div>
+@include('site.includes.footer')
 <script>
     //Add New Contact
     function resetEditForm(){
@@ -293,7 +264,7 @@
         $('#addContactForm')[0].reset();
     }
     $('#contactModal').on('hidden.bs.modal', function () {
-         resetForm();
+        resetForm();
         $('#contact_error').text('');
     });
 
@@ -400,7 +371,8 @@
 
 </script>
 @yield("scripts")
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.js"></script>
+
+<script src="{{asset('js/popper.min.js')}}"></script>
+<script src="{{asset('js/bootstrap.js')}}"></script>
 </body>
 </html>

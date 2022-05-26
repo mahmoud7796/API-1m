@@ -68,6 +68,10 @@ class General {
          return $path;
     }
 
+    static function typeOfContact(array  $ContactArray){
+
+    }
+
 
 }
 

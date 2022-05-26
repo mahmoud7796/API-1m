@@ -76,7 +76,7 @@ width: 304px ;
     text-overflow: ellipsis;
     white-space: nowrap;/*
 white-space:normal !important;
-word-wrap:break-word;	
+word-wrap:break-word;
 */
 }
 #center {
@@ -113,3 +113,22 @@ word-wrap:break-word;
     box-shadow: 2px 2px 4px #00000029;
     border-radius: 15px;
 }
+
+@media only screen and (max-width: 767px) {
+    .profile{
+        text-align: center;
+    }
+    .contact{
+        padding:0px !important;
+        margin-top: 50px;
+    }
+    .powered{
+        margin-left: 13px;
+    }
+    .title1me{
+        margin-left: 26px;
+    }
+
+}
+
+

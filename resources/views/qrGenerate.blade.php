@@ -15,11 +15,12 @@
 
 <body>
 <div class="container-fluid">
+
     <div class="container pt-5">
         <div class="card o-hidden border-0 shadow-lg my-5">
             <div class="card-body p-5">
                 <!-- Nested Row within Card Body -->
-                <div class="row">
+                <div class="row profile">
                     <div class="col-md-3"></div>
                     <div class="col-md-2">
                         @if($users->profile_img)
@@ -29,38 +30,40 @@
                         @endif
                     </div>
                     <div class="col-md-3">
-                        <div class="row">
+                        <div>
                             <h3 style="font: normal normal bold 24px/45px Cairo; letter-spacing: 0px; color: #1F2933;">{{$users->fullName ?? ""}}</h3>
                         </div>
-                        <div class="row"> <a href="{{asset($cards->qr_url)}}" download="{{$users->fullName.' Card'}}" style="font: 20px/32px Cairo; color: #FFFFFF" type="submit" class="btn btn-block" id="loginBtn">Download QR</a> </div>
+                        <div class="row"> <a href="{{route('site.contacts.downloadVcf',$cards->id)}}" style="font: 20px/32px Cairo; color: #FFFFFF" type="submit" class="btn btn-block" id="loginBtn">Download VCF</a> </div>
                     </div>
                     <div class="col-md-4"></div>
                 </div>
-                <div class="row pl-5 pt-5">
-                    <div class="col-md-7">
+                <div style="margin-left: 80px">
+                    <div class="row pl-5 pt-5 contact">
+                        <div class="col-md-7">
+                            @forelse($contacts as $contact)
+                                <div>
+                                    @if($contact->provider->imgURL)
+                                        <img class="float-left mr-3" src="{{asset($contact->provider->imgURL)}}" width="30" height="30" alt=""/>
+                                    @else
+                                        <img class="float-left mr-3" src="https://1me.live/public/public/img/catalog-default-img-modified.png" alt="" style="width: 30px; height: 30px;">
+                                    @endif
+                                    <h4 class="pt-2 pl-2" style="font: normal normal normal 18px/21px Arial; letter-spacing: 0px; color: #1F2933;">{{$contact->contact_string ?? ""}}</h4><br>
+                                    <div class="clearfix"></div>
+                                </div>
+                            @empty
+                                <h4 class="pt-2 pl-2" style="font: normal normal normal 18px/21px Arial; letter-spacing: 0px; color: #1F2933;">There is no contacts</h4>
+                            @endforelse
 
-                        @forelse($contacts as $contact)
-                            <div>
-                                @if($contact->provider->imgURL)
-                                    <img class="float-left mr-3" src="{{asset($contact->provider->imgURL)}}" width="30" height="30" alt=""/>
-                                @else
-                                    <img class="float-left mr-3" src="https://1me.live/public/public/img/catalog-default-img-modified.png" alt="" style="width: 30px; height: 30px;">
-                                @endif
-                                <h4 class="pt-2 pl-2" style="font: normal normal normal 18px/21px Arial; letter-spacing: 0px; color: #1F2933;">{{$contact->contact_string ?? ""}}</h4><br>
-                                <div class="clearfix"></div>
-                            </div>
-                        @empty
-                            <h4 class="pt-2 pl-2" style="font: normal normal normal 18px/21px Arial; letter-spacing: 0px; color: #1F2933;">There is no contacts</h4>
-                        @endforelse
-
-                    </div>
-                    <div class="col-md-5">
-                        <img src="{{asset($cards->qr_url)}}" width="211" height="209" alt=""/>
+                        </div>
+                        <div class="col-md-5">
+                            <img src="{{asset('public/'.$cards->qr_url)}}" width="211" height="209" alt=""/>
+                        </div>
                     </div>
                 </div>
-                <div class="row pt-5">
+
+                <div class="row pt-5 powered">
                     <div class="col-md-7">
-                        <div class="row">
+                        <div class="row title1me">
                             <h4 style="font: normal normal bold 24px/45px Cairo; letter-spacing: 0px; color: #1F2933;">Powered by 1Me</h4>
                             <img class="ml-2" src="{{asset('img/OneMeLogo@2x.png')}}" width="72" height="34" alt=""/></div>
                         <div class="row">

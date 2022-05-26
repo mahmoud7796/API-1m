@@ -16,10 +16,10 @@ class ContactController extends Controller
         try {
             $userId = Auth::id();
             $verifiedContacts = Contact::whereUserId($userId)->whereIsVerified(1)->paginate(3, ['*'], 'verified');
-            $unVerifiedContacts = Contact::whereUserId($userId)->whereIsVerified(0)->paginate(3, ['*'], 'unverified');
+          //  $unVerifiedContacts = Contact::whereUserId($userId)->whereIsVerified(0)->paginate(3, ['*'], 'unverified');
             $providers = Provider::get();
             $users= Auth::user();
-            return view('site.pages.contactInfo', compact('providers', 'unVerifiedContacts', 'verifiedContacts','users'));
+            return view('site.pages.contactInfo', compact('providers', 'verifiedContacts','users'));
         } catch (\Exception $e) {
             return $e;
         }

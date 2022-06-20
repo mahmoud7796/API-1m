@@ -3,20 +3,47 @@
 namespace App\Helper;
 
 
-class ContactVcf {
-    public $phone = [];
-    public $email = [];
+use App\Models\Provider;
+use DB;
 
+class ContactVcf {
+    public $phone= [];
+    public $email= [];
 
     public function typeOfContact(object $card){
-        $card->load('contact');
-        foreach ($card->contact as $contact){
-            $contact->provider->name=="Phone Number" ? $this->phone=$contact->contact_string : $this->email=$contact->contact_string;
+        $phone= [];
+        $email= [];
+        $providerPhoneIds = Provider::whereIn('name',['Phone Number','Office Number'])->pluck('id')->toArray();
+        $contact = $card->load('contact')->contact->toArray();
+        for ($i=0;$i<count($contact);$i++){
+            in_array($contact[$i]['provider_id'],$providerPhoneIds) ?
+                array_push($phone,$contact[$i]['contact_string']) :
+                array_push($email,$contact[$i]['contact_string']);
         }
-        return $this ->email;
-        return $this ->phone;
+        $this->setEmail($email);
+        $this->setPhone($phone);
     }
 
+    public function setPhone(array $phone): array
+    {
+        return $this->phone=$phone;
+    }
+
+    public function setEmail(array $email): array
+    {
+        return $this->email=$email;
+    }
+
+
+    public function getPhone(): array
+    {
+        return $this->phone;
+    }
+
+    public function getEmail(): array
+    {
+        return $this->email;
+    }
 
 
 }

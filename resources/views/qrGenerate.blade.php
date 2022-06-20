@@ -33,7 +33,7 @@
                         <div>
                             <h3 style="font: normal normal bold 24px/45px Cairo; letter-spacing: 0px; color: #1F2933;">{{$users->fullName ?? ""}}</h3>
                         </div>
-                        <div class="row"> <a href="{{route('site.contacts.downloadVcf',$cards->id)}}" style="font: 20px/32px Cairo; color: #FFFFFF" type="submit" class="btn btn-block" id="loginBtn">Download VCF</a> </div>
+                        <div class="row"> <a href="{{route('site.contacts.downloadVcf',$cards->id)}}" style="font: 20px/32px Cairo; color: #FFFFFF" type="submit" class="btn btn-block" id="loginBtn">Download Contacts as VCF</a> </div>
                     </div>
                     <div class="col-md-4"></div>
                 </div>

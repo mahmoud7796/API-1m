@@ -8,6 +8,7 @@ use App\Http\Resources\CardResource;
 use App\Http\Resources\UserResource;
 use App\Models\Card;
 use App\Models\CardContact;
+use App\Models\View;
 use App\Traits\ResponseJson;
 use Auth;
 use DB;
@@ -23,8 +24,8 @@ class CardController extends Controller
     public function index()
     {
         try {
-             $authId = auth('sanctum')->id();
-             $cards = Card::with('contact.provider')->whereUserId($authId)->get();
+              $authId = auth('sanctum')->id();
+              $cards = Card::with('contact.provider')->whereUserId($authId)->withCount('view')->withCount('connection')->get();
             if(!$cards){
                 return $this->jsonResponse('', true, 'There are no cards', 404);
             }
@@ -93,7 +94,7 @@ class CardController extends Controller
             if(!$card){
                 return $this->jsonResponse('', true, 'Not Found', 301);
             }
-            $cards = Card::with('contact.provider')->whereId($cardId)->whereUserId($authId)->get();
+            return $cards = Card::with('contact.provider')->whereId($cardId)->whereUserId($authId)->get();
             $cardWithContacts = CardResource::collection($cards);
             $success['CardWithContacts'] = $cardWithContacts;
             $userData = auth('sanctum')->user();

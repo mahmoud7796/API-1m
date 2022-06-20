@@ -13,12 +13,10 @@ use App\Http\Controllers\Site\Pages\ContactController;
 use App\Http\Controllers\Site\Pages\HomeController;
 use App\Http\Controllers\Site\Pages\ProfileController;
 use App\Http\Controllers\Site\Pages\QrController;
-use App\Models\Card;
-use App\Models\Contact;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use JeroenDesloovere\VCard\VCard;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -115,6 +113,7 @@ Route::group(['middleware'=>'auth:web','prefix'=>'contact'], function(){
 Route::group(['middleware'=>'auth:web','prefix'=>'profile'], function(){
     Route::post('/change-pass', [ProfileController::class,'changePassword'])->name('site.profile.changePass');
     Route::post('/update-photo', [ProfileController::class,'updatePhoto'])->name('site.profile.updatePhoto');
+    Route::post('/account-delete', [ProfileController::class,'deleteAccount'])->name('site.profile.accountDelete');
 });
 ############### End profile ####################
 
@@ -156,85 +155,38 @@ Route::group(['middleware'=>'auth:web','prefix'=>'card'], function(){
 */
 });
 ############### End shareQR ####################
- Route::get('/max',[VerifyEmailController::class,'getMax'])->name('site.verifyEmail');
+Route::get('/max',[VerifyEmailController::class,'getMax'])->name('site.verifyEmail');
 Route::get('/home-test',function(){
     return view('site.noActiveCards View');
    // return view('site.homeNormalView');
 });
 
-//Route::get('/card/{id}', [CardController::class,'signature'])->name('signature');
-Route::get('/decrypt',function(){
-//    return $madda = Crypt::decrypt($strink);
 
-});
-
-Route::get('/card-create',function() {
+/*Route::get('/card-create',function() {
     //color(13,103,203)
-    $url = 'https://1me.live/public/card-show/eyJpdiI6ImRpSXAyMG54K0J3aWJNQWplWGt2cXc9PSIsInZhbHVlIjoicU5XTkxsTXlmOGRqejVZNGVpdGtWdz09IiwibWFjIjoiODFkMmQzMWQ1YjQ3N2Y4NjUzOTg5OWM5MDliOTg0ZDk2YzNkYmNhZDc1OGE1ZDFiY2JkNWZkNGI0NDMzY2NjYSIsInRhZyI6IiJ9/eyJpdiI6InFkeXQ0eVZHQlVmS0gzWC9wN3dtSlE9PSIsInZhbHVlIjoiMlV5Q1BTMTUzSW9zWU5tdTZrK3NtZz09IiwibWFjIjoiYWEzOGI4NDNjMTM1N2YyMDUyNjNlYjI4NTBlOGUxOWFlMzgxZDczY2FkMWM2YTMxMzQ0MzhjZjY0YzRiYjMwZSIsInRhZyI6IiJ9';
+   // $url = 'https://1me.live/public/card-show/eyJpdiI6ImRpSXAyMG54K0J3aWJNQWplWGt2cXc9PSIsInZhbHVlIjoicU5XTkxsTXlmOGRqejVZNGVpdGtWdz09IiwibWFjIjoiODFkMmQzMWQ1YjQ3N2Y4NjUzOTg5OWM5MDliOTg0ZDk2YzNkYmNhZDc1OGE1ZDFiY2JkNWZkNGI0NDMzY2NjYSIsInRhZyI6IiJ9/eyJpdiI6InFkeXQ0eVZHQlVmS0gzWC9wN3dtSlE9PSIsInZhbHVlIjoiMlV5Q1BTMTUzSW9zWU5tdTZrK3NtZz09IiwibWFjIjoiYWEzOGI4NDNjMTM1N2YyMDUyNjNlYjI4NTBlOGUxOWFlMzgxZDczY2FkMWM2YTMxMzQ0MzhjZjY0YzRiYjMwZSIsInRhZyI6IiJ9';
             $userId = Auth::id();
 
             $image = QrCode::format('png')
                 ->merge('img/16533960976dddddd62-modified.png', 0.4, true)
                 ->size(500)->errorCorrection('H')
-                ->style('dot')
                 ->eye('square')
                 ->color(0,0,0)
-               // ->color(13,103,203)
+                ->encoding("UTF-8")
                 ->eyeColor(0, 157,32,100, 157,32,100)
                 ->eyeColor(1, 157,32,100, 157,32,100)
                 ->eyeColor(2, 157,32,100, 157,32,100)
-                ->generate('https://almthaqalkhliji.business.site/');
+                ->generate('محمود دياب');
             $cardQrPath =  General::saveQr($image,'img/cardQr/');
-
                 return response()->json([
                     'status' => true,
                     'msg' => 'card added successfully',
                     ]);
 
-});
-Route::get('/test',function(){
-    $arr = ['instagram-big.svg','phone-big.svg','Pinterest-big-big.svg','Twitter-big.svg','linkedin-big.svg','fb-big.svg','Gmail-big.svg','github-big.svg','WhatsApp-big.svg'];
+});*/
 
-    foreach ($arr as $_arr ){
-        echo $name= 'https://1me.live/public/public/images/providers/'.$_arr."<br>";
-    }
-
-/*    $card = Card::create([
-        'name' => 'dsssss',
-        'user_id' =>  65,
-        'description' =>'sadsad',
-        'short_link' => Str::random(5)
-    ]);*/
-    return 'suceess';
-});
-
-Route::get('/vTest',function(){
-    $card = Card::whereId(142)->first();
-    return \App\Helper\ContactVcf::typeOfContact($card);
-    $vcard = new VCard();
-$arr = ['info@jeroendesloovere.be','info2@jeroendesloovere.be','info3@jeroendesloovere.be'];
-// define variables
-    $lastname = '';
-    $firstname = 'mada diab';
-    $additional = '';
-    $prefix = '';
-    $suffix = '';
-// add personal data
-    $vcard->addName($firstname, $lastname, $additional, $prefix, $suffix);
-// add work data
-        $vcard->addCompany("my company");
-        $vcard->addJobtitle('Web Developer');
-        $vcard->addRole('Data Protection Officer');
-
-        //array (emails)
-    foreach ($arr as $_arr){
-        $vcard->addEmail($_arr);
-    }
-
-    //arr
-        $vcard->addPhoneNumber(1099912408, 'HOME');
-
-
-    return $vcard->download();
-
-});
+/*Route::get('/deleteRel',function(){
+        $user = User::whereId(68)->with('card.contact')->first();
+        $user->delete();
+        return "deleted";
+});*/

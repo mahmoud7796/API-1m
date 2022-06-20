@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\DeleteAccountObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -90,6 +91,12 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        User::observe(DeleteAccountObserver::class);
     }
 
 

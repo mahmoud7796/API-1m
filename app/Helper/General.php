@@ -6,6 +6,7 @@ use App\Traits\ResponseJson;
 use Illuminate\Support\Facades\Storage;
 
 class General {
+
     use ResponseJson;
 
     public function getName($name)
@@ -66,9 +67,6 @@ class General {
             return "notValid";
         }
          return $path;
-    }
-
-    static function typeOfContact(array  $ContactArray){
 
     }
 

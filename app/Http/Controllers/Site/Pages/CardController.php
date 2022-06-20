@@ -65,7 +65,6 @@ class CardController extends Controller
                 throw new Base64Exception;
             }
           return   $cards = Card::with('contact')->whereUserId($userId)->get();
-           // return $this->jsonResponse(CardResource::collection($cards), false, '', 200);
         } catch (NotFoundException | Base64Exception $e) {
             return $e->render();
         }
@@ -202,7 +201,7 @@ class CardController extends Controller
                 'msg' => 'Card added successfully',
             ]);
 
-        }catch (Exception $ex){
+        }catch (\Exception $ex){
             DB::rollback();
             return $ex;
         }

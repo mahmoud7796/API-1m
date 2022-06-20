@@ -28,6 +28,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a data-toggle="modal" data-target="#changProfileImg" style="font: normal normal normal 14px/26px Cairo; color: #52606D;" class="dropdown-item" href="#">Change Avatar</a>
                         <a data-toggle="modal" data-target="#changPass" style="font: normal normal normal 14px/26px Cairo; color: #52606D;" class="dropdown-item" href="#">Change Password</a>
+                        <a data-toggle="modal" data-target="#deleteAccount" style="font: normal normal normal 14px/26px Cairo; color: #52606D;" class="dropdown-item" href="#">Delete Your Account</a>
                         <a style="font: normal normal normal 14px/26px Cairo; color: #52606D;"class="dropdown-item" href="{{route('site.logout')}}">Log Out</a>
                     </div>
                 </li>
@@ -143,7 +144,36 @@
 </div>
 </div>
 
+
 {{--End Change profile img modal--}}
+{{--Delete Account--}}
+
+<div class="modal fade" id="deleteAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="deleteModal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <h5 style="font: normal normal bold 24px/45px Cairo;">Delete your account?</h5>
+                </div>
+                <div class="row justify-content-center">
+                    <h7 style="font: 20px/45px Cairo; color: #52606D;">Are you sure ? This Cannot be undone</h7>
+                </div>
+                <div class="row justify-content-center pt-3 pb-3">
+                    <div class="col-md-3"><a id="deleteCancel" style="font: 20px/37px Cairo; color: #1F2933;" href="" class="btn btn-block">Cancel</a></div>
+                    <button style="width: 120px;height: 50px;color: #FFFFFF" type="submit" id="confirmationDelete" class="btn btn-danger">Delete</button>
+                    <input type="hidden" id="{{Auth::id()}}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{--End Delete Account--}}
 
 @section('scripts')
     <script>
@@ -266,6 +296,35 @@
             $('#changProfileForm')[0].reset()
             $('#profileImg_error').text('');
             $('#ChangeProfileMsgSucc').hide();
+        });
+
+        //delete account
+        $(document).on('click', '#confirmationDelete', function (e) {
+            e.preventDefault();
+            $("#confirmationDelete").attr("disabled", true);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'post',
+                url: "{{route('site.profile.accountDelete')}}",
+                data: {},
+                cache: false,
+                success: function (response) {
+                    if (response.status === true) {
+                        window.location.href = "{{route('home')}}";
+                    }
+                },
+                error: function (reject) {
+                }
+            });
+        });
+
+        $(document).on('click', '#deleteCancel', function (e) {
+            event.preventDefault();
+            $("#deleteAccount").modal('hide');
         });
     </script>
 @stop

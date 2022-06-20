@@ -15,7 +15,7 @@ class ContactController extends Controller
     {
         try {
             $userId = Auth::id();
-            $verifiedContacts = Contact::whereUserId($userId)->whereIsVerified(1)->paginate(3, ['*'], 'verified');
+            $verifiedContacts = Contact::whereUserId($userId)->paginate(3, ['*'], 'verified');
           //  $unVerifiedContacts = Contact::whereUserId($userId)->whereIsVerified(0)->paginate(3, ['*'], 'unverified');
             $providers = Provider::get();
             $users= Auth::user();

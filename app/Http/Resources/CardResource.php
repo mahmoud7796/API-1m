@@ -20,6 +20,8 @@ class CardResource extends JsonResource
             "name"=> $this->name,
             "qr_url"=> asset($this->qr_url),
             "is_featured"=> $this->is_featured,
+            "view_count"=> $this->view_count,
+            "connection_count"=> $this->connection_count,
             "contact"=> ContactResource::collection($this->whenLoaded('contact')),
             "user"=> new UserResource($this->whenLoaded('user')),
         ];

@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Site\Pages;
 use App\Helper\General;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileImgRequest;
+use App\Http\Requests\ProfilePasswordRequest;
 use App\Models\User;
 use Auth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
-    public function changePassword(ProfileImgRequest $request)
+    public function changePassword(ProfilePasswordRequest $request)
     {
         try{
             $currentPass = Auth::user()->password;
@@ -59,6 +59,21 @@ class ProfileController extends Controller
         }catch (\Exception $ex){
             return $ex;
             return redirect()->back()->with(['error' => 'Something error please try again later']);
+        }
+    }
+
+
+    public function deleteAccount()
+    {
+        try{
+            Auth::user()->delete();
+            Auth::logout();
+            return response()->json([
+                'status' => true,
+                'msg' => 'Account Deleted',
+            ]);
+        }catch (\Exception $ex){
+            return $ex;
         }
     }
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Traits\ResponseJson;
 use Auth;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -71,4 +72,16 @@ class ProfileController extends Controller
             return $this->jsonResponseError(true,'Something wrong please try again later',200);
         }
     }
+
+
+/*    public function deleteAccount()
+    {
+        try{
+            Auth::user()->delete();
+            Auth::logout();
+            return $this->jsonResponse('', false, 'Account Deleted successfully', 200);
+        }catch (\Exception $ex){
+            return $ex;
+        }
+    }*/
 }

@@ -190,10 +190,10 @@
                                                     </div>
 
                                                     <div class="row pt-3 pl-2">
-                                                        @if(isset($contactsThatInCard) && count($contactsThatInCard)>0)
-                                                            @foreach($contactsThatInCard as $_contacts)
-                                                                <img class="pr-2" width="30px" heghit="30px" src="{{$_contacts['provider']['imgURL']}}" alt=""/>
-                                                            @endforeach
+                                                        @if(isset($card->contact) && $card->contact->count()>0)
+                                                        @foreach($card->contact as $_contact)
+                                                        <img class="pr-2" width="30px" heghit="30px" src="{{$_contact->provider->imgURL}}" alt=""/>
+                                                        @endforeach
                                                         @endif
                                                     </div>
 

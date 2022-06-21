@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Observers\CardObserver;
-use App\Models\Connection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

@@ -38,7 +38,7 @@ Route::post('/forget-pass/',[ForgetPass::class,'postForgotPass']);
 ############### End forget password ##################
 
 Route::middleware('auth:sanctum')->group( function () {
-    Route::get('/logout', [ForgetPass::class, 'logout']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 ############### Contact Information ####################

@@ -13,10 +13,7 @@ use App\Http\Controllers\Site\Pages\ContactController;
 use App\Http\Controllers\Site\Pages\HomeController;
 use App\Http\Controllers\Site\Pages\ProfileController;
 use App\Http\Controllers\Site\Pages\QrController;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -138,8 +135,8 @@ Route::group(['middleware'=>'auth:web','prefix'=>'connection'], function(){
     Route::get('/add-connection', [ConnectionController::class,'addConnection'])->name('site.connection.addConnection');
     Route::get('/scaned-card/{id}', [ConnectionController::class,'scanCard'])->name('site.contacts.scanCard');
     Route::get('/connection-card-contact/{id}', [ConnectionController::class,'getConnectionCardContact'])->name('site.contacts.getConnectionCardContact');
-    Route::get('/download-vcf/{card}', [QrController::class,'downloadVcf'])->name('site.contacts.downloadVcf');
 });
+Route::get('/download-vcf/{card}', [QrController::class,'downloadVcf'])->name('site.contacts.downloadVcf');
 
 ############### End Connection ####################
 

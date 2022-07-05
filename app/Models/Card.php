@@ -18,7 +18,9 @@ class Card extends Model
             'qr_url',
             'description',
             'is_featured',
-            'short_link'
+            'short_link',
+            'company_name',
+            'job_title'
         ];
 
     protected $casts =  [

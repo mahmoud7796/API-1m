@@ -46,8 +46,6 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
 
     ######## Connections ################
     Route::group(['prefix'=>'connection','middleware'=>'auth:sanctum'], function(){
-    //Route::get('/added/index', [ConnectionController::class, 'addedUsers']);
-   // Route::get('/added/connection', [ConnectionController::class, 'addedCount']);
     Route::post('scan-card', [ConnectionController::class, 'scanCard']);
     Route::post('add-connection', [ConnectionController::class,'addConnection'])->name('site.connection.addConnection');
     Route::post('get-connection', [ConnectionController::class,'getConnection'])->name('site.connection.getConnection');

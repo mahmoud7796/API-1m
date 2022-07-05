@@ -148,12 +148,16 @@
                                                             <div class="form-group">
                                                                 <input style="font: 16px/30px Cairo;" type="text" class="form-control" placeholder="Card Name" id="cardName">
                                                                 <small id="card_error" class="form-text text-danger"></small>
-
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input style="font: 16px/30px Cairo;" type="text" class="form-control" placeholder="Company Name (Optional)" id="companyName">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input style="font: 16px/30px Cairo;" type="text" class="form-control" placeholder="Job Title (Optional)" id="jobTitle">
                                                             </div>
                                                             <div class="form-group">
                                                                 <!--                                                                     <textarea style="font: 16px/30px Cairo;" class="form-control" name="cardDescription" rows="8" placeholder="Card Description (Optional)" id="cardDescription"> </textarea>
                                                                 -->                                                                     <textarea style="font: 16px/30px Cairo;" class="form-control" name="cardDescription" id="cardDescription" rows="4" placeholder="Card Description (Optional)"></textarea>
-
                                                                 <small id="description_error" class="form-text text-danger"></small>
                                                             </div>
                                                         </form>
@@ -201,13 +205,13 @@
                                                 <div class="col-md-5 ">
                                                     <a href="" class="row justify-content-end">
                                                         <div  class="col-md-6 pt-3">
-                                                            <div data-count="{{$card->id}}" style=" font: 14px Cairo; color: #1F2933; background: #E9901C 0% 0% no-repeat padding-box; height: 40px; border-radius: 25px;"
-                                                                 class="countScan btn btn-block">0 Scan</div>
+                                                            <div style=" font: 14px Cairo; color: #1F2933; background: #E9901C 0% 0% no-repeat padding-box; height: 40px; border-radius: 25px;"
+                                                                 class="countScan btn btn-block">{{$card->view_count}} Scan</div>
                                                         </div>
                                                         <div class="col-md-6 pt-3">
                                                             <div href=""
                                                                  style=" font: 14px Cairo; color: #FFFFFF; background: #52606D 0% 0% no-repeat padding-box;  height: 40px; border-radius: 25px;"
-                                                                 class="btn btn-block ">0 Adds
+                                                                 class="btn btn-block ">{{$card->connection_count}} Adds
                                                             </div>
                                                         </div>
                                                     </a>
@@ -291,8 +295,6 @@
                                 </div>
                                 <div class="col-md-5">
                                     <div class="row justify-content-center">
-                                        <div class="col-md-6 pt-5"><a href="" style=" font: 14px Cairo; color: #1F2933; background: #E9901C 0% 0% no-repeat padding-box;  height: 40px; border-radius: 25px;" class="btn btn-block">0 Scans</a></div>
-                                        <div class="col-md-6 pt-5"><a href="" style=" font: 14px Cairo; color: #FFFFFF; background: #52606D 0% 0% no-repeat padding-box;  height: 40px; border-radius: 25px;" class="btn btn-block">0 Adds</a></div>
                                     </div>
                                 </div>
                                 <div style="display: none;margin-top: 9px" id="updateCardMsg" class="row mr-2 ml-2">
@@ -308,7 +310,10 @@
                                         <div class="form-group">
                                             <input value="" type="hidden" class="form-control" id="cardId">
                                             <input style="font: 16px/30px Cairo;" type="text" class="form-control" placeholder="Business Card Name" id="editCardName">
-                                            <small id="card_edit_error" class="form-text text-danger"></small>
+                                            <small id="card_edit_error" class="form-text text-danger"></small><br>
+                                            <input style="font: 16px/30px Cairo;" type="text" class="form-control" placeholder="Company Name" id="editCompanyName"><br>
+                                            <input style="font: 16px/30px Cairo;" type="text" class="form-control" placeholder="Job Title" id="editJobTitle">
+
                                         </div>
                                         <div class="form-group">
                                             <textarea style="font: 16px/30px Cairo;" class="form-control" id="editDescriptionCard" rows="4" placeholder="Card Description (Optional)"></textarea>
@@ -564,7 +569,7 @@
 
 <script>
 
-    $( document ).ready(function() {
+/*    $( document ).ready(function() {
         //console.log('sssss')
         $.ajax({
             type: 'get',
@@ -591,7 +596,7 @@
             }, error: function (reject) {
             }
         });
-    });
+    });*/
 
     //share card
     $(document).on('click', '#share', function (e) {
@@ -651,10 +656,7 @@
         e.preventDefault()
         var cardUrl = $('#cardUrl').val();
         var onemeUrl = "https://1me.live/";
-        // var mailToLink = "mailto:?subject= " + "I want to share my business card with you:"+cardUrl+", you can try it from here it's free" + " https://1me.live/"
-        // var body = mailItem.HTMLBody = "<table border=1> <tr><td>blabla</td></tr> </table>";
-        window.open("mailto:yourFriendMail@example.com?subject=I want to share my business card with you&body=kindly, click here to see my business card:                " + cardUrl + "                                                                                           and if you want to share your contact information try it free from here" + onemeUrl);
-        //  window.location.href = mailToLink;
+        window.open("mailto:yourFriendMail@example.com?subject=I want to share my business card with you&body=kindly, click here  to see my business card:                " + cardUrl + "                                                                                           and if you want to share your contact information try it free from here" + onemeUrl);
     });
 
 
@@ -673,6 +675,8 @@
         $('#description_error').text('');
 
         var cardName = $('#cardName').val();
+        var companyName = $('#companyName').val();
+        var jobTitle = $('#jobTitle').val();
         var cardDescription = $('#cardDescription').val();
         var contacts = [];
         $.each($("input[name='contactsCheckbox']:checked"), function () {
@@ -684,6 +688,8 @@
             url: "{{route('site.card.create')}}",
             data: {
                 card: cardName,
+                companyName: companyName,
+                jobTitle: jobTitle,
                 contactsIds: contacts,
                 description: cardDescription
             },
@@ -743,6 +749,8 @@
         $.get("{{url("card/show")}}" + "/" + cardId, function (data) {
             const ids = data.contactsThatInCard;
             $('#editCardName').val(data.card.name);
+            $('#editCompanyName').val(data.card.company_name);
+            $('#editJobTitle').val(data.card.job_title);
             $('#editDescriptionCard').val(data.card.description);
             for (const checkbox of document.querySelectorAll("#contactsCheckboxEdit[name=contactsCheckboxEdit]")) {
                 if (ids.includes(Number(checkbox.value))) {
@@ -763,6 +771,8 @@
         });
         $('#card_edit_error').text('');
         var cardName = $('#editCardName').val();
+        var companyName = $('#editCompanyName').val();
+        var jobTitle = $('#editJobTitle').val();
         var cardId = $('#cardId').val();
         var editDescriptionCard = $('#editDescriptionCard').val();
         var contacts = [];
@@ -776,6 +786,8 @@
                 url: "{{url('card/update')}}"+"/"+cardId,
                 data: {
                     card: cardName,
+                    companyName: companyName,
+                    jobTitle: jobTitle,
                     contactsIds: contacts,
                     card_id: cardId,
                     description:editDescriptionCard

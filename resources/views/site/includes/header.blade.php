@@ -148,9 +148,9 @@
 {{--End Change profile img modal--}}
 {{--Delete Account--}}
 
-<div class="modal fade" id="deleteAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">
+<div class="modal fade" id="deleteAccount" tabindex="-1" role="dialog" aria-labelledby="deleteAccount" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" id="deleteModal">
+        <div class="modal-content" id="deleteAccount">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"
                         aria-label="Close"><span aria-hidden="true">&times;</span>
@@ -165,7 +165,7 @@
                 </div>
                 <div class="row justify-content-center pt-3 pb-3">
                     <div class="col-md-3"><a id="deleteCancel" style="font: 20px/37px Cairo; color: #1F2933;" href="" class="btn btn-block">Cancel</a></div>
-                    <button style="width: 120px;height: 50px;color: #FFFFFF" type="submit" id="confirmationDelete" class="btn btn-danger">Delete</button>
+                    <button style="width: 120px;height: 50px;color: #FFFFFF" type="submit" id="confirmationDeleteAccount" class="btn btn-danger">Delete Account</button>
                     <input type="hidden" id="{{Auth::id()}}"/>
                 </div>
             </div>
@@ -299,9 +299,9 @@
         });
 
         //delete account
-        $(document).on('click', '#confirmationDelete', function (e) {
+        $(document).on('click', '#confirmationDeleteAccount', function (e) {
             e.preventDefault();
-            $("#confirmationDelete").attr("disabled", true);
+            $("#confirmationDeleteAccount").attr("disabled", true);
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

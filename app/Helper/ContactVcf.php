@@ -4,7 +4,6 @@ namespace App\Helper;
 
 
 use App\Models\Provider;
-use DB;
 
 class ContactVcf {
     public $phone= [];
@@ -13,7 +12,7 @@ class ContactVcf {
     public function typeOfContact(object $card){
         $phone= [];
         $email= [];
-        $providerPhoneIds = Provider::whereIn('name',['Phone Number','Office Number'])->pluck('id')->toArray();
+        $providerPhoneIds = Provider::whereIn('name',['Mobile Number','Office Number'])->pluck('id')->toArray();
         $contact = $card->load('contact')->contact->toArray();
         for ($i=0;$i<count($contact);$i++){
             in_array($contact[$i]['provider_id'],$providerPhoneIds) ?

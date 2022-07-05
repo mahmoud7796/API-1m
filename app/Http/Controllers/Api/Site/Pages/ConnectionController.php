@@ -46,6 +46,29 @@ class ConnectionController extends Controller
             }
             $cardId = $cards->id;
             $viewedId= $cards->user_id;
+                View::create([
+                    'viewed_id'=>$viewedId ,
+                    'card_id' => $cardId,
+                    'viewer_id'=>Auth::id()
+                ]);
+            return $this->jsonResponse(new CardResource($cards), false, '', 200);
+        }catch (\Exception $ex){
+            return $ex;
+            return $this->jsonResponse('', true, 'Something went wrong', 403);
+        }
+    }
+
+/*    public function scanCard(Request $request)
+    {
+        try{
+            $shortLink= $request->shortLink;
+            $cards = Card::whereShortLink($shortLink)->with('contact.provider','user')->first();
+            $user = User::whereId(Auth::id())->first();
+            if(!$cards){
+                return $this->jsonResponse('', true, 'there is no card', 403);
+            }
+            $cardId = $cards->id;
+            $viewedId= $cards->user_id;
             $viewedIds = View::whereViewerId(Auth::id())->pluck('viewed_id')->toArray();
             $cardIds = View::whereViewerId(Auth::id())->pluck('card_id')->toArray();
             $checkIfInViewedIds= in_array($viewedId, $viewedIds);
@@ -62,7 +85,7 @@ class ConnectionController extends Controller
             return $ex;
             return $this->jsonResponse('', true, 'Something went wrong', 403);
         }
-    }
+    }*/
 
     public function addConnection(Request $request)
     {

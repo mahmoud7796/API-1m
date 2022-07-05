@@ -129,6 +129,27 @@ word-wrap:break-word;
         margin-left: 26px;
     }
 
+    .qrCodeImg{
+        margin-left: 21px;
+    }
+
+    .logo
+    {
+        margin-left: 43px !important;
+    }
+
+    .details
+    {
+        text-align: center;
+    }
+
+    .element
+    {
+        margin-left: -10px;
+    }
+
+
+
 }
 
 

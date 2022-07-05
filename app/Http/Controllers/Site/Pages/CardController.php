@@ -25,7 +25,9 @@ class CardController extends Controller
                 'name' => $request->card,
                 'user_id' =>  $userId,
                 'description' =>$request->description,
-                'short_link' => Str::random(5)
+                'short_link' => Str::random(5),
+                'company_name' =>$request->companyName,
+                'job_title' =>$request->jobTitle,
             ]);
             $image = QrCode::format('png')
                 ->merge('img/OneMeLogo.png', 0.4, true)
@@ -178,7 +180,9 @@ class CardController extends Controller
             $card->update([
                 'name' => $request->card,
                 'user_id' => $userId,
-                'description' =>$request->description
+                'description' =>$request->description,
+                'company_name' =>$request->companyName,
+                'job_title' =>$request->jobTitle,
             ]);
 
             $contacts = $request->contactsIds;

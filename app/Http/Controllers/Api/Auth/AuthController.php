@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Jobs\VerifyEmailJob;
 use App\Models\User;
 use App\Models\UserVerifyEmail;
+use App\Repository\RegisterRepository;
+use App\Repository\RepositoryInterface;
 use App\Traits\RegesterationCases;
 use App\Traits\ResponseJson;
 use Illuminate\Http\Request;
@@ -58,6 +60,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         try {
+
             $validator = Validator::make($request->all(), [
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],

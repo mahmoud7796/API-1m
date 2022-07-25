@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Card;
 use App\Models\Contact;
 use App\Models\User;
+use App\Models\View;
 use Auth;
 use DB;
 use JeroenDesloovere\VCard\VCard;
@@ -22,6 +23,13 @@ class QrController extends Controller
             if(!$cards){
                 return back();
             }
+            $cardId = $cards->id;
+            $viewedId= $cards->user_id;
+            View::create([
+                'viewed_id'=>$viewedId ,
+                'card_id' => $cardId,
+                'viewer_id'=>$viewedId
+            ]);
              $mails = Card::whereShortLink($shortLink)->with(['contact'=>function($q){
                  $q->where('provider_id',6)->get();
              }])->first();

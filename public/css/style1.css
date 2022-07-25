@@ -164,3 +164,21 @@ input:checked + .slider:before {
     box-shadow: 1px 1px 2px #00000029;
     border-radius: 15px;
 }
+
+
+@media only screen and (max-width: 767px)
+{
+    .layout
+    {
+        width: 425px !important;
+        text-align: center !important;
+    }
+
+    .beforeFooter
+    {
+        margin-bottom: 0px !important;
+    }
+
+}
+
+

@@ -22,9 +22,9 @@
 <body>
 <div class="container-fluid">
     @include('site.includes.header')
-    <div style="@if(isset($cards) && $cards->count()>0)margin-bottom:130px;margin-right:0px;@else margin-bottom:0px;margin-right:0px;@endif" class="row justify-content-center">
+    <div style="@if(isset($cards) && $cards->count()>0)margin-bottom:130px;margin-right:0px;@else margin-bottom:0px;margin-right:0px;@endif" class="row justify-content-center beforeFooter">
         <div class="card col-md-8 o-hidden border-0 shadow-lg my-5 ">
-            <div style="width:1200px;" class="card-body pt-5">
+            <div style="width:1200px;" class="card-body pt-5 layout">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
                     <div class="col-md-6 text-left pt-5">

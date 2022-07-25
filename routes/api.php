@@ -77,6 +77,8 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
     Route::group(['prefix'=>'profile'], function(){
         Route::put('/change-pass', [ProfileController::class, 'changePassword']);
         Route::put('/change-photo', [ProfileController::class, 'updatePhoto']);
+        Route::post('/account-delete', [ProfileController::class,'deleteAccount']);
+
     });
     ######## End Profile ################
 

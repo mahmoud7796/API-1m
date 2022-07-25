@@ -67,7 +67,6 @@ class General {
             return "notValid";
         }
          return $path;
-
     }
 
 

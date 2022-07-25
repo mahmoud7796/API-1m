@@ -93,7 +93,9 @@ class CardController extends Controller
             if(!$card){
                 return $this->jsonResponse('', true, 'Not Found', 301);
             }
-            $cards = Card::with('contact.provider')->whereId($cardId)->whereUserId($authId)->get();
+
+            return $cards = Card::with('contact.provider')->whereId($cardId)->whereUserId($authId)->get();
+
             $cardWithContacts = CardResource::collection($cards);
             $success['CardWithContacts'] = $cardWithContacts;
             $userData = auth('sanctum')->user();

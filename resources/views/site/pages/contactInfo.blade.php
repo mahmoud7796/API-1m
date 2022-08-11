@@ -56,9 +56,9 @@
                 <div style="margin-bottom: 100px;" class="row">
                     @if(isset($verifiedContacts) && $verifiedContacts->count()>0)
                         @foreach($verifiedContacts as $verifiedContact)
-                            <div class="col-lg-4 col-md-4 col-sm-12 pl-5 pr-5">
+                            <div class="col-md-6 col-sm-12 pr-5">
                                 <div class="row pt-5">
-                                    <div class="col-md-1 pt-2 w-20">
+                                    <div class="col-1 pt-2">
                                         @if($verifiedContact->provider->imgURL)
                                             <img src="{{$verifiedContact->provider->imgURL}}" alt="" style="width: 40px; height: 40px;"/>
                                         @else
@@ -66,10 +66,10 @@
                                         @endif
 
                                     </div>
-                                    <div class="col-md-9 w-60">
+                                    <div class="col-10">
                                         <h1 style="margin-left: 30px;font:normal 15px/30px Cairo; color: #1F2933;">{{$verifiedContact->contact_string}}</h1>
                                     </div>
-                                    <div class="col-md-2 w-20 ">
+                                    <div class="col-1">
                                         <a id="getContact" data-id="{{$verifiedContact->id}}" class="pr-3" data-toggle="modal" data-target="#contactModalEdit" href=""><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#7B8794" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                 <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"></path>
                                             </svg></a>
@@ -370,6 +370,65 @@
             }
         });
     });
+
+    $('#contactModal').on('hidden.bs.modal', function () {
+        changePlaceHolder()
+    });
+
+    $( document ).ready(function() {
+        changePlaceHolder()
+    });
+
+    function changePlaceHolder()
+    {
+        var val = $('#provider').find(":selected").val();
+        var id = Number(val)
+        switch (id) {
+            case 1:
+                $("#contactName").attr("placeholder", "Facebook UserName");
+                break;
+            case 2:
+                $("#contactName").attr("placeholder", "Instagram User ID");
+                break;
+            case 3:
+                $("#contactName").attr("placeholder", "LinkedIn Profile ID");
+                break;
+            case 4:
+                $("#contactName").attr("placeholder", "Phone Number");
+                break;
+            case 5:
+                $("#contactName").attr("placeholder", "WhatsApp Phone Number");
+                break;
+            case 6:
+                $("#contactName").attr("placeholder", "Email Address");
+                break;
+            case 7:
+                $("#contactName").attr("placeholder", "Phone Number");
+                break;
+            case 8:
+                $("#contactName").attr("placeholder", "Twitter UserName");
+                break;
+            case 9:
+                $("#contactName").attr("placeholder", "GitHub Username");
+                break;
+            case 10:
+                $("#contactName").attr("placeholder", "Pintrest Email Or Username");
+                break;
+            case 11:
+                $("#contactName").attr("placeholder", "Website");
+                break;
+        }
+    }
+
+    $('#provider').on('change', function() {
+        changePlaceHolder()
+    });
+
+          var email = "madasacgmail.com";
+        var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        var mada =  reg.test(email);
+    console.log(mada);
+
 
 </script>
 @yield("scripts")

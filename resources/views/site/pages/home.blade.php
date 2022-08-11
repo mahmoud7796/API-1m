@@ -342,7 +342,7 @@
                                                     <div class="row">
                                                         <h6 style="font: normal normal normal 15px/30px Cairo; color: #1F2933;">{{Str::limit($contact->contact_string,10,'...')}}</h6>
                                                     </div>
-                                                    <!--   <div class="row"><h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">/Johnsmith22</h7></div>-->
+                                                      <div class="row"><h7 style="font: normal normal normal 14px/26px Cairo; color: #52606D;">{{$contact->title}}</h7></div>
                                                 </div>
                                                 <div class="col-md-2 pt-3">
                                                     <label class="switch">
@@ -362,7 +362,6 @@
                                 <div class="col-md-6"></div>
                                 <div class="col-md-3 pt-5"><a href="" style="font: bold 16px/32px Cairo; " data-id="" class="btn btn-block btn-outline-danger" id="deleteCardId" data-toggle="modal" data-target="#exampleModal4">Delete Card</a></div>
                                 <div class="col-md-3 pt-5"><a href="" style="font: bold 16px/32px Cairo; " class="btn btn-block btn-outline-primary" id="cardUpdate" role="button" data-toggle="modal">Update Card</a></div>
-
                             {{--
                                                             <button style="width: 150px;height: 60px;color: #FFFFFF" type="submit" id="cardUpdate" class="btn btn-primary">Update Card</button>
                             --}}
@@ -568,35 +567,6 @@
 @include('site.includes.footer')
 
 <script>
-
-/*    $( document ).ready(function() {
-        //console.log('sssss')
-        $.ajax({
-            type: 'get',
-            url: "{{route('site.connection.countOfScan')}}",
-            data: {},
-            cache: false,
-            success: function (response) {
-                if (response.status === true) {
-
-                    console.log(response['data'])
-                    console.log(Array.isArray(response['data']))
-                      var cardIds = [];
-                    $('.countScan').each(function (i, obj) {
-                       // console.log($(this).data("count"))
-                        cardIds.push($(this).data("count"));
-                    });
-                    response['data'].forEach(function (arrayItem) {
-                        var cardId = arrayItem.id;
-                        if(cardIds.includes(cardId)===true){
-                            $(`.countScan[data-count="${cardId}"]`).text(arrayItem.view_count+" Scans")
-                        }
-                    });
-                }
-            }, error: function (reject) {
-            }
-        });
-    });*/
 
     //share card
     $(document).on('click', '#share', function (e) {
@@ -841,10 +811,6 @@
         }
         const newCardDataTime = setTimeout(getNewCardData, 2000);
         const clearCardDataTime = setTimeout(clearTimeOutCardData, 4000);
-
-
-
-
     });
 
 

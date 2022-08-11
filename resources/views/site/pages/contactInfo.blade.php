@@ -153,7 +153,7 @@
                                         </select>
                                     </div>
                                     <div class="row mt-3 pl-3 pr-3 mr-3 ml-3 d-flex justify-content-center">
-                                        <input id="contactName" name="contact" type="text" class="form-control" placeholder="Enter Your Contact">
+                                        <input id="contactName" onkeyup="validation()" name="contact" type="text" class="form-control" placeholder="Enter Your Contact">
                                         <small id="contact_error" class="form-text text-danger"></small>
                                     </div>
                                 </form>
@@ -420,14 +420,55 @@
         }
     }
 
+    function returnRegux(providerId)
+    {
+        var id = Number(providerId)
+        switch (id) {
+            case 1:
+                return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+            case 10:
+                break;
+            case 11:
+
+                break;
+        }
+    }
+
     $('#provider').on('change', function() {
         changePlaceHolder()
     });
+function validation()
+{
+    var providerValue = $('#provider').val()
+    var value = returnRegux(providerValue)
+    var regex = value;
+    var contactName = $('#contactName').val()
+    if(regex.test(contactName))
+    {
+        console.log('regix true')
+    }else
+    {
+        console.log('invalid email')
+    }
+}
 
-          var email = "madasacgmail.com";
-        var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        var mada =  reg.test(email);
-    console.log(mada);
 
 
 </script>
